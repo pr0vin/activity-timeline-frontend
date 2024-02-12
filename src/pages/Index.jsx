@@ -22,10 +22,15 @@ function Index() {
       (todo) => new NepaliDate(todo.date).format("YYYY") === selectedYear
     );
   }, [selectedYear]);
+  const sortedActivities = useMemo(() => {
+    return filteredActivities.slice().sort((a, b) => {
+      return new NepaliDate(a.date) - new NepaliDate(b.date);
+    });
+  }, [filteredActivities]);
 
   const todosByMonth = useMemo(() => {
     const todosByMonth = {};
-    filteredActivities.forEach((todo) => {
+    sortedActivities.forEach((todo) => {
       const month = new NepaliDate(todo.date).format("MMMM YYYY", "np");
       if (!todosByMonth[month]) {
         todosByMonth[month] = [];
@@ -33,12 +38,12 @@ function Index() {
       todosByMonth[month].push(todo);
     });
     return todosByMonth;
-  }, [filteredActivities]);
+  }, [sortedActivities]);
 
   useEffect(() => {
-    if (upcomingRef.current && filteredActivities.length > 0) {
+    if (upcomingRef.current && sortedActivities.length > 0) {
       const now = new NepaliDate();
-      const upcomingTodo = filteredActivities.find(
+      const upcomingTodo = sortedActivities.find(
         (todo) => new NepaliDate(todo.date) > now
       );
       if (upcomingTodo) {
@@ -48,7 +53,7 @@ function Index() {
         });
       }
     }
-  }, [filteredActivities]);
+  }, [sortedActivities]);
 
   const handleChangeYear = (e) => {
     setSelectedYear(e.target.value);
