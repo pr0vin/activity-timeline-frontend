@@ -1,0 +1,31 @@
+@tailwind base;
+
+@layer base {
+  #root {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: "Montserrat", sans-serif;
+  }
+  div {
+    margin: 0;
+    padding: 0;
+  }
+}
+@tailwind components;
+@layer components {
+  .heading {
+    @apply text-3xl m-5;
+  }
+  /* Add this CSS to your stylesheet */
+  .vertical-timeline-component .vertical-timeline {
+    margin: 0;
+  }
+
+  .vertical-timeline-component .vertical-timeline-element {
+    margin: 0;
+  }
+  /* .content-container {
+    transform: scale(0.8); /* Adjust the scale value as needed */
+}
+@tailwind utilities;
