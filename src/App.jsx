@@ -9,10 +9,12 @@ import AuthIndex from "./pages/auth/AuthIndex";
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import MainIndex from "./pages/MainIndex";
+import AdminIndex from "./pages/AdminIndex";
+import Dashboard from "./pages/Dashboard";
+import EventIndex from "./pages/events/EventIndex";
+import FiscalYearIndex from "./pages/fiscal-years/FiscalYearIndex";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
     <>
       <Routes>
@@ -23,6 +25,16 @@ function App() {
         <Route path="/auth" Component={AuthIndex}>
           <Route path="/auth/login" index Component={Login} />
           <Route path="/auth/register" index Component={Register} />
+        </Route>
+
+        <Route path="/dashboard" Component={AdminIndex}>
+          <Route index Component={Dashboard} />
+          <Route path="/dashboard/events" Component={EventIndex} />
+
+          <Route
+            path="/dashboard/settings/fiscal-year"
+            Component={FiscalYearIndex}
+          />
         </Route>
       </Routes>
     </>
