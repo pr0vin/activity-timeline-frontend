@@ -5,6 +5,10 @@ import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Index from "./pages/Index";
+import AuthIndex from "./pages/auth/AuthIndex";
+import Login from "./pages/auth/Login";
+import Register from "./pages/auth/Register";
+import MainIndex from "./pages/MainIndex";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -12,7 +16,14 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" Component={Index} />
+        <Route path="/" Component={MainIndex}>
+          <Route index Component={Index} />
+        </Route>
+
+        <Route path="/auth" Component={AuthIndex}>
+          <Route path="/auth/login" index Component={Login} />
+          <Route path="/auth/register" index Component={Register} />
+        </Route>
       </Routes>
     </>
   );

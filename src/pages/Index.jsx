@@ -8,8 +8,10 @@ import StatusDots from "../components/StatusDots";
 import { GiCheckMark } from "react-icons/gi";
 import { activities } from "../json/activitiesNepali";
 import { MdOutlineWorkHistory } from "react-icons/md";
+import { monthColors } from "../json/monthsColors";
 import Share from "../components/Share";
 import NepaliDate from "nepali-date-converter";
+import { status, statusNepali, categories } from "../json/company";
 
 function Index() {
   const upcomingRef = useRef(null);
@@ -59,31 +61,27 @@ function Index() {
     setSelectedYear(e.target.value);
   };
 
-  const monthColors = [
-    "#F0F8FF",
-    "#F0FFF0",
-    "#FFFFE0",
-    "#F5F5F5",
-    "#FFF0F5",
-    "#FFE4E1",
-    "#FAEBD7",
-    "#FAF0E6",
-    "#FFF5EE",
-    "#F0FFFF",
-    "#E6E6FA",
-    "#FFFAF0",
-  ];
+  // status
+
+  const [selectedStatus, setSelectedStatus] = useState("notDone");
+
+  const handleStatusChange = (event) => {
+    setSelectedStatus(event.target.value);
+  };
+
+  // categories
+  const [selectedCategory, setSelectedCategory] = useState("All");
+
+  const handleCategoryChange = (event) => {
+    setSelectedCategory(event.target.value);
+  };
 
   return (
-    <div className="relative">
+    <div className="relative max-w-screen">
       <div className="bg-white sticky top-0 z-[999]">
-        <div className="font-bold text-center pt-5 text-3xl">
-          योजना समय रेखा
-        </div>
-        <div className="text-center my-3">
-          <StatusDots />
-          <div className="text-end mb-3 absolute top-10 right-10">
-            {/* <label htmlFor="">Select Year</label> */}
+        <div className="text-center max-w-screen-2xl mx-auto my-3 shadow">
+          {/* <StatusDots /> */}
+          {/* <div className="text-end mb-3">
             <select
               value={selectedYear}
               onChange={handleChangeYear}
@@ -98,7 +96,90 @@ function Index() {
                 </option>
               ))}
             </select>
+          </div> */}
+
+          <div className=" md:flex gap-5 justify-between items-center p-2 ">
+            <div className="flex items-center">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="all"
+                  name="category"
+                  value="All"
+                  className="sr-only"
+                  checked={selectedCategory === "All"}
+                  onChange={handleCategoryChange}
+                />
+                <label
+                  htmlFor="all"
+                  className={`cursor-pointer select-none px-3 py-1 
+          ${selectedCategory === "All" ? "border-b-2 border-blue-500" : ""}`}
+                >
+                  All
+                </label>
+              </div>
+              {/* Map over the categories array and create a custom radio button for each category */}
+              {categories.map((cat) => (
+                <div key={cat} className="flex items-center">
+                  <input
+                    type="radio"
+                    id={cat}
+                    name="category"
+                    value={cat}
+                    className="sr-only"
+                    checked={selectedCategory === cat}
+                    onChange={handleCategoryChange}
+                  />
+                  <label
+                    htmlFor={cat}
+                    className={`cursor-pointer select-none px-3 py-1 
+            ${selectedCategory === cat ? "border-b-2 border-blue-500" : ""}`}
+                  >
+                    {cat}
+                  </label>
+                </div>
+              ))}
+            </div>
+
+            <div className="flex items-center">
+              <div className="flex  items-center ">
+                {status.map((s) => (
+                  <div key={s} className="flex items-center">
+                    <input
+                      type="radio"
+                      id={s}
+                      name="status"
+                      value={s}
+                      className="sr-only"
+                      checked={selectedStatus === s}
+                      onChange={handleStatusChange}
+                    />
+                    <label
+                      htmlFor={s}
+                      className={`cursor-pointer select-none px-3 py-1 
+            ${
+              selectedStatus === s ? "border-b-2 border-blue-500 bg-white" : ""
+            }`}
+                    >
+                      {statusNepali[s]}
+                    </label>
+                  </div>
+                ))}
+              </div>
+              <div>
+                <img
+                  src="https://media.istockphoto.com/id/1313644269/vector/gold-and-silver-circle-star-logo-template.jpg?s=612x612&w=0&k=20&c=hDqCI9qTkNqNcKa6XS7aBim7xKz8cZbnm80Z_xiU2DI="
+                  className="w-12 h-12 rounded-full"
+                  alt=""
+                />
+              </div>
+            </div>
           </div>
+        </div>
+        <div className="text-center -mt-8">
+          <span className="font-bold bg-white   p-2 text-blue-900 border border-red ">
+            वार्षिक कार्य योजना
+          </span>
         </div>
       </div>
 

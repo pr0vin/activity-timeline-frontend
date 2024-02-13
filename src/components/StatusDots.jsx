@@ -1,7 +1,8 @@
 import React from "react";
+// import { status } from "../json/company";
 
 function StatusDots() {
-  const status = ["done", "canceled", "notDone", "postponed"];
+  const status = ["done", "notDone", "canceled", "postponed"];
   const dotStyle = {
     width: "10px",
     height: "10px",
