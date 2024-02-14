@@ -7,19 +7,11 @@
     padding: 0;
     font-family: "Montserrat", sans-serif;
   }
-  div {
-    margin: 0;
-    padding: 0;
-  }
 }
 @tailwind components;
 @layer components {
-  .heading {
-    @apply text-3xl m-5;
-  }
-
   .myInput {
-    @apply bg-gray-50 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500;
+    @apply mb-2 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500;
   }
 
   .myLabel {
@@ -29,15 +21,25 @@
   .myButton {
     @apply flex-shrink-0  bg-purple-500 hover:bg-purple-700 border-purple-500 hover:border-purple-700 text-sm border-4 text-white py-1 px-5 rounded;
   }
-  /* Add this CSS to your stylesheet */
-  .vertical-timeline-component .vertical-timeline {
-    margin: 0;
+}
+
+@tailwind utilities;
+
+@layer utilities {
+  .link {
+    @apply p-2 flex  gap-6 items-center   md:cursor-pointer cursor-default duration-300 font-medium;
+  }
+  .active {
+    @apply bg-gray-100 text-red-600  border-l-4 border-red-600;
   }
 
-  .vertical-timeline-component .vertical-timeline-element {
-    margin: 0;
+  .heading {
+    @apply mb-5 p-2;
   }
-  /* .content-container {
-    transform: scale(0.8); /* Adjust the scale value as needed */
+  .heading h2 {
+    @apply font-bold text-xl;
+  }
+  .heading p {
+    @apply text-sm;
+  }
 }
-@tailwind utilities;

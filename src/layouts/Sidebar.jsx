@@ -7,7 +7,7 @@ import { MdMenu } from "react-icons/md";
 import { IoSettingsOutline, IoPeopleOutline } from "react-icons/io5";
 import { AiOutlineAppstore } from "react-icons/ai";
 import { BsCalendar2Date, BsActivity } from "react-icons/bs";
-
+import { GrDocumentConfig } from "react-icons/gr";
 // import Topbar from "./Topbar";
 import UserSubMenu from "./Submenu";
 const Sidebar = () => {
@@ -64,7 +64,15 @@ const Sidebar = () => {
     {
       name: "settings",
       icon: IoSettingsOutline,
-      menus: ["company", "user", "fiscal Year"],
+      menus: ["company", "user"],
+    },
+  ];
+
+  const configurations = [
+    {
+      name: "config",
+      icon: GrDocumentConfig,
+      menus: ["fiscal Year", "categories", "companies"],
     },
   ];
 
@@ -132,10 +140,26 @@ const Sidebar = () => {
             </li>
             {/* submenu */}
             {(isOpen || isTabletMid) && (
-              <div className="border-y py-5 border-slate-300">
+              <div className="border-t py-5 border-slate-300">
                 <small className="pl-3  inline-block mb-2">Settings</small>
                 <div>
                   {subMenuList.map((menu) => (
+                    <div key={menu.name} className="flex flex-col gap-1">
+                      {" "}
+                      <UserSubMenu data={menu} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {(isOpen || isTabletMid) && (
+              <div className="border-t py-5 border-slate-300">
+                <small className="pl-3  inline-block mb-2">
+                  Configurations
+                </small>
+                <div>
+                  {configurations.map((menu) => (
                     <div key={menu.name} className="flex flex-col gap-1">
                       {" "}
                       <UserSubMenu data={menu} />

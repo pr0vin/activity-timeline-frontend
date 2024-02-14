@@ -1,6 +1,1 @@
-.link {
-  @apply p-2 flex  gap-6 items-center -rounded-full  md:cursor-pointer cursor-default duration-300 font-medium;
-}
-.active {
-  @apply bg-gray-100 text-red-600  border-l-4 border-red-600;
-}
+

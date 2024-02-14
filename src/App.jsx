@@ -13,6 +13,10 @@ import AdminIndex from "./pages/AdminIndex";
 import Dashboard from "./pages/Dashboard";
 import EventIndex from "./pages/events/EventIndex";
 import FiscalYearIndex from "./pages/fiscal-years/FiscalYearIndex";
+import CategoryIndex from "./pages/categories/CategoryIndex";
+import CompanyIndex from "./pages/company/CompanyIndex";
+import CompanyList from "./pages/company/CompanyList";
+import CompanyForm from "./pages/company/CompanyForm";
 
 function App() {
   return (
@@ -35,6 +39,36 @@ function App() {
             path="/dashboard/settings/fiscal-year"
             Component={FiscalYearIndex}
           />
+          <Route
+            path="/dashboard/settings/fiscal-year/:id"
+            Component={FiscalYearIndex}
+          />
+
+          <Route
+            path="/dashboard/config/fiscal-year"
+            Component={FiscalYearIndex}
+          />
+          <Route
+            path="/dashboard/config/fiscal-year/:id"
+            Component={FiscalYearIndex}
+          />
+
+          <Route
+            path="/dashboard/config/categories"
+            Component={CategoryIndex}
+          />
+          <Route
+            path="/dashboard/config/categories/:id"
+            Component={CategoryIndex}
+          />
+
+          <Route path="/dashboard/config/companies" Component={CompanyIndex}>
+            <Route index Component={CompanyList} />
+            <Route
+              path="/dashboard/config/companies/add"
+              Component={CompanyForm}
+            />
+          </Route>
         </Route>
       </Routes>
     </>
