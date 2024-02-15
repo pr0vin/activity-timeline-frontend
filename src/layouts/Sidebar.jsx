@@ -72,7 +72,7 @@ const Sidebar = () => {
     {
       name: "config",
       icon: GrDocumentConfig,
-      menus: ["fiscal Year", "categories", "companies"],
+      menus: ["fiscal year", "categories", "companies", "company user"],
     },
   ];
 

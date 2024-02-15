@@ -21,6 +21,10 @@
   .myButton {
     @apply flex-shrink-0  bg-purple-500 hover:bg-purple-700 border-purple-500 hover:border-purple-700 text-sm border-4 text-white py-1 px-5 rounded;
   }
+
+  .mySelect {
+    @apply block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-200 rounded  focus:outline-none focus:border-purple-500;
+  }
 }
 
 @tailwind utilities;

@@ -8,7 +8,10 @@ import { AuthProvider } from "./providers/AuthProvider.jsx";
 import axios from "axios";
 import { FiscalYearProvider } from "./providers/FiscalYearProvider.jsx";
 import { CategoryProvider } from "./providers/CategoryProvider.jsx";
-axios.defaults.baseURL = "http://localhost:8000";
+import { CompanyProvider } from "./providers/CompanyProvider.jsx";
+
+const API_URL = import.meta.env.VITE_API_URL;
+axios.defaults.baseURL = API_URL;
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -16,7 +19,9 @@ ReactDOM.createRoot(document.getElementById("root")).render(
       <AuthProvider>
         <FiscalYearProvider>
           <CategoryProvider>
-            <App />
+            <CompanyProvider>
+              <App />
+            </CompanyProvider>
           </CategoryProvider>
         </FiscalYearProvider>
       </AuthProvider>

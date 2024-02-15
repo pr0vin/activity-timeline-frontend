@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from "react";
+import React, { createContext, useContext, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -12,6 +6,7 @@ const AuthContext = createContext();
 function AuthProvider({ children }) {
   const navigate = useNavigate("/");
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [user, setUser] = useState({});
 
   const logOut = () => {
     try {
@@ -35,6 +30,16 @@ function AuthProvider({ children }) {
       console.log(error.response.data.message);
     }
   };
+
+  const getUser = async () => {
+    try {
+      const res = await axios.get(`/api/user`);
+      setUser(res.data.user);
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+
   useMemo(() => {
     if (token) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
@@ -45,8 +50,12 @@ function AuthProvider({ children }) {
     }
   }, [token]);
 
+  useMemo(() => {
+    getUser();
+  }, [token]);
+
   return (
-    <AuthContext.Provider value={{ token, logOut, handleLogin }}>
+    <AuthContext.Provider value={{ token, user, logOut, handleLogin }}>
       {children}
     </AuthContext.Provider>
   );

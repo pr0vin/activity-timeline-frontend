@@ -68,7 +68,13 @@ function App() {
               path="/dashboard/config/companies/add"
               Component={CompanyForm}
             />
+            <Route
+              path="/dashboard/config/companies/add/:id"
+              Component={CompanyForm}
+            />
           </Route>
+
+          <Route path="/dashboard/config/company-user" Component={Register} />
         </Route>
       </Routes>
     </>

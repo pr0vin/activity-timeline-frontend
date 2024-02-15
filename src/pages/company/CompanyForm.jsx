@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FiEdit } from "react-icons/fi";
+import { useCompany } from "../../providers/CompanyProvider";
+import { useParams } from "react-router-dom";
 const animated = {
   offscreen: { y: -200, opacity: 0 },
   onscreen: {
@@ -13,7 +15,12 @@ const animated = {
   },
   exit: { y: -200, opacity: 0 },
 };
+
+const API_URL = import.meta.env.VITE_API_URL;
+
 function CompanyForm() {
+  const { handleSubmit, handleUpdate, getCompany, company } = useCompany();
+  const { id } = useParams();
   const [data, setData] = useState({
     name: "",
     description: "",
@@ -23,7 +30,7 @@ function CompanyForm() {
     district: "",
     municipality: "",
     address: "",
-    web: "",
+    website: "",
   });
   const handleInputChange = (e) => {
     let value = e.target.value;
@@ -35,59 +42,224 @@ function CompanyForm() {
 
   const [file, setFiles] = useState("");
   const [Preview, setPreview] = useState("");
-  const setImgFiles = (e) => {
-    setFiles(e.target.files[0]);
-    setPreview(URL.createObjectURL(e.target.files[0]));
+  const setImgFiles = (doc) => {
+    setFiles(doc);
+    setPreview(URL.createObjectURL(doc));
   };
 
-  const handleSubmit = () => {};
+  const [logo, setLogo] = useState("");
+  const [logoPreview, setLogoPreview] = useState("");
+  const setLogoImages = (doc) => {
+    setLogo(doc);
+    setLogoPreview(URL.createObjectURL(doc));
+  };
+
+  const setEmpty = () => {
+    setData({
+      ...data,
+      name: "",
+      description: "",
+      contact: "",
+      email: "",
+      province: "",
+      district: "",
+      municipality: "",
+      address: "",
+      website: "",
+    });
+    setLogo("");
+    setFiles("");
+    setLogoPreview("");
+    setPreview("");
+  };
+
+  const handleSave = (e) => {
+    e.preventDefault();
+
+    let formData = new FormData();
+
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("email", data.email);
+    formData.append("contact", data.contact);
+    formData.append("province", data.province);
+    formData.append("district", data.district);
+    formData.append("municipality", data.municipality);
+    formData.append("address", data.address);
+    formData.append("website", data.website);
+    formData.append("logo", logo);
+    formData.append("subLogo", file);
+
+    handleSubmit(formData);
+    setEmpty();
+  };
+
+  const update = (e) => {
+    e.preventDefault();
+    let formData = new FormData();
+
+    formData.append("_method", "PUT");
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("email", data.email);
+    formData.append("contact", data.contact);
+    formData.append("province", data.province);
+    formData.append("district", data.district);
+    formData.append("municipality", data.municipality);
+    formData.append("address", data.address);
+    formData.append("website", data.website);
+    formData.append("logo", logo);
+    formData.append("subLogo", file);
+
+    handleUpdate(formData, id);
+    setEmpty();
+  };
+
+  useEffect(() => {
+    if (id) {
+      getCompany(id);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (id && company) {
+      const {
+        name,
+        description,
+        address,
+        contact,
+        email,
+        logo,
+        subLogo,
+        province,
+        municipality,
+        district,
+        website,
+      } = company;
+      setData({
+        ...data,
+        name: name ? name : "",
+        description: description ? description : "",
+        email: email ? email : "",
+        contact: contact ? contact : "",
+        address: address ? address : "",
+        province: province ? province : "",
+        municipality: municipality ? municipality : "",
+        district: district ? district : "",
+        website: website ? website : "",
+      });
+
+      if (logo) {
+        setLogo(logo);
+        setLogoPreview(`${API_URL}/storage/${logo}`);
+      }
+      if (subLogo) {
+        setFiles(subLogo);
+        setPreview(`${API_URL}/storage/${subLogo}`);
+      }
+    }
+  }, [id, company]);
+
   return (
     <div>
       <div className="flex justify-start ">
         <div className="md:w-8/12 w-full ">
-          <div className="mb-3 ">
-            <div
-              style={{ height: 150, width: 150 }}
-              className=" relative mb-3  border-2 border-primary rounded-full"
-            >
-              <label htmlFor="img">
-                {Preview ? (
-                  <img
-                    src={Preview}
-                    style={{ height: 150, width: 150 }}
-                    className="  rounded-full object-cover "
-                    alt="image"
-                  />
-                ) : (
-                  <img
-                    style={{ height: 150, width: 150 }}
-                    className="  rounded-full object-cover"
-                    src={
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3Velb4WTMSb5h9nXcIbiwhbsWe-dQXswwFg&usqp=CAU"
-                    }
-                  />
-                )}
-              </label>
-              <label
-                htmlFor="img"
-                className=" absolute bottom-0 right-0 z-[99] "
+          <div className="md:flex gap-20">
+            <div className="mb-3 ">
+              <div
+                style={{ height: 150, width: 150 }}
+                className=" relative mb-3  border-2 border-primary rounded-full"
               >
-                <div className="flex gap-2 items-center border border-primary bg-primary text-white px-5 py-1 rounded-lg">
-                  <span className=""> Edit </span>
-                  <FiEdit size={16} />
-                </div>
+                <label htmlFor="img">
+                  {logoPreview ? (
+                    <img
+                      src={logoPreview}
+                      style={{ height: 150, width: 150 }}
+                      className="  rounded-full object-cover "
+                      alt="image"
+                    />
+                  ) : (
+                    <img
+                      style={{ height: 150, width: 150 }}
+                      className="  rounded-full object-cover"
+                      src={
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3Velb4WTMSb5h9nXcIbiwhbsWe-dQXswwFg&usqp=CAU"
+                      }
+                    />
+                  )}
+                </label>
+                <label
+                  htmlFor="logo"
+                  className=" absolute bottom-0 right-0 z-[99] "
+                >
+                  <div className="flex gap-2 items-center border border-indigo-300 bg-indigo-300 text-white px-5 py-1 rounded-lg bg-indigo-300">
+                    <span className=""> Edit </span>
+                    <FiEdit size={16} />
+                  </div>
+                </label>
+              </div>
+
+              <label htmlFor="" className="myLabel text-center">
+                {" "}
+                Logo Image
               </label>
+              <input
+                id="logo"
+                className="hidden"
+                type="file"
+                name="logo"
+                onChange={(e) => setLogoImages(e.target.files[0])}
+              />
             </div>
 
-            <input
-              id="img"
-              className="hidden"
-              type="file"
-              name="image"
-              onChange={setImgFiles}
-            />
+            {/* sub logo */}
+            <div className="mb-3 ">
+              <div
+                style={{ height: 150, width: 150 }}
+                className=" relative mb-3  border-2 border-primary rounded-full"
+              >
+                <label htmlFor="img">
+                  {Preview ? (
+                    <img
+                      src={Preview}
+                      style={{ height: 150, width: 150 }}
+                      className="  rounded-full object-cover "
+                      alt="image"
+                    />
+                  ) : (
+                    <img
+                      style={{ height: 150, width: 150 }}
+                      className="  rounded-full object-cover"
+                      src={
+                        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3Velb4WTMSb5h9nXcIbiwhbsWe-dQXswwFg&usqp=CAU"
+                      }
+                    />
+                  )}
+                </label>
+                <label
+                  htmlFor="img"
+                  className=" absolute bottom-0 right-0 z-[99] "
+                >
+                  <div className="flex gap-2 items-center border border-primary bg-indigo-300 bg-primary text-white px-5 py-1 rounded-lg">
+                    <span className=""> Edit </span>
+                    <FiEdit size={16} />
+                  </div>
+                </label>
+              </div>
+              <label htmlFor="" className="myLabel text-center">
+                {" "}
+                Sub-Logo Image
+              </label>
+              <input
+                id="img"
+                className="hidden"
+                type="file"
+                name="image"
+                onChange={(e) => setImgFiles(e.target.files[0])}
+              />
+            </div>
           </div>
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={id ? update : handleSave}>
             <motion.div
               variants={animated}
               initial={"offscreen"}
@@ -97,13 +269,26 @@ function CompanyForm() {
             >
               <div className="mb-3 md:col-span-2">
                 <label htmlFor="" className="myLabel">
-                  Company Name
+                  Municipality Name
                 </label>
                 <input
                   type="text"
                   placeholder="English Name "
                   name="name"
                   value={data.name}
+                  className="myInput"
+                  onChange={handleInputChange}
+                />
+              </div>
+              <div className="mb-3 md:col-span-2">
+                <label htmlFor="" className="myLabel">
+                  Municipality Tagline
+                </label>
+                <input
+                  type="text"
+                  placeholder="Tgaline "
+                  name="description"
+                  value={data.description}
                   className="myInput"
                   onChange={handleInputChange}
                 />
@@ -122,15 +307,15 @@ function CompanyForm() {
                 />
               </div>
               <div className="mb-3 md:col-span-2">
-                <label htmlFor="web" className="myLabel">
-                  Web Address:
+                <label htmlFor="website" className="myLabel">
+                  Website Address:
                 </label>
                 <input
-                  id="web"
+                  id="website"
                   type="text"
-                  name="web"
+                  name="website"
                   placeholder="www.example.com"
-                  value={data.web}
+                  value={data.website}
                   className="myInput"
                   onChange={handleInputChange}
                 />
@@ -204,7 +389,7 @@ function CompanyForm() {
                 />
               </div>
               <div className="text-end md:col-span-2">
-                <button className="myButton">Save</button>
+                <button className="myButton">{id ? "update" : "Save"}</button>
               </div>
             </motion.div>
           </form>

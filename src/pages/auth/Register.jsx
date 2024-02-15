@@ -1,15 +1,31 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { useCompany } from "../../providers/CompanyProvider";
 function Register() {
   const navigate = useNavigate();
+  const { companies } = useCompany();
+
   const [data, setData] = useState({
+    company_id: "",
+    role: "user",
     name: "",
     email: "",
     password: "",
     confirm: "",
   });
 
+  const setEmpty = () => {
+    setData({
+      ...data,
+      company_id: "",
+      role: "user",
+      name: "",
+      email: "",
+      password: "",
+      confirm: "",
+    });
+  };
   const handleChange = (e) => {
     // e.preventDefault();
     setData({
@@ -22,16 +38,41 @@ function Register() {
     e.preventDefault();
     try {
       const res = await axios.post(`/api/register`, data);
-      localStorage.setItem("token", res.data.token);
-      navigate("/auth/login");
+      console.log(res.data);
+      setEmpty();
     } catch (error) {
       console.log(error.response.data.message);
     }
   };
   return (
-    <>
-      <div className="  p-5 bg-white rounded-lg md:w-4/12 shadow-lg ">
-        <form>
+    <div div className="flex justify-center">
+      <div className="  p-5 bg-white rounded-lg md:w-6/12 shadow-lg ">
+        <div className=" mb-5">
+          <h6 className="font-bold text-xl">Register</h6>
+        </div>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-2">
+            <label htmlFor="company" className="myLabel">
+              Select a Municipality
+            </label>
+            <div>
+              <select
+                className="mySelect"
+                name="company_id"
+                value={data.company_id}
+                onChange={handleChange}
+                id="company"
+                required
+              >
+                <option value="">select</option>
+                {companies?.map(({ id, name }, i) => (
+                  <option key={i} value={id}>
+                    {name}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
           <div className="mb-2">
             <label className="myLabel">Username:</label>
             <div>
@@ -44,6 +85,25 @@ function Register() {
                 onChange={handleChange}
                 required
               />
+            </div>
+          </div>
+
+          <div className="mb-2">
+            <label htmlFor="role" className="myLabel">
+              Select a Roles
+            </label>
+            <div>
+              <select
+                className="mySelect"
+                name="role"
+                value={data.role}
+                onChange={handleChange}
+                id="role"
+                required
+              >
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
             </div>
           </div>
           <div className="mb-2">
@@ -84,17 +144,15 @@ function Register() {
               required
             />
           </div>
-          <div className="italic text-blue-600 hover:underine">
-            <a href="/auth/login"> Already Have an Account ?</a>
-          </div>
+
           <div className="text-end">
-            <button type="submit" onClick={handleSubmit} className="myButton ">
+            <button type="submit" className="myButton ">
               Register
             </button>
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }
 

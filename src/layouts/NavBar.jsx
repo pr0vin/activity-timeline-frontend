@@ -2,18 +2,26 @@ import React from "react";
 import { MdOutlinePhone } from "react-icons/md";
 import { PiEnvelope } from "react-icons/pi";
 import { company } from "../json/company";
+import { useAuth } from "../providers/AuthProvider";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function NavBar() {
+  const { user } = useAuth();
+
+  if (!user) {
+    return "Loading...";
+  }
+
   const {
     contact,
     email,
     logo,
     name,
-    subHead,
+    description,
     address,
     municipality,
     district,
-  } = company;
+  } = user.company;
   return (
     <>
       <div className="">
@@ -28,15 +36,27 @@ function NavBar() {
           </div>
         </div>
 
-        <div className="flex  gap-10">
+        <div className="flex  ">
           <div className="flex items-center">
             <div className="w-2/10 p-2">
-              <img src={`${logo}`} className="w-32 h-32" alt="" />
+              {logo ? (
+                <img
+                  src={`${API_URL}/storage/${logo}`}
+                  className="w-32 h-32 p-2"
+                  alt=""
+                />
+              ) : (
+                <img
+                  src="https://upload.wikimedia.org/wikipedia/commons/e/ea/National_Emblem_Of_Nepal.png"
+                  className="w-32 h-32 p-2"
+                  alt=""
+                />
+              )}
             </div>
-            <div className="flex-1 p-2 text-red-600">
-              <div className="text-center">
+            <div className="flex-1 p-2 ms-10 text-red-600">
+              <div className="text-start">
                 <h1 className="font-bold text-3xl">{name}</h1>
-                <h3 className="text-2xl ">{subHead}</h3>
+                <h3 className="text-2xl ">{description}</h3>
                 <p className="">
                   {municipality}, {district}
                 </p>
