@@ -9,6 +9,8 @@ import axios from "axios";
 import { FiscalYearProvider } from "./providers/FiscalYearProvider.jsx";
 import { CategoryProvider } from "./providers/CategoryProvider.jsx";
 import { CompanyProvider } from "./providers/CompanyProvider.jsx";
+import { EventProvider } from "./providers/EventProvider.jsx";
+import { TaskProvider } from "./providers/TaskProvider.jsx";
 
 const API_URL = import.meta.env.VITE_API_URL;
 axios.defaults.baseURL = API_URL;
@@ -20,7 +22,11 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <FiscalYearProvider>
           <CategoryProvider>
             <CompanyProvider>
-              <App />
+              <EventProvider>
+                <TaskProvider>
+                  <App />
+                </TaskProvider>
+              </EventProvider>
             </CompanyProvider>
           </CategoryProvider>
         </FiscalYearProvider>

@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useMemo, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -52,6 +58,12 @@ function AuthProvider({ children }) {
 
   useMemo(() => {
     getUser();
+  }, [token]);
+
+  useEffect(() => {
+    if (!token && !user) {
+      navigate(`/auth/login`);
+    }
   }, [token]);
 
   return (

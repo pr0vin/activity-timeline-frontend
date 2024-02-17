@@ -17,6 +17,11 @@ import CategoryIndex from "./pages/categories/CategoryIndex";
 import CompanyIndex from "./pages/company/CompanyIndex";
 import CompanyList from "./pages/company/CompanyList";
 import CompanyForm from "./pages/company/CompanyForm";
+import EventForm from "./pages/events/EventForm";
+import EventsLists from "./pages/events/EventsLists";
+import EventView from "./pages/events/EventView";
+import TasksList from "./pages/tasks/TasksList";
+import TaskForm from "./pages/tasks/TaskForm";
 
 function App() {
   return (
@@ -33,8 +38,18 @@ function App() {
 
         <Route path="/dashboard" Component={AdminIndex}>
           <Route index Component={Dashboard} />
-          <Route path="/dashboard/events" Component={EventIndex} />
-
+          <Route path="/dashboard/events" Component={EventIndex}>
+            <Route index Component={EventsLists} />
+            <Route path="/dashboard/events/add" Component={EventForm} />
+            <Route path="/dashboard/events/add/:id" Component={EventForm} />
+            <Route path="/dashboard/events/:eventId/view" Component={EventView}>
+              <Route index Component={TasksList} />
+              <Route
+                path="/dashboard/events/:eventId/view/add"
+                Component={TaskForm}
+              />
+            </Route>
+          </Route>
           <Route
             path="/dashboard/settings/fiscal-year"
             Component={FiscalYearIndex}
