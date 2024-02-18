@@ -10,7 +10,7 @@ import { BsCalendar2Date, BsActivity } from "react-icons/bs";
 import { GrDocumentConfig } from "react-icons/gr";
 // import Topbar from "./Topbar";
 import UserSubMenu from "./Submenu";
-const Sidebar = () => {
+const Sidebar = ({ setWid }) => {
   let isTabletMid = useMediaQuery({ query: "(max-width: 768px)" });
   const [isOpen, setIsOpen] = useState(isTabletMid ? false : true);
   const sidebarRef = useRef();
@@ -26,6 +26,10 @@ const Sidebar = () => {
   useEffect(() => {
     isTabletMid && setIsOpen(false);
   }, [pathname]);
+
+  useEffect(() => {
+    setWid(isOpen);
+  }, [isOpen]);
 
   const sidebar_animation = isTabletMid
     ? {

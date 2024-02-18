@@ -27,13 +27,13 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="/" Component={MainIndex}>
+        <Route path="/home" Component={MainIndex}>
           <Route index Component={Index} />
         </Route>
 
-        <Route path="/auth" Component={AuthIndex}>
-          <Route path="/auth/login" index Component={Login} />
-          <Route path="/auth/register" index Component={Register} />
+        <Route path="/" Component={AuthIndex}>
+          <Route index Component={Login} />
+          {/* <Route path="/auth/register" index Component={Register} /> */}
         </Route>
 
         <Route path="/dashboard" Component={AdminIndex}>

@@ -10,7 +10,6 @@ export default function TaskForm() {
   const [file, setFiles] = useState(null);
   const setImgFiles = (e) => {
     const value = e.target.files[0];
-    console.log(value);
     setFiles(value);
   };
 
@@ -26,8 +25,10 @@ export default function TaskForm() {
   };
 
   return (
-    <div>
-      <form onSubmit={Submit}>
+    <div className="flex  justify-center">
+      <form className="md:w-1/2" onSubmit={Submit}>
+        <div className="font-bold my-5">Add the task below</div>
+
         <div className="mb-2">
           <label className="myLabel" htmlFor="title">
             Title
@@ -53,7 +54,6 @@ export default function TaskForm() {
             className="myInput bg-white"
             name="documents"
             onChange={setImgFiles}
-            required
           />
         </div>
         <div className="mt-5 text-end ">

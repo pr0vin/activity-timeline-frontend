@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const FiscalYearContext = createContext();
 function FiscalYearProvider({ children }) {
   const init = {
+    fiscalYearLoading: true,
     fiscalYears: [],
     fiscalYear: {},
   };
@@ -84,6 +85,7 @@ const reducer = (state, action) => {
     case "ALL":
       return {
         ...state,
+        fiscalYearLoading: false,
         fiscalYears: action.payload,
       };
 

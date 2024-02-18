@@ -3,26 +3,35 @@ import { useNavigate } from "react-router-dom";
 import { useEvent } from "../../providers/EventProvider";
 import { BiEdit, BiHappyHeartEyes, BiTrash } from "react-icons/bi";
 import StatusView from "../../components/StatusView";
+import { PiPlus } from "react-icons/pi";
 function EventsLists() {
   const navigate = useNavigate();
   const { events } = useEvent();
 
   return (
     <div>
-      <div>
-        <button
-          className="myButton"
-          onClick={() => navigate(`/dashboard/events/add`)}
-        >
-          Add
-        </button>
+      <div className=" md:flex justify-between items-center">
+        <div className="heading">
+          <h2>Events</h2>
+          <p>here are the events</p>
+        </div>
+        <div>
+          <button
+            className="myButton py-2 px-10  "
+            onClick={() => navigate(`/dashboard/events/add`)}
+          >
+            <div className="flex items-center gap-2">
+              <PiPlus size={16} /> <span>New</span>
+            </div>
+          </button>
+        </div>
       </div>
 
       <div>
-        <div className="flex flex-col">
-          <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-              <div className="overflow-hidden">
+        <div class="flex flex-col overflow-x-auto bg-white mt-5">
+          <div class="sm:-mx-6 lg:-mx-8">
+            <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+              <div class="overflow-x-auto">
                 <table className="min-w-full text-center text-sm font-light">
                   <thead className="font-medium border-b">
                     <tr>
@@ -46,6 +55,9 @@ function EventsLists() {
                         Categories
                       </th>
                       <th scope="col" className="px-6 py-4">
+                        Assigned To
+                      </th>
+                      <th scope="col" className="px-6 py-4">
                         Status
                       </th>
                       <th scope="col" className="px-6 py-4"></th>
@@ -62,6 +74,7 @@ function EventsLists() {
                           fiscal_year,
                           date,
                           status,
+                          assignTo,
                         },
                         i
                       ) => (
@@ -90,6 +103,9 @@ function EventsLists() {
                                 </li>
                               ))}
                             </ul>
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4">
+                            {assignTo}
                           </td>
 
                           <td className="whitespace-nowrap px-6 py-4">

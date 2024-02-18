@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
+import { notifySuccess } from "../helpers/ToastMessage";
+import { useEvent } from "./EventProvider";
 
 const TaskContext = createContext();
 function TaskProvider({ children }) {
@@ -9,6 +11,7 @@ function TaskProvider({ children }) {
     task: {},
   };
   const navigate = useNavigate();
+  const { getEvent } = useEvent();
   const [state, dispatch] = useReducer(reducer, init);
 
   const handleSubmit = async (data) => {
@@ -16,7 +19,8 @@ function TaskProvider({ children }) {
       const res = await axios.post(`/api/tasks`, data);
 
       console.log(res.data);
-      // getTasks();
+      notifySuccess(res.data.message);
+      getEvent(res.data.task.event_id);
     } catch (error) {
       console.log(error);
     }
@@ -25,6 +29,7 @@ function TaskProvider({ children }) {
     try {
       const res = await axios.post(`/api/tasks/${id}`, data);
       console.log(res.data);
+      notifySuccess(res.data.message);
       // getTasks();
       // navigate(`/dashboard/config/tasks`);
     } catch (error) {

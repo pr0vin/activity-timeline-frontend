@@ -6,9 +6,9 @@ import { useAuth } from "../providers/AuthProvider";
 const API_URL = import.meta.env.VITE_API_URL;
 
 function NavBar() {
-  const { user } = useAuth();
+  const { user, userLoading } = useAuth();
 
-  if (!user) {
+  if (userLoading) {
     return "Loading...";
   }
 
@@ -25,35 +25,37 @@ function NavBar() {
   return (
     <>
       <div className="">
-        <div className=" bg-blue-900 text-white flex justify-end  px-10  gap-5">
+        <div className=" bg-blue-900 text-white md:flex justify-end  px-10  gap-5">
           <div className="flex gap-3">
             <MdOutlinePhone size={23} />
-            <span>{contact}</span>
+            {contact && <span>{contact}</span>}
           </div>
           <div className="flex gap-3">
             <PiEnvelope size={23} />
-            <span>{email}</span>
+            {email && <span>{email}</span>}
           </div>
         </div>
 
         <div className="flex  ">
-          <div className="flex items-center">
+          <div className="flex overflow-hidden items-center">
             <div className="w-2/10 p-2">
               {logo ? (
-                <img
-                  src={`${API_URL}/storage/${logo}`}
-                  className="w-32 h-32 p-2"
-                  alt=""
-                />
+                <div className="w-32 h-32">
+                  <img
+                    src={`${API_URL}/storage/${logo}`}
+                    className="w-32 h-32 md:p-2"
+                    alt=""
+                  />
+                </div>
               ) : (
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/e/ea/National_Emblem_Of_Nepal.png"
-                  className="w-32 h-32 p-2"
+                  className="w-32 h-32 md:p-2"
                   alt=""
                 />
               )}
             </div>
-            <div className="flex-1 p-2 ms-10 text-red-600">
+            <div className="flex-1 p-2 md:ms-10 text-red-600">
               <div className="text-start">
                 <h1 className="font-bold text-3xl">{name}</h1>
                 <h3 className="text-2xl ">{description}</h3>

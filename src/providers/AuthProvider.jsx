@@ -12,13 +12,14 @@ const AuthContext = createContext();
 function AuthProvider({ children }) {
   const navigate = useNavigate("/");
   const [token, setToken] = useState(localStorage.getItem("token"));
+  const [userLoading, setUserLoading] = useState(true);
   const [user, setUser] = useState({});
 
   const logOut = () => {
     try {
       delete axios.defaults.headers.common["Authorization"];
       localStorage.removeItem("token");
-      navigate("/login");
+      navigate("/");
       location.reload();
     } catch (error) {
       console.log(error);
@@ -30,8 +31,9 @@ function AuthProvider({ children }) {
     try {
       const res = await axios.post(`/api/login`, data);
       // localStorage.setItem("token", res.data.token);
+      getUser();
       setToken(res.data.token);
-      navigate("/");
+      navigate("/home");
     } catch (error) {
       console.log(error.response.data.message);
     }
@@ -41,6 +43,7 @@ function AuthProvider({ children }) {
     try {
       const res = await axios.get(`/api/user`);
       setUser(res.data.user);
+      setUserLoading(false);
     } catch (error) {
       console.log(error.response.data.message);
     }
@@ -60,14 +63,16 @@ function AuthProvider({ children }) {
     getUser();
   }, [token]);
 
-  useEffect(() => {
-    if (!token && !user) {
-      navigate(`/auth/login`);
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (!token && !user) {
+  //     navigate(`/auth/login`);
+  //   }
+  // }, [token]);
 
   return (
-    <AuthContext.Provider value={{ token, user, logOut, handleLogin }}>
+    <AuthContext.Provider
+      value={{ token, user, userLoading, logOut, handleLogin }}
+    >
       {children}
     </AuthContext.Provider>
   );

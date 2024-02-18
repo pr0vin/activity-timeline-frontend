@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
+import { notifySuccess } from "../helpers/ToastMessage";
 
 const EventContext = createContext();
 function EventProvider({ children }) {
@@ -18,6 +19,7 @@ function EventProvider({ children }) {
     try {
       const res = await axios.post(`/api/events`, data);
       console.log(res.data);
+      notifySuccess(res.data.message);
       getEvents();
     } catch (error) {
       console.log(error);
