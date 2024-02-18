@@ -1,5 +1,5 @@
-import React from "react";
-import { status, statusNepali, categories } from "../json/company";
+import React, { useEffect } from "react";
+import { status, statusNepali } from "../json/company";
 import NepaliDate from "nepali-date-converter";
 import ProfileMenu from "../components/ProfileMenu";
 // import { useFiscalYear } from "../providers/FiscalYearProvider";
@@ -12,7 +12,15 @@ function SubNavBar({
   selectedYear,
   handleChangeYear,
   fiscalYears,
+  setSelectedYear,
+  categories,
 }) {
+  useEffect(() => {
+    if (fiscalYears.length > 0) {
+      setSelectedYear(fiscalYears.length);
+    }
+  }, []);
+
   return (
     <>
       <div className="text-center max-w-screen-2xl mx-auto my-3 shadow-lg">
@@ -25,16 +33,16 @@ function SubNavBar({
                 type="radio"
                 id="all"
                 name="category"
-                value=""
+                value={0}
                 className="sr-only"
-                checked={selectedCategory === "All"}
+                checked={selectedCategory == 0}
                 onChange={handleCategoryChange}
               />
               <label
                 htmlFor="all"
                 className={`cursor-pointer select-none px-3 py-1 
           ${
-            selectedCategory === "All"
+            selectedCategory == 0
               ? "border-b-4 border-blue-500 bg-gray-100"
               : ""
           }`}
@@ -43,27 +51,27 @@ function SubNavBar({
               </label>
             </div>
             {/* Map over the categories array and create a custom radio button for each category */}
-            {categories.map((cat) => (
-              <div key={cat} className="flex items-center">
+            {categories?.map(({ id, name }, i) => (
+              <div key={i} className="flex items-center">
                 <input
                   type="radio"
-                  id={cat}
+                  id={id}
                   name="category"
-                  value={cat}
+                  value={id}
                   className="sr-only"
-                  checked={selectedCategory === cat}
+                  checked={selectedCategory == id}
                   onChange={handleCategoryChange}
                 />
                 <label
-                  htmlFor={cat}
+                  htmlFor={id}
                   className={`cursor-pointer select-none px-3 py-1 
             ${
-              selectedCategory === cat
+              selectedCategory == id
                 ? "border-b-4 border-blue-500 bg-gray-100"
                 : ""
             }`}
                 >
-                  {cat}
+                  {name}
                 </label>
               </div>
             ))}

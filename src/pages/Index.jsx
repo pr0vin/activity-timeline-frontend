@@ -15,24 +15,36 @@ import { status, statusNepali, categories } from "../json/company";
 import SubNavBar from "../layouts/SubNavBar";
 import { useEvent } from "../providers/EventProvider";
 import { useFiscalYear } from "../providers/FiscalYearProvider";
+import { useCategory } from "../providers/CategoryProvider";
 
 function Index() {
-  const upcomingRef = useRef(null);
-  const [selectedYear, setSelectedYear] = useState(0);
-
   const { events } = useEvent();
   const { fiscalYears, fiscalYearLoading } = useFiscalYear();
-  const [todos, setTodos] = useState([]);
+  const { categories } = useCategory();
+
+  const upcomingRef = useRef(null);
+  const [selectedYear, setSelectedYear] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("notDone");
+  const [selectedCategory, setSelectedCategory] = useState("0");
 
   const filteredData = useMemo(() => {
     const selected = parseInt(selectedYear);
-    return events.filter((item) => item.fiscal_year_id === selected);
-  }, [selectedYear, events]);
+    const filteredByYear = selected
+      ? events.filter((item) => item.fiscal_year_id === selected)
+      : events;
+    const filteredByCategory =
+      selectedCategory !== "0"
+        ? filteredByYear.filter((item) =>
+            item.categories.some((cat) => cat.id === parseInt(selectedCategory))
+          )
+        : filteredByYear;
+    return filteredByCategory.filter((item) => item.status === selectedStatus);
+  }, [selectedYear, selectedStatus, selectedCategory, events]);
 
   const sortedEvents = useMemo(() => {
-    return filteredData.slice().sort((a, b) => {
-      return new Date(a.date) - new Date(b.date);
-    });
+    return [...filteredData].sort(
+      (a, b) => new NepaliDate(a.date) - new NepaliDate(b.date)
+    );
   }, [filteredData]);
 
   const todosByMonth = useMemo(() => {
@@ -47,37 +59,45 @@ function Index() {
     return todosByMonth;
   }, [sortedEvents]);
 
-  console.log(todosByMonth);
-
   useEffect(() => {
     if (upcomingRef.current && sortedEvents.length > 0) {
-      const now = new NepaliDate();
-      const upcomingTodo = sortedEvents.find(
-        (todo) => new NepaliDate(todo.date) > now
-      );
-      if (upcomingTodo) {
+      const now = new NepaliDate().valueOf();
+      let nearestEvent = null;
+      let minDiff = Infinity;
+
+      for (let i = 0; i < sortedEvents.length; i++) {
+        const event = sortedEvents[i];
+        const eventDate = new NepaliDate(event.date).valueOf();
+        const diff = eventDate - now;
+
+        if (diff > 0 && diff < minDiff) {
+          // Only consider future events
+          minDiff = diff;
+          nearestEvent = event;
+        }
+
+        // Break the loop if the current event is in the future
+        if (diff > 0) {
+          break;
+        }
+      }
+
+      if (nearestEvent) {
         upcomingRef.current.scrollIntoView({
           block: "start",
           behavior: "smooth",
         });
       }
     }
-  }, [sortedEvents]);
+  }, [fiscalYears]);
 
   const handleChangeYear = (e) => {
     setSelectedYear(e.target.value);
   };
 
-  // status
-
-  const [selectedStatus, setSelectedStatus] = useState("notDone");
-
   const handleStatusChange = (event) => {
     setSelectedStatus(event.target.value);
   };
-
-  // categories
-  const [selectedCategory, setSelectedCategory] = useState("All");
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
@@ -99,6 +119,8 @@ function Index() {
             selectedYear={selectedYear}
             handleChangeYear={handleChangeYear}
             fiscalYears={fiscalYears}
+            setSelectedYear={setSelectedYear}
+            categories={categories}
           />
         </div>
         <div className="text-center -mt-8">
@@ -115,85 +137,91 @@ function Index() {
             style={{
               backgroundColor: monthColors[index % monthColors.length],
             }}
-            key={month}
+            key={index}
           >
-            <VerticalTimeline lineColor="#fff">
-              <h1 className="text-3xl font-bold me-48 text-end underline">
-                <div>{month}</div>
-              </h1>
-              {activities?.map((activity, i) => (
-                <VerticalTimelineElement
-                  key={i}
-                  className={
-                    new NepaliDate() < new NepaliDate(activity.date)
-                      ? "brightness-50 p-0 m-0"
-                      : ""
-                  }
-                  contentStyle={{
-                    backgroundColor: "#fff",
-                    borderTop: "5px solid #4B0082",
-                  }}
-                  contentArrowStyle={{ borderRight: "7px solid  #fff" }}
-                  date={
-                    new NepaliDate().format("ddd DD, MMMM YYYY", "np") ===
-                    new NepaliDate(activity.date).format(
-                      "ddd DD, MMMM YYYY",
-                      "np"
-                    )
-                      ? "Today"
-                      : new NepaliDate(activity.date).format(
-                          "ddd DD, MMMM YYYY",
-                          "np"
-                        )
-                  }
-                  iconStyle={{
-                    backgroundColor: {
-                      canceled: "rgba(255,0,0)",
-                      postponed: "#f5d327",
-                      done: "rgb(0, 255, 0)",
-                      notDone: "rgb(33, 150, 243)",
-                    }[activity.status],
-                    color: "#fff",
-                  }}
-                  icon={
-                    activity.status === "done" ? (
-                      <GiCheckMark />
-                    ) : (
-                      <MdOutlineWorkHistory />
-                    )
-                  }
-                >
-                  <div ref={upcomingRef}>
+            <div ref={upcomingRef}>
+              <VerticalTimeline lineColor="#fff">
+                <h1 className="text-3xl font-bold me-48 text-end underline">
+                  <div>{month}</div>
+                </h1>
+                {activities?.map((activity, i) => (
+                  <VerticalTimelineElement
+                    key={i}
+                    className={
+                      new NepaliDate() < new NepaliDate(activity.date)
+                        ? "brightness-50 p-0 m-0"
+                        : ""
+                    }
+                    contentStyle={{
+                      backgroundColor: "#fff",
+                      borderTop: "5px solid #4B0082",
+                    }}
+                    contentArrowStyle={{ borderRight: "7px solid  #fff" }}
+                    date={
+                      new NepaliDate().format("ddd DD, MMMM YYYY", "np") ===
+                      new NepaliDate(activity.date).format(
+                        "ddd DD, MMMM YYYY",
+                        "np"
+                      )
+                        ? "Today"
+                        : new NepaliDate(activity.date).format(
+                            "ddd DD, MMMM YYYY",
+                            "np"
+                          )
+                    }
+                    iconStyle={{
+                      backgroundColor: {
+                        canceled: "rgba(255,0,0)",
+                        postponed: "#f5d327",
+                        done: "rgb(0, 255, 0)",
+                        notDone: "rgb(33, 150, 243)",
+                      }[activity.status],
+                      color: "#fff",
+                    }}
+                    icon={
+                      activity.status === "done" ? (
+                        <GiCheckMark />
+                      ) : (
+                        <MdOutlineWorkHistory />
+                      )
+                    }
+                  >
                     <div>
-                      {activities.categories?.map(({ name }, i) => (
-                        <span className="border p-1 bg-gray-100">{name}</span>
-                      ))}
-                    </div>
-
-                    <div>
-                      <h3 className="font-bold text-xl">{activity.title}</h3>
-                      <small>{activity.content.slice(0, 100)}...</small>
-                    </div>
-
-                    <div className="my-5">
-                      <div className="font-bold">कार्यहरू :</div>
-                      <ul>
-                        {activity.tasks?.map((task, i) => (
-                          <li className="flex p-2 border-b-2" key={i}>
-                            <small className="">{i + 1}. </small>
-                            <small>{task}</small>
-                          </li>
+                      <div className="flex gap-2">
+                        {activity.categories?.map((cat, i) => (
+                          <span
+                            key={i}
+                            className="border py-1 px-2  rounded-full  text-sm"
+                          >
+                            {cat.name}
+                          </span>
                         ))}
-                      </ul>
-                    </div>
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-xl">{activity.title}</h3>
+                        <small>{activity.content.slice(0, 100)}...</small>
+                      </div>
 
-                    <div>
-                      <Share />
+                      <div className="my-5">
+                        <div className="font-bold">कार्यहरू :</div>
+                        <ul>
+                          {activity.tasks?.map((task, i) => (
+                            <li className="flex p-2 border-b gap-2" key={i}>
+                              <small className="">{i + 1}. </small>
+                              <small>{task.name}</small>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      <div>
+                        <Share />
+                      </div>
                     </div>
-                  </div>
-                </VerticalTimelineElement>
-              ))}
-            </VerticalTimeline>
+                  </VerticalTimelineElement>
+                ))}
+              </VerticalTimeline>
+            </div>
           </div>
         ))}
       </div>
