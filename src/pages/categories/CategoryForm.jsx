@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useCategory } from "../../providers/CategoryProvider";
 import { useParams } from "react-router-dom";
 
-function CategoryForm() {
+function CategoryForm({ handleOpen }) {
   const { id } = useParams();
   const { handleSubmit, handleUpdate, category, getCategory } = useCategory();
   const [data, setData] = useState({
@@ -40,9 +40,10 @@ function CategoryForm() {
 
   return (
     <div className="">
-      <div className="mb-3">
-        <small className="font-bold ">please fill out the form.</small>
+      <div className="my-3 font-bold underline text-center">
+        नयाँ श्रेणी थप्नुहोस्
       </div>
+
       <form
         onSubmit={(e) => {
           if (id) {
@@ -55,7 +56,7 @@ function CategoryForm() {
       >
         <div className="mb-2">
           <label className="myLabel" htmlFor="name">
-            Name
+            नाम
           </label>
           <input
             id="name"
@@ -68,7 +69,7 @@ function CategoryForm() {
         </div>
         <div className="mb-2">
           <label className="myLabel" htmlFor="desc">
-            Description
+            विवरण
           </label>
           <textarea
             id="desc"
@@ -80,9 +81,18 @@ function CategoryForm() {
           />
         </div>
 
-        <div className="mt-5 text-end ">
-          <button className="myButton px-10 rounded-full">
-            {id ? "Update" : "Save"}
+        <div className="mt-5 flex gap-3 justify-between  overflow-auto">
+          <button
+            onClick={() => {
+              Empty();
+              handleOpen();
+            }}
+            className="myButtonOutline text-red-600  "
+          >
+            रद्द गर्नुहोस्
+          </button>
+          <button className="myButton  ">
+            {id ? "अपडेट गर्नुहोस्" : "सेभ गर्नुहोस्"}
           </button>
         </div>
       </form>

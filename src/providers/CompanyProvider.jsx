@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
+import { notifySuccess } from "../helpers/ToastMessage";
 
 const CompanyContext = createContext();
 
@@ -16,6 +17,8 @@ function CompanyProvider({ children }) {
     try {
       const res = await axios.post(`/api/companies`, data);
       getCompanies();
+      notifySuccess(res.data.message);
+      navigate(`/dashboard/config/companies`);
     } catch (error) {
       console.log(error);
     }
@@ -24,6 +27,7 @@ function CompanyProvider({ children }) {
     try {
       const res = await axios.post(`/api/companies/${id}`, data);
       getCompanies();
+      notifySuccess(res.data.message);
       navigate(`/dashboard/config/companies`);
     } catch (error) {
       console.log(error);
@@ -34,6 +38,7 @@ function CompanyProvider({ children }) {
     try {
       const res = await axios.delete(`/api/companies/${id}`);
       getCompanies();
+      notifySuccess(res.data.message);
       navigate(`/dashboard/config/companies`);
     } catch (error) {
       console.log(error);

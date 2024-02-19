@@ -18,7 +18,6 @@ function TaskProvider({ children }) {
     try {
       const res = await axios.post(`/api/tasks`, data);
 
-      console.log(res.data);
       notifySuccess(res.data.message);
       getEvent(res.data.task.event_id);
     } catch (error) {
@@ -28,7 +27,6 @@ function TaskProvider({ children }) {
   const handleUpdate = async (data, id) => {
     try {
       const res = await axios.post(`/api/tasks/${id}`, data);
-      console.log(res.data);
       notifySuccess(res.data.message);
       // getTasks();
       // navigate(`/dashboard/config/tasks`);

@@ -1,7 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import { useEvent } from "../../providers/EventProvider";
-import { BiEdit, BiHappyHeartEyes, BiTrash } from "react-icons/bi";
+import { BiEdit, BiHappyHeartEyes, BiPlus, BiTrash } from "react-icons/bi";
 import StatusView from "../../components/StatusView";
 import { PiPlus } from "react-icons/pi";
 function EventsLists() {
@@ -10,7 +10,7 @@ function EventsLists() {
 
   return (
     <div>
-      <div className=" md:flex justify-between items-center">
+      {/* <div className=" md:flex justify-between items-center">
         <div className="heading">
           <h2>Events</h2>
           <p>here are the events</p>
@@ -25,10 +25,27 @@ function EventsLists() {
             </div>
           </button>
         </div>
-      </div>
+      </div> */}
 
-      <div>
-        <div class="flex flex-col overflow-x-auto bg-white mt-5">
+      <div className="shadow-lg">
+        <div className="flex justify-between items-center border-b  bg-zinc-50 p-3 ">
+          <div className="heading md:flex items-center gap-5 ">
+            <h2>कार्यहरू</h2>
+            <p>(यहाँ कार्यहरूको सूची छ)</p>
+          </div>
+          <div className="text-end mb-3 ">
+            <button
+              className="myButtonOutline  py-2 "
+              onClick={() => navigate(`/dashboard/config/companies/add`)}
+            >
+              <div className="flex gap-2 items-center">
+                <BiPlus size={20} />
+                <span>नयाँ</span>
+              </div>
+            </button>
+          </div>
+        </div>
+        <div class="flex flex-col overflow-x-auto bg-white ">
           <div class="sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
               <div class="overflow-x-auto">

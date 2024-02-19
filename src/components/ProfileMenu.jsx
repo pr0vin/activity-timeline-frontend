@@ -1,9 +1,11 @@
 import React, { useState } from "react";
 import { useAuth } from "../providers/AuthProvider";
 import { LuUserCircle2, LuSettings, LuLogOut } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 function ProfileMenu() {
   const [open, setOpen] = useState(false);
   const { user, userLoading, logOut } = useAuth();
+  const navigate = useNavigate();
 
   const toggleMenu = () => {
     setOpen(!open);
@@ -41,9 +43,12 @@ function ProfileMenu() {
               <LuUserCircle2 size={23} />
               <span>Profile</span>
             </li>
-            <li className="p-2 flex gap-5 hover:bg-gray-100">
+            <li
+              onClick={() => navigate(`/dashboard`)}
+              className="p-2 flex gap-5 hover:bg-gray-100"
+            >
               <LuSettings size={23} />
-              <span>Settings</span>
+              <span>Dashboard</span>
             </li>
             <li onClick={logOut} className="p-2 flex gap-5 hover:bg-gray-100">
               <LuLogOut size={23} />

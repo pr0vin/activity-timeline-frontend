@@ -1,21 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import FiscalYearForm from "./FiscalYearForm";
 import FiscalYearList from "./FiscalYearList";
 
 function FiscalYearIndex() {
+  const [open, setOpen] = useState(false);
+
+  const handleOpen = () => {
+    setOpen(!open);
+  };
   return (
     <>
-      <div className="heading">
-        <h2>Fiscal Year</h2>
-        <p> Here are the fiscal years</p>
-      </div>
       <div className="md:flex gap-5">
-        <div className="md:w-1/3 p-3 bg-white rounded mb-5">
-          <FiscalYearForm />
-        </div>
+        {open && (
+          <div className="md:w-1/3 p-3 bg-white shadow-lg mb-5">
+            <FiscalYearForm handleOpen={handleOpen} />
+          </div>
+        )}
 
-        <div className="flex-1 p-2 bg-white rounded">
-          <FiscalYearList />
+        <div className="flex-1  bg-white shadow-lg overflow-scroll">
+          <FiscalYearList handleOpen={handleOpen} open={open} />
         </div>
       </div>
     </>

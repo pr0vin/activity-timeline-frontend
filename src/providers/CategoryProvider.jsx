@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
+import { notifySuccess } from "../helpers/ToastMessage";
 
 const CategoryContext = createContext();
 
@@ -17,6 +18,7 @@ function CategoryProvider({ children }) {
     try {
       const res = await axios.post(`/api/categories`, data);
       getCategories();
+      notifySuccess(res.data.message);
     } catch (error) {
       console.log(error);
     }
@@ -26,7 +28,8 @@ function CategoryProvider({ children }) {
     try {
       const res = await axios.put(`/api/categories/${id}`, data);
       getCategories();
-      navigate(`/dashboard/config/fiscal-year`);
+      notifySuccess(res.data.message);
+      navigate(`/dashboard/config/categories`);
     } catch (error) {
       console.log(error);
     }
@@ -35,9 +38,10 @@ function CategoryProvider({ children }) {
     e.preventDefault();
     try {
       const res = await axios.delete(`/api/categories/${id}`);
-      console.log(res.data.message);
       getCategories();
-      navigate(`/dashboard/config/fiscal-year`);
+      notifySuccess(res.data.message);
+
+      navigate(`/dashboard/config/categories`);
     } catch (error) {
       console.log(error);
     }

@@ -30,4 +30,23 @@ function convertEnglishToNepaliUnicode(englishString) {
   return englishString;
 }
 
-export { convertNepaliUnicodeToEnglish, convertEnglishToNepaliUnicode };
+function convertToNepaliUnicode(englishNumber) {
+  const englishDigits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+  const nepaliDigits = ["०", "१", "२", "३", "४", "५", "६", "७", "८", "९"];
+
+  let nepaliUnicode = "";
+  for (let digit of englishNumber.toString()) {
+    if (englishDigits.includes(digit)) {
+      let index = englishDigits.indexOf(digit);
+      nepaliUnicode += nepaliDigits[index];
+    } else {
+      nepaliUnicode += digit;
+    }
+  }
+  return nepaliUnicode;
+}
+export {
+  convertNepaliUnicodeToEnglish,
+  convertEnglishToNepaliUnicode,
+  convertToNepaliUnicode,
+};

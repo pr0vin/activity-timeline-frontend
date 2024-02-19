@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
+import { notifySuccess } from "../helpers/ToastMessage";
 
 const FiscalYearContext = createContext();
 function FiscalYearProvider({ children }) {
@@ -18,6 +19,7 @@ function FiscalYearProvider({ children }) {
     try {
       const res = await axios.post(`/api/fiscal-years`, data);
       getFiscalYears();
+      notifySuccess(res.data.message);
     } catch (error) {
       console.log(error);
     }
@@ -27,6 +29,7 @@ function FiscalYearProvider({ children }) {
     try {
       const res = await axios.put(`/api/fiscal-years/${id}`, data);
       getFiscalYears();
+      notifySuccess(res.data.message);
       navigate(`/dashboard/config/fiscal-year`);
     } catch (error) {
       console.log(error);
@@ -36,8 +39,8 @@ function FiscalYearProvider({ children }) {
     e.preventDefault();
     try {
       const res = await axios.delete(`/api/fiscal-years/${id}`);
-      console.log(res.data.message);
       getFiscalYears();
+      notifySuccess(res.data.message);
       navigate(`/dashboard/config/fiscal-year`);
     } catch (error) {
       console.log(error);

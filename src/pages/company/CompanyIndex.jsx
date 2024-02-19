@@ -6,11 +6,6 @@ function CompanyIndex() {
   return (
     <>
       <div>
-        <div className="heading">
-          <h2>Company</h2>
-          <p>Here we have the details of the company</p>
-        </div>
-
         <div className="">
           <Outlet />
         </div>

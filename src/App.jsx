@@ -50,14 +50,7 @@ function App() {
               />
             </Route>
           </Route>
-          <Route
-            path="/dashboard/settings/fiscal-year"
-            Component={FiscalYearIndex}
-          />
-          <Route
-            path="/dashboard/settings/fiscal-year/:id"
-            Component={FiscalYearIndex}
-          />
+          <Route path="/dashboard/settings/:id" Component={CompanyForm} />
 
           <Route
             path="/dashboard/config/fiscal-year"

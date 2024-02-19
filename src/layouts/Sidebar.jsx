@@ -10,11 +10,13 @@ import { BsCalendar2Date, BsActivity } from "react-icons/bs";
 import { GrDocumentConfig } from "react-icons/gr";
 // import Topbar from "./Topbar";
 import UserSubMenu from "./Submenu";
-const Sidebar = ({ setWid }) => {
+import { useAuth } from "../providers/AuthProvider";
+const Sidebar = () => {
   let isTabletMid = useMediaQuery({ query: "(max-width: 768px)" });
   const [isOpen, setIsOpen] = useState(isTabletMid ? false : true);
   const sidebarRef = useRef();
   const { pathname } = useLocation();
+  const { user } = useAuth();
 
   useEffect(() => {
     if (isTabletMid) {
@@ -26,10 +28,6 @@ const Sidebar = ({ setWid }) => {
   useEffect(() => {
     isTabletMid && setIsOpen(false);
   }, [pathname]);
-
-  useEffect(() => {
-    setWid(isOpen);
-  }, [isOpen]);
 
   const sidebar_animation = isTabletMid
     ? {
@@ -97,14 +95,14 @@ const Sidebar = ({ setWid }) => {
         className="bg-blue-900 flex-none text-white shadow-xl z-[999] w-[16rem] max-w-[16rem] h-screen overflow-hidden md:relative fixed"
       >
         {/* logo */}
-        <div className="flex items-center bg-white gap-2.5 font-medium border-b border-slate-300 py-2 ">
+        <div className="flex items-center bg-white gap-2.5 font-medium border-b border-slate-300 p-2 ">
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBiXOxahe363rn8-BfMuiFdaBNrEz8cdj5PtLheBgJ3kKMbhlq_h0BWM-VtioUbseWPFk&usqp=CAU"
             alt="..."
             width={45}
           />
           <span className="text-xl whitespace-pre  text-gray-600">
-            Event Timeline
+            कार्य समयरेखा
           </span>
         </div>
         {/* menus */}
@@ -128,7 +126,18 @@ const Sidebar = ({ setWid }) => {
                 to={"/dashboard/events"}
               >
                 <BsCalendar2Date size={23} className="min-w-max" />
-                Events
+                कार्यहरू
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "active link " : "link"
+                }
+                to={`/dashboard/settings/${user.company_id}`}
+              >
+                <IoSettingsOutline size={23} className="min-w-max" />
+                सेटिङहरू
               </NavLink>
             </li>
             <li>

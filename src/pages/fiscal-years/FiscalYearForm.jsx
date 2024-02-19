@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useFiscalYear } from "../../providers/FiscalYearProvider";
 import { useParams } from "react-router-dom";
 
-function FiscalYearForm() {
+function FiscalYearForm({ handleOpen }) {
   const { id } = useParams();
   //   const id = 1;
   const { handleSubmit, getFiscalYear, fiscalYear, handleUpdate } =
@@ -52,10 +52,10 @@ function FiscalYearForm() {
   }, [fiscalYear, id]);
 
   return (
-    <div className="">
-      <div className="mb-3">
+    <div className="p-5 ">
+      {/* <div className="mb-3">
         <small className="font-bold ">please fill out the form.</small>
-      </div>
+      </div> */}
       <form
         onSubmit={(e) => {
           if (id) {
@@ -68,13 +68,14 @@ function FiscalYearForm() {
       >
         <div className="mb-2">
           <label className="myLabel" htmlFor="year">
-            Fiscal Year
+            आर्थिक वर्ष
           </label>
           <input
             id="year"
             type="text"
             className="myInput"
             name="year"
+            required
             onChange={handleChange}
             value={data.year}
           />
@@ -82,26 +83,28 @@ function FiscalYearForm() {
 
         <div className="mb-2">
           <label className="myLabel" htmlFor="startDate">
-            Start Date
+            सुरु मिति
           </label>
           <input
             id="startDate"
             type="text"
             className="myInput"
             name="startDate"
+            required
             onChange={handleChange}
             value={data.startDate}
           />
         </div>
         <div className="mb-2">
           <label className="myLabel" htmlFor="endDate">
-            End Date
+            समाप्त मिति
           </label>
           <input
             id="endDate"
             type="text"
             className="myInput"
             name="endDate"
+            required
             onChange={handleChange}
             value={data.endDate}
           />
@@ -109,23 +112,34 @@ function FiscalYearForm() {
 
         <div className="mb-2">
           <label className="myLabel" htmlFor="status">
-            Status
+            स्थिति
           </label>
 
           <select
             id="status"
             name="status"
             value={data.status}
+            required
             onChange={handleChange}
+            className="mySelect"
           >
-            <option value={0}>Dactive</option>
-            <option value={1}>Active</option>
+            <option value={0}>निष्क्रिय गर्नुहोस् </option>
+            <option value={1}>सक्रिय गर्नुहोस्</option>
           </select>
         </div>
 
-        <div className="mt-5 text-end ">
-          <button className="myButton px-10 rounded-full">
-            {id ? "Update" : "Save"}
+        <div className="mt-5 flex gap-3 justify-between  overflow-auto">
+          <button
+            onClick={() => {
+              Empty();
+              handleOpen();
+            }}
+            className="myButtonOutline text-red-600  "
+          >
+            रद्द गर्नुहोस्
+          </button>
+          <button className="myButton  ">
+            {id ? "अपडेट गर्नुहोस्" : "सेभ गर्नुहोस्"}
           </button>
         </div>
       </form>

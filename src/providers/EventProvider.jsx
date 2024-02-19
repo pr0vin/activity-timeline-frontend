@@ -18,9 +18,8 @@ function EventProvider({ children }) {
 
     try {
       const res = await axios.post(`/api/events`, data);
-      console.log(res.data);
-      notifySuccess(res.data.message);
       getEvents();
+      notifySuccess(res.data.message);
     } catch (error) {
       console.log(error);
     }
@@ -30,9 +29,8 @@ function EventProvider({ children }) {
 
     try {
       const res = await axios.put(`/api/events/${id}`, data);
-
-      console.log(res.data);
       getEvents();
+      notifySuccess(res.data.message);
       navigate(`/dashboard/events`);
     } catch (error) {
       console.log(error);
@@ -43,6 +41,7 @@ function EventProvider({ children }) {
     try {
       const res = await axios.delete(`/api/events/${id}`);
       getEvents();
+      notifySuccess(res.data.message);
       navigate(`/dashboard/events`);
     } catch (error) {
       console.log(error);
