@@ -45,9 +45,8 @@ function EventsLists() {
                       <th scope="col" className="px-6 py-4">
                         वर्णन
                       </th>
-                      <th scope="col" className="px-6 py-4">
-                        आर्थिक वर्ष
-                      </th>
+                      <th scope="col" className="px-6 py-4"></th>
+
                       <th scope="col" className="px-6 py-4">
                         तोकिएको मिति
                       </th>
@@ -55,9 +54,12 @@ function EventsLists() {
                         वर्गहरू
                       </th>
                       <th scope="col" className="px-6 py-4">
+                        आर्थिक वर्ष
+                      </th>
+
+                      <th scope="col" className="px-6 py-4">
                         खटाइएका
                       </th>
-                      <th scope="col" className="px-6 py-4"></th>
                       <th scope="col" className="px-6 py-4"></th>
                     </tr>
                   </thead>
@@ -83,12 +85,13 @@ function EventsLists() {
                           <td className="whitespace-nowrap px-6 py-4">
                             {title}
                           </td>
-                          <td className="whitespace-nowrap px-6 py-4">
+                          <td className="whitespace-nowrap px-6 py-4 ">
                             {content.slice(0, 50)}...
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            {fiscal_year.year}
+                            <StatusView status={status} />
                           </td>
+
                           <td className="whitespace-nowrap px-6 py-4">
                             {date}
                           </td>
@@ -103,12 +106,12 @@ function EventsLists() {
                             </ul>
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
+                            {fiscal_year.year}
+                          </td>
+                          <td className="whitespace-nowrap px-6 py-4">
                             {assignTo}
                           </td>
 
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <StatusView status={status} />
-                          </td>
                           <td className="whitespace-nowrap px-6 py-4">
                             <div className="flex gap-2">
                               <BiEdit

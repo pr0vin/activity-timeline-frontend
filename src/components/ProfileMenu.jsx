@@ -24,11 +24,11 @@ function ProfileMenu() {
           onClick={toggleMenu}
         ></div>
       )} */}
-      <div className="relative group" onClick={toggleMenu}>
-        <div className="w-12 h-12">
+      <div className="relative group md:me-3 " onClick={toggleMenu}>
+        <div className="w-10 h-10">
           <img
             src="https://media.istockphoto.com/id/1313644269/vector/gold-and-silver-circle-star-logo-template.jpg?s=612x612&w=0&k=20&c=hDqCI9qTkNqNcKa6XS7aBim7xKz8cZbnm80Z_xiU2DI="
-            className="w-12 h-12 rounded-full"
+            className="w-10 h-10 rounded-full"
             alt=""
           />
         </div>

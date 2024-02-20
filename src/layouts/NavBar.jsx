@@ -26,13 +26,13 @@ function NavBar() {
   return (
     <>
       <div className="">
-        <div className=" bg-blue-900 text-white md:flex justify-end  px-10  gap-5">
-          <div className="flex gap-3">
-            <MdOutlinePhone size={23} />
+        <div className=" bg-primary text-white flex items-center  justify-end  text-xs px-10  gap-5">
+          <div className="flex items-center gap-2 p-2">
+            <MdOutlinePhone size={16} />
             {contact && <span>{contact}</span>}
           </div>
-          <div className="flex gap-3">
-            <PiEnvelope size={23} />
+          <div className="flex items-center gap-2 p-2">
+            <PiEnvelope size={16} />
             {email && <span>{email}</span>}
           </div>
         </div>
@@ -58,8 +58,8 @@ function NavBar() {
             </div>
             <div className="flex-1  p-2 md:ms-10 text-red-600">
               <div className="text-center ">
-                <h3 className="text-2xl ">{name}</h3>
-                <h1 className="font-bold text-3xl">{description}</h1>
+                <h3 className="text-lg ">{name}</h3>
+                <h1 className="font-bold text-2xl">{description}</h1>
                 <p className="">
                   {municipality}, {district}
                 </p>

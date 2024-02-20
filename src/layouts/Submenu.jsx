@@ -11,9 +11,7 @@ function Submenu({ data }) {
       {" "}
       <>
         <li
-          className={`link ${
-            pathname.includes(data.name) && "border-l-4 border-red-600"
-          } `}
+          className={`link ${pathname.includes(data.name) && "text-primary"} `}
           onClick={() => setSubMenuOpen(!subMenuOpen)}
         >
           <data.icon size={23} className="min-w-max" />
@@ -33,7 +31,7 @@ function Submenu({ data }) {
                   height: 0,
                 }
           }
-          className="flex flex-col pl-14 text-[0.8rem] font-normal overflow-hidden h-0"
+          className="flex flex-col pl-14 text-[0.8rem] font-normal overflow-hidden h-0  rounded-b-lg"
         >
           {data.menus?.map((menu, i) => (
             <li key={menu}>

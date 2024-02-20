@@ -163,11 +163,11 @@ function CompanyForm() {
 
   return (
     <div>
-      <div className="flex justify-center bg-white  pb-10 ">
+      <div className="flex justify-center bg-white  py-10 ">
         <div className="md:w-8/12 w-full   ">
-          <div className="font-bold text-center p-3  text-lg mb-5 underline">
+          {/* <div className="font-bold text-center p-3  text-lg mb-5 underline">
             कृपया तलको फारम भर्नुहोस् |
-          </div>
+          </div> */}
 
           <div className="md:flex justify-center gap-20">
             <div className="mb-3 ">
@@ -197,8 +197,8 @@ function CompanyForm() {
                   htmlFor="logo"
                   className=" absolute bottom-0 right-0 z-[99] "
                 >
-                  <div className="flex gap-2 items-center border border-indigo-300 bg-indigo-300 text-white px-5 py-1 rounded-lg bg-indigo-300">
-                    <span className=""> Edit </span>
+                  <div className="flex gap-2 items-center border border-primary bg-primary text-white px-5 py-1 rounded bg-primary">
+                    <span className="text-sm"> Edit </span>
                     <FiEdit size={16} />
                   </div>
                 </label>
@@ -245,8 +245,8 @@ function CompanyForm() {
                   htmlFor="img"
                   className=" absolute bottom-0 right-0 z-[99] "
                 >
-                  <div className="flex gap-2 items-center border border-primary bg-indigo-300 bg-primary text-white px-5 py-1 rounded-lg">
-                    <span className=""> Edit </span>
+                  <div className="flex gap-2 items-center border border-primary  bg-primary text-white px-5 py-1 rounded">
+                    <span className="text-sm"> Edit </span>
                     <FiEdit size={16} />
                   </div>
                 </label>
@@ -387,7 +387,7 @@ function CompanyForm() {
                   onChange={handleInputChange}
                 />
               </div>
-              <div className="mt-5 flex gap-3 justify-between md:col-span-2  overflow-auto">
+              <div className="my-10 flex gap-3 justify-between md:col-span-2  ">
                 <button
                   type="button"
                   onClick={() => {

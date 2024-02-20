@@ -92,17 +92,19 @@ const Sidebar = () => {
         variants={sidebar_animation}
         initial={{ x: isTabletMid ? -250 : 0 }}
         animate={isOpen ? "open" : "closed"}
-        className="bg-blue-900 flex-none text-white shadow-xl z-[999] w-[16rem] max-w-[16rem] h-screen overflow-hidden md:relative fixed"
+        className="bg-white text-gray-600 flex-none shadow-xl z-[999] w-[16rem] max-w-[16rem] h-screen overflow-hidden md:relative fixed"
       >
         {/* logo */}
-        <div className="flex items-center bg-white gap-2.5 font-medium border-b border-slate-300 p-2 ">
+        <div className="flex items-center  gap-2.5 font-medium  border-slate-300 p-2 ">
           <img
-            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRBiXOxahe363rn8-BfMuiFdaBNrEz8cdj5PtLheBgJ3kKMbhlq_h0BWM-VtioUbseWPFk&usqp=CAU"
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrFK8a1szrFRi4lMNlCRf5ODhQPk0kFxUiXA&usqp=CAU"
             alt="..."
             width={45}
+            className="w-18 h-18 rounded-full cover"
           />
-          <span className="text-xl whitespace-pre  text-gray-600">
-            कार्य समयरेखा
+          <span className="px-3 text-xl whitespace-pre  text-gray-600">
+            <div className="text-primary font-bold text-2xl "> कार्य</div>
+            <div className="font-bold ">समयरेखा</div>
           </span>
         </div>
         {/* menus */}
@@ -140,7 +142,7 @@ const Sidebar = () => {
                 सेटिङहरू
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 className={({ isActive }) =>
                   isActive ? "active link " : "link"
@@ -152,7 +154,7 @@ const Sidebar = () => {
               </NavLink>
             </li>
             {/* submenu */}
-            {(isOpen || isTabletMid) && (
+            {/* {(isOpen || isTabletMid) && (
               <div className="border-t py-5 border-slate-300">
                 <small className="pl-3  inline-block mb-2">Settings</small>
                 <div>
@@ -164,10 +166,10 @@ const Sidebar = () => {
                   ))}
                 </div>
               </div>
-            )}
+            )} */}
 
             {(isOpen || isTabletMid) && (
-              <div className="border-t py-5 border-slate-300">
+              <div className="border-y py-5 border-secondary">
                 <small className="pl-3  inline-block mb-2">
                   Configurations
                 </small>

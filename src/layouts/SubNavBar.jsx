@@ -43,7 +43,7 @@ function SubNavBar({
                 className={`cursor-pointer select-none px-3 py-1 
           ${
             selectedCategory == 0
-              ? "border-b-4 border-blue-500 bg-gray-100"
+              ? "border-b-4 border-primary text-sm font-bold bg-gray-100"
               : ""
           }`}
               >
@@ -67,7 +67,7 @@ function SubNavBar({
                   className={`cursor-pointer select-none px-3 py-1 
             ${
               selectedCategory == id
-                ? "border-b-4 border-blue-500 bg-gray-100"
+                ? "border-b-4 border-primary text-sm font-bold bg-gray-100"
                 : ""
             }`}
                 >
@@ -94,7 +94,7 @@ function SubNavBar({
                   className={`cursor-pointer select-none px-3 py-1 
           ${
             selectedStatus === "all"
-              ? "border-b-4 border-blue-500 bg-gray-100"
+              ? "border-b-4 border-primary text-sm font-bold bg-gray-100"
               : ""
           }`}
                 >
@@ -118,7 +118,7 @@ function SubNavBar({
                       className={`cursor-pointer select-none px-3 py-1 
             ${
               selectedStatus === s
-                ? "border-b-4 border-blue-500 bg-gray-100 "
+                ? "border-b-4 border-primary text-sm font-bold bg-gray-100 "
                 : ""
             }`}
                     >
@@ -134,7 +134,7 @@ function SubNavBar({
                 <select
                   value={selectedYear}
                   onChange={handleChangeYear}
-                  className="px-4 py-2 border border-gray-300 rounded-md"
+                  className=" rounded-lg text-sm  mySelect"
                 >
                   {fiscalYears?.map(({ year, id }) => (
                     <option value={id} key={id}>
