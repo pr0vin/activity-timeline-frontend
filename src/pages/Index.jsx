@@ -24,7 +24,7 @@ function Index() {
 
   const upcomingRef = useRef(null);
   const [selectedYear, setSelectedYear] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("notDone");
+  const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("0");
 
   const filteredData = useMemo(() => {
@@ -38,13 +38,41 @@ function Index() {
             item.categories.some((cat) => cat.id === parseInt(selectedCategory))
           )
         : filteredByYear;
-    return filteredByCategory.filter((item) => item.status === selectedStatus);
+    // return filteredByCategory.filter((item) => item.status === selectedStatus);
+
+    const filteredByStatus =
+      selectedStatus === "all"
+        ? filteredByCategory // If "all" is selected, return all filtered data
+        : filteredByCategory.filter((item) => item.status === selectedStatus);
+
+    return filteredByStatus;
   }, [selectedYear, selectedStatus, selectedCategory, events]);
 
+  // const sortedEvents = useMemo(() => {
+  //   return [...filteredData].sort(
+  //     (a, b) => new NepaliDate(a.date) - new NepaliDate(b.date)
+  //   );
+  // }, [filteredData]);
+
   const sortedEvents = useMemo(() => {
-    return [...filteredData].sort(
-      (a, b) => new NepaliDate(a.date) - new NepaliDate(b.date)
-    );
+    const fiscalYearStartMonth = 3;
+
+    return [...filteredData].sort((a, b) => {
+      const dateA = new NepaliDate(a.date);
+      const dateB = new NepaliDate(b.date);
+
+      // Adjusting the dates to the fiscal year start month
+      const adjustedMonthA =
+        (dateA.getMonth() - fiscalYearStartMonth + 12) % 12;
+      const adjustedMonthB =
+        (dateB.getMonth() - fiscalYearStartMonth + 12) % 12;
+
+      // Compare the adjusted months
+      if (adjustedMonthA !== adjustedMonthB) {
+        return adjustedMonthA - adjustedMonthB;
+      }
+      return dateA - dateB;
+    });
   }, [filteredData]);
 
   const todosByMonth = useMemo(() => {
@@ -90,6 +118,8 @@ function Index() {
       }
     }
   }, [fiscalYears]);
+
+  console.log(todosByMonth);
 
   const handleChangeYear = (e) => {
     setSelectedYear(e.target.value);

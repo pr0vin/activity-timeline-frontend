@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useEvent } from "../../providers/EventProvider";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useFiscalYear } from "../../providers/FiscalYearProvider";
 import { useCategory } from "../../providers/CategoryProvider";
 import { status, statusNepali } from "../../json/company";
@@ -13,6 +13,7 @@ import NepaliDate from "nepali-date-converter";
 import { convertNepaliUnicodeToEnglish } from "../../helpers/UnicodeToEnglish";
 
 function EventForm() {
+  const navigate = useNavigate();
   const { handleSubmit, handleUpdate, event, getEvent } = useEvent();
   const { fiscalYears } = useFiscalYear();
   const { categories } = useCategory();
@@ -43,11 +44,6 @@ function EventForm() {
       categories: [],
     });
   };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log(data);
-  // };
 
   const handleChange = (e) => {
     setData({
@@ -91,14 +87,24 @@ function EventForm() {
 
   useMemo(() => {
     if (id && event) {
-      const { title, content, categories, fiscal_year_id, date, status } =
-        event;
+      const {
+        title,
+        content,
+        assignTo,
+        categories,
+        fiscal_year_id,
+        time,
+        date,
+        status,
+      } = event;
       setData({
         ...data,
         title: title ? title : "",
         content: content ? content : "",
         date: date ? date : "",
         status: status ? status : "",
+        assignedTo: assignTo ? assignTo : "",
+        assignedTo: time ? time : "",
         fiscal_year_id: fiscal_year_id ? fiscal_year_id : "",
         categories: categories,
       });
@@ -110,8 +116,11 @@ function EventForm() {
   };
 
   return (
-    <div>
-      <div className="md:w-1/2 ">
+    <div className="flex justify-center bg-white p-5 ">
+      <div className="md:w-8/12   mb-10">
+        <div className="font-bold  py-3  ">
+          नयाँ क्रियाकलाप सिर्जना गर्नुहोस् |
+        </div>
         <form
           onSubmit={(e) => {
             if (id) {
@@ -124,7 +133,7 @@ function EventForm() {
         >
           <div className="mb-2">
             <label className="myLabel" htmlFor="year">
-              Fiscal Year
+              आर्थिक वर्ष
             </label>
             <select
               name="fiscal_year_id"
@@ -144,7 +153,7 @@ function EventForm() {
           </div>
           <div className="mb-2">
             <label className="myLabel" htmlFor="title">
-              Title
+              शीर्षक
             </label>
             <input
               id="title"
@@ -158,7 +167,7 @@ function EventForm() {
           </div>
           <div className="mb-2">
             <label className="myLabel" htmlFor="desc">
-              Content
+              वर्णन
             </label>
             <textarea
               id="desc"
@@ -173,7 +182,7 @@ function EventForm() {
 
           <div className="mb-2 ">
             <label className="myLabel" htmlFor="date">
-              Date of Event
+              तोकिएको मिति
             </label>
 
             <div className="md:flex items-center gap-3">
@@ -209,7 +218,7 @@ function EventForm() {
 
           <div className="mb-2">
             <label className="myLabel" htmlFor="assignTo">
-              Assign To
+              खटाइएका
             </label>
             <input
               id="assignTo"
@@ -224,7 +233,7 @@ function EventForm() {
 
           <div className="mb-2">
             <label className="myLabel" htmlFor="categories">
-              Categories
+              वर्गहरू
             </label>
             <div className="flex flex-row gap-3">
               {categories?.map((category, i) => (
@@ -245,7 +254,7 @@ function EventForm() {
           {id && (
             <div className="mb-2">
               <label className="myLabel" htmlFor="st">
-                Status
+                स्थिति
               </label>
               <select
                 name="status"
@@ -263,9 +272,19 @@ function EventForm() {
               </select>
             </div>
           )}
-          <div className="mt-5 text-end ">
-            <button className="myButton px-10 rounded-full">
-              {id ? "Update" : "Save"}
+          <div className="mt-5 flex gap-3 justify-between md:col-span-2  overflow-auto">
+            <button
+              type="button"
+              onClick={() => {
+                setEmpty();
+                navigate(-1);
+              }}
+              className="myButtonOutline md:px-10 text-red-600  "
+            >
+              रद्द गर्नुहोस्
+            </button>
+            <button className="myButton md:px-10  ">
+              {id ? "अपडेट गर्नुहोस्" : "सेभ गर्नुहोस्"}
             </button>
           </div>
         </form>

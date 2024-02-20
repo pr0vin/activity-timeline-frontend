@@ -47,7 +47,7 @@ function SubNavBar({
               : ""
           }`}
               >
-                All
+                सबै
               </label>
             </div>
             {/* Map over the categories array and create a custom radio button for each category */}
@@ -78,31 +78,55 @@ function SubNavBar({
           </div>
 
           <div className="md:flex items-center gap-3 my-3">
-            <div className="flex  items-center ">
-              {status.map((s) => (
-                <div key={s} className="flex items-center">
-                  <input
-                    type="radio"
-                    id={s}
-                    name="status"
-                    value={s}
-                    className="sr-only"
-                    checked={selectedStatus === s}
-                    onChange={handleStatusChange}
-                  />
-                  <label
-                    htmlFor={s}
-                    className={`cursor-pointer select-none px-3 py-1 
+            <div className="flex items-center">
+              <div className="flex items-center">
+                <input
+                  type="radio"
+                  id="isa"
+                  name="status"
+                  value="all"
+                  className="sr-only"
+                  checked={selectedStatus === "all"}
+                  onChange={handleStatusChange}
+                />
+                <label
+                  htmlFor="isa"
+                  className={`cursor-pointer select-none px-3 py-1 
+          ${
+            selectedStatus === "all"
+              ? "border-b-4 border-blue-500 bg-gray-100"
+              : ""
+          }`}
+                >
+                  सबै
+                </label>
+              </div>
+              <div className="flex  items-center ">
+                {status.map((s) => (
+                  <div key={s} className="flex items-center">
+                    <input
+                      type="radio"
+                      id={s}
+                      name="status"
+                      value={s}
+                      className="sr-only"
+                      checked={selectedStatus === s}
+                      onChange={handleStatusChange}
+                    />
+                    <label
+                      htmlFor={s}
+                      className={`cursor-pointer select-none px-3 py-1 
             ${
               selectedStatus === s
                 ? "border-b-4 border-blue-500 bg-gray-100 "
                 : ""
             }`}
-                  >
-                    {statusNepali[s]}
-                  </label>
-                </div>
-              ))}
+                    >
+                      {statusNepali[s]}
+                    </label>
+                  </div>
+                ))}
+              </div>
             </div>
 
             <div className="flex items-center justify-between my-2 gap-3">

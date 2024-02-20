@@ -26,7 +26,7 @@ function StatusDots() {
   return (
     <div>
       {status.map((item, index) => (
-        <div className="inline-flex gap-3 items-center px-10">
+        <div key={index} className="flex gap-3 items-center px-10">
           <span
             className=" "
             key={index}

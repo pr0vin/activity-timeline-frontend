@@ -9,26 +9,9 @@ function EventsLists() {
   const { events } = useEvent();
 
   return (
-    <div>
-      {/* <div className=" md:flex justify-between items-center">
-        <div className="heading">
-          <h2>Events</h2>
-          <p>here are the events</p>
-        </div>
-        <div>
-          <button
-            className="myButton py-2 px-10  "
-            onClick={() => navigate(`/dashboard/events/add`)}
-          >
-            <div className="flex items-center gap-2">
-              <PiPlus size={16} /> <span>New</span>
-            </div>
-          </button>
-        </div>
-      </div> */}
-
-      <div className="shadow-lg">
-        <div className="flex justify-between items-center border-b  bg-zinc-50 p-3 ">
+    <div className="">
+      <div className="bg-white shadow-lg p-5 ">
+        <div className="flex justify-between items-center border-b  p-3 ">
           <div className="heading md:flex items-center gap-5 ">
             <h2>कार्यहरू</h2>
             <p>(यहाँ कार्यहरूको सूची छ)</p>
@@ -36,7 +19,7 @@ function EventsLists() {
           <div className="text-end mb-3 ">
             <button
               className="myButtonOutline  py-2 "
-              onClick={() => navigate(`/dashboard/config/companies/add`)}
+              onClick={() => navigate(`/dashboard/events/add`)}
             >
               <div className="flex gap-2 items-center">
                 <BiPlus size={20} />
@@ -50,33 +33,31 @@ function EventsLists() {
             <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
               <div class="overflow-x-auto">
                 <table className="min-w-full text-center text-sm font-light">
-                  <thead className="font-medium border-b">
+                  <thead className="font-medium ">
                     <tr>
                       <th scope="col" className="px-6 py-4">
                         #
                       </th>
 
                       <th scope="col" className="px-6 py-4">
-                        Title
+                        शीर्षक
                       </th>
                       <th scope="col" className="px-6 py-4">
-                        Content
+                        वर्णन
                       </th>
                       <th scope="col" className="px-6 py-4">
-                        FiscalYear
+                        आर्थिक वर्ष
                       </th>
                       <th scope="col" className="px-6 py-4">
-                        Organize Date
+                        तोकिएको मिति
                       </th>
                       <th scope="col" className="px-6 py-4">
-                        Categories
+                        वर्गहरू
                       </th>
                       <th scope="col" className="px-6 py-4">
-                        Assigned To
+                        खटाइएका
                       </th>
-                      <th scope="col" className="px-6 py-4">
-                        Status
-                      </th>
+                      <th scope="col" className="px-6 py-4"></th>
                       <th scope="col" className="px-6 py-4"></th>
                     </tr>
                   </thead>
@@ -95,7 +76,7 @@ function EventsLists() {
                         },
                         i
                       ) => (
-                        <tr key={i}>
+                        <tr key={i} className={i % 2 == 0 ? "bg-gray-50 " : ""}>
                           <td className="whitespace-nowrap px-6 py-4 font-medium">
                             {i + 1}
                           </td>
@@ -103,7 +84,7 @@ function EventsLists() {
                             {title}
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
-                            {content}
+                            {content.slice(0, 50)}...
                           </td>
                           <td className="whitespace-nowrap px-6 py-4">
                             {fiscal_year.year}

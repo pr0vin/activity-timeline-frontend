@@ -3,6 +3,7 @@ import { MdOutlinePhone } from "react-icons/md";
 import { PiEnvelope } from "react-icons/pi";
 import { company } from "../json/company";
 import { useAuth } from "../providers/AuthProvider";
+import StatusDots from "../components/StatusDots";
 const API_URL = import.meta.env.VITE_API_URL;
 
 function NavBar() {
@@ -36,9 +37,9 @@ function NavBar() {
           </div>
         </div>
 
-        <div className="flex  ">
-          <div className="flex overflow-hidden items-center">
-            <div className="w-2/10 p-2">
+        <div className="flex overflow-hidden justify-between ">
+          <div className="flex  items-center">
+            <div className="w-2/10 p-2 md:block hidden">
               {logo ? (
                 <div className="w-32 h-32">
                   <img
@@ -55,8 +56,8 @@ function NavBar() {
                 />
               )}
             </div>
-            <div className="flex-1 p-2 md:ms-10 text-red-600">
-              <div className="text-center">
+            <div className="flex-1  p-2 md:ms-10 text-red-600">
+              <div className="text-center ">
                 <h3 className="text-2xl ">{name}</h3>
                 <h1 className="font-bold text-3xl">{description}</h1>
                 <p className="">
@@ -64,6 +65,10 @@ function NavBar() {
                 </p>
               </div>
             </div>
+          </div>
+
+          <div className="p-5 md:block hidden">
+            <StatusDots />
           </div>
         </div>
       </div>
