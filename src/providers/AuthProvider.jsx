@@ -26,6 +26,10 @@ function AuthProvider({ children }) {
     }
   };
 
+  const handlePasswordChange = (data) => {
+    console.log(data);
+  };
+
   const handleLogin = async (e, data) => {
     e.preventDefault();
     try {
@@ -62,12 +66,6 @@ function AuthProvider({ children }) {
   useMemo(() => {
     getUser();
   }, [token]);
-
-  // useEffect(() => {
-  //   if (!token && !user) {
-  //     navigate(`/auth/login`);
-  //   }
-  // }, [token]);
 
   return (
     <AuthContext.Provider

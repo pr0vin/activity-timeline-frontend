@@ -117,7 +117,7 @@ const Sidebar = () => {
                 to={"/dashboard"}
               >
                 <AiOutlineAppstore size={23} className="min-w-max" />
-                Dashboard
+                ड्यासबोर्ड
               </NavLink>
             </li>
             <li>

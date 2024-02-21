@@ -119,8 +119,6 @@ function Index() {
     }
   }, [fiscalYears]);
 
-  console.log(todosByMonth);
-
   const handleChangeYear = (e) => {
     setSelectedYear(e.target.value);
   };
@@ -134,7 +132,7 @@ function Index() {
   };
 
   if (fiscalYearLoading) {
-    return "loading...";
+    return "...";
   }
 
   return (

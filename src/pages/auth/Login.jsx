@@ -16,9 +16,17 @@ function Login() {
   };
 
   return (
-    <>
-      <div className=" md:w-4/12  w-full  p-5 bg-white rounded-lg  shadow-lg  ">
-        <form className="m-5" onSubmit={(e) => handleLogin(e, data)}>
+    <div className=" w-[100%]">
+      <div className=" md:w-4/12  mx-auto   py-5 px-10 bg-white rounded-lg  shadow-lg  ">
+        <div className="flex justify-center -m-20">
+          <img
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrFK8a1szrFRi4lMNlCRf5ODhQPk0kFxUiXA&usqp=CAU"
+            className="w-32 h-32   rounded-full border-b-2 border-primary "
+            alt=""
+          />
+        </div>
+        <div className="my-10 text-2xl font-bold">Login</div>
+        <form className="" onSubmit={(e) => handleLogin(e, data)}>
           <div className="mb-5 gap-3">
             {/* <div>Email:</div> */}
             <label className="myLabel" htmlFor="email">
@@ -53,12 +61,10 @@ function Login() {
               required
             />
           </div>
-          <div className="italic text-blue-600 hover:underline mt-5">
-            <a href="/auth/register"> Don't have an Account ?</a>
-          </div>
-          <div className="text-end">
+
+          <div className="text-center">
             <button
-              className="myButton "
+              className="myButton w-1/2 py-2 my-10 "
               // onClick={(e) => handleSubmit(e, data)}
             >
               Login
@@ -66,7 +72,7 @@ function Login() {
           </div>
         </form>
       </div>
-    </>
+    </div>
   );
 }
 

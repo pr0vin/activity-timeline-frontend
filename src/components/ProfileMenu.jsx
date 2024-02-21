@@ -18,12 +18,6 @@ function ProfileMenu() {
   const { name, email } = user;
   return (
     <>
-      {/* {open && (
-        <div
-          className=" w-[100%] h-[100] absolute z-[99] "
-          onClick={toggleMenu}
-        ></div>
-      )} */}
       <div className="relative group md:me-3 " onClick={toggleMenu}>
         <div className="w-10 h-10">
           <img
@@ -39,20 +33,23 @@ function ProfileMenu() {
               <h6 className="font-bold text-xl">{name}</h6>
               <small>{email}</small>
             </li>
-            <li className="p-2 flex gap-5 hover:bg-gray-100">
+            <li
+              className="p-2 flex gap-5 hover:bg-gray-100"
+              onClick={() => navigate(`/settings/profile`)}
+            >
               <LuUserCircle2 size={23} />
-              <span>Profile</span>
+              <span>प्रोफाइल</span>
             </li>
             <li
               onClick={() => navigate(`/dashboard`)}
               className="p-2 flex gap-5 hover:bg-gray-100"
             >
               <LuSettings size={23} />
-              <span>Dashboard</span>
+              <span>ड्यासबोर्ड</span>
             </li>
             <li onClick={logOut} className="p-2 flex gap-5 hover:bg-gray-100">
               <LuLogOut size={23} />
-              <span>Log Out</span>{" "}
+              <span>लग Out</span>{" "}
             </li>
           </ul>
         )}

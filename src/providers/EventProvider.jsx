@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import { notifySuccess } from "../helpers/ToastMessage";
+import { useAuth } from "./AuthProvider";
 
 const EventContext = createContext();
 function EventProvider({ children }) {
@@ -10,6 +11,7 @@ function EventProvider({ children }) {
     event: {},
   };
 
+  const { token } = useAuth();
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, init);
 
@@ -60,7 +62,7 @@ function EventProvider({ children }) {
 
   useEffect(() => {
     getEvents();
-  }, []);
+  }, [token]);
 
   return (
     <EventContext.Provider

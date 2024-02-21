@@ -22,67 +22,76 @@ import EventsLists from "./pages/events/EventsLists";
 import EventView from "./pages/events/EventView";
 import TasksList from "./pages/tasks/TasksList";
 import TaskForm from "./pages/tasks/TaskForm";
+import ProfileSetting from "./pages/settings/ProfileSetting";
+import SettingIndex from "./pages/settings/SettingIndex";
+import RequireAuth from "./pages/auth/RequireAuth";
 
 function App() {
   return (
     <>
       <Routes>
-        <Route path="/home" Component={MainIndex}>
-          <Route index Component={Index} />
-        </Route>
-
         <Route path="/" Component={AuthIndex}>
           <Route index Component={Login} />
           {/* <Route path="/auth/register" index Component={Register} /> */}
         </Route>
+        <Route path="/" Component={RequireAuth}>
+          <Route path="/home" Component={MainIndex}>
+            <Route index Component={Index} />
+          </Route>
+          <Route path="/settings/profile" Component={ProfileSetting} />
 
-        <Route path="/dashboard" Component={AdminIndex}>
-          <Route index Component={Dashboard} />
-          <Route path="/dashboard/events" Component={EventIndex}>
-            <Route index Component={EventsLists} />
-            <Route path="/dashboard/events/add" Component={EventForm} />
-            <Route path="/dashboard/events/add/:id" Component={EventForm} />
-            <Route path="/dashboard/events/:eventId/view" Component={EventView}>
-              <Route index Component={TasksList} />
+          <Route path="/dashboard" Component={AdminIndex}>
+            <Route index Component={Dashboard} />
+            <Route path="/dashboard/events" Component={EventIndex}>
+              <Route index Component={EventsLists} />
+              <Route path="/dashboard/events/add" Component={EventForm} />
+              <Route path="/dashboard/events/add/:id" Component={EventForm} />
               <Route
-                path="/dashboard/events/:eventId/view/add"
-                Component={TaskForm}
+                path="/dashboard/events/:eventId/view"
+                Component={EventView}
+              >
+                <Route index Component={TasksList} />
+                <Route
+                  path="/dashboard/events/:eventId/view/add"
+                  Component={TaskForm}
+                />
+              </Route>
+            </Route>
+
+            <Route path="/dashboard/settings/:id" Component={CompanyForm} />
+
+            <Route
+              path="/dashboard/config/fiscal-year"
+              Component={FiscalYearIndex}
+            />
+            <Route
+              path="/dashboard/config/fiscal-year/:id"
+              Component={FiscalYearIndex}
+            />
+
+            <Route
+              path="/dashboard/config/categories"
+              Component={CategoryIndex}
+            />
+            <Route
+              path="/dashboard/config/categories/:id"
+              Component={CategoryIndex}
+            />
+
+            <Route path="/dashboard/config/companies" Component={CompanyIndex}>
+              <Route index Component={CompanyList} />
+              <Route
+                path="/dashboard/config/companies/add"
+                Component={CompanyForm}
+              />
+              <Route
+                path="/dashboard/config/companies/add/:id"
+                Component={CompanyForm}
               />
             </Route>
+
+            <Route path="/dashboard/config/company-user" Component={Register} />
           </Route>
-          <Route path="/dashboard/settings/:id" Component={CompanyForm} />
-
-          <Route
-            path="/dashboard/config/fiscal-year"
-            Component={FiscalYearIndex}
-          />
-          <Route
-            path="/dashboard/config/fiscal-year/:id"
-            Component={FiscalYearIndex}
-          />
-
-          <Route
-            path="/dashboard/config/categories"
-            Component={CategoryIndex}
-          />
-          <Route
-            path="/dashboard/config/categories/:id"
-            Component={CategoryIndex}
-          />
-
-          <Route path="/dashboard/config/companies" Component={CompanyIndex}>
-            <Route index Component={CompanyList} />
-            <Route
-              path="/dashboard/config/companies/add"
-              Component={CompanyForm}
-            />
-            <Route
-              path="/dashboard/config/companies/add/:id"
-              Component={CompanyForm}
-            />
-          </Route>
-
-          <Route path="/dashboard/config/company-user" Component={Register} />
         </Route>
       </Routes>
     </>

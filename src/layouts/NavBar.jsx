@@ -41,17 +41,17 @@ function NavBar() {
           <div className="flex  items-center">
             <div className="w-2/10 p-2 md:block hidden">
               {logo ? (
-                <div className="w-32 h-32">
+                <div className="w-32 h-32 rounded-full">
                   <img
                     src={`${API_URL}/storage/${logo}`}
-                    className="w-32 h-32 md:p-2"
+                    className="w-32 h-32 rounded-full md:p-2"
                     alt=""
                   />
                 </div>
               ) : (
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/e/ea/National_Emblem_Of_Nepal.png"
-                  className="w-32 h-32 md:p-2"
+                  className="w-32 h-32 rounded-full md:p-2"
                   alt=""
                 />
               )}

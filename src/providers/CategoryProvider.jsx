@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import { notifySuccess } from "../helpers/ToastMessage";
+import { useAuth } from "./AuthProvider";
 
 const CategoryContext = createContext();
 
@@ -12,6 +13,7 @@ const init = {
 function CategoryProvider({ children }) {
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, init);
+  const { token } = useAuth();
 
   const handleSubmit = async (e, data) => {
     e.preventDefault();
@@ -59,7 +61,7 @@ function CategoryProvider({ children }) {
 
   useEffect(() => {
     getCategories();
-  }, []);
+  }, [token]);
   return (
     <CategoryContext.Provider
       value={{

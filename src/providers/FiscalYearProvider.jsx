@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import { notifySuccess } from "../helpers/ToastMessage";
+import { useAuth } from "./AuthProvider";
 
 const FiscalYearContext = createContext();
 function FiscalYearProvider({ children }) {
@@ -11,6 +12,7 @@ function FiscalYearProvider({ children }) {
     fiscalYear: {},
   };
 
+  const { token } = useAuth();
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, init);
 
@@ -59,7 +61,7 @@ function FiscalYearProvider({ children }) {
 
   useEffect(() => {
     getFiscalYears();
-  }, []);
+  }, [token]);
 
   return (
     <FiscalYearContext.Provider

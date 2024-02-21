@@ -6,7 +6,9 @@ function Dashboard() {
       <div>
         <div className="heading">Dashboard</div>
 
-        <div className="p-2 mt-5"></div>
+        <div className="p-2 mt-5">
+          <div></div>
+        </div>
       </div>
     </>
   );

@@ -144,12 +144,6 @@ function SubNavBar({
                 </select>
               </div>
               <div>
-                {/* <img
-                src="https://media.istockphoto.com/id/1313644269/vector/gold-and-silver-circle-star-logo-template.jpg?s=612x612&w=0&k=20&c=hDqCI9qTkNqNcKa6XS7aBim7xKz8cZbnm80Z_xiU2DI="
-                className="w-12 h-12 rounded-full"
-                alt=""
-              /> */}
-
                 <ProfileMenu />
               </div>
             </div>
