@@ -9,7 +9,6 @@ import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
 import "@sbmdkl/nepali-datepicker-reactjs/dist/index.css";
-import NepaliDate from "nepali-date-converter";
 import { convertNepaliUnicodeToEnglish } from "../../helpers/UnicodeToEnglish";
 
 function EventForm() {
@@ -97,30 +96,36 @@ function EventForm() {
         date,
         status,
       } = event;
+
+      const categoriesIds = categories?.map((category) =>
+        category.id.toString()
+      );
       setData({
         ...data,
         title: title ? title : "",
         content: content ? content : "",
         date: date ? date : "",
         status: status ? status : "",
-        assignedTo: assignTo ? assignTo : "",
-        assignedTo: time ? time : "",
+        assignTo: assignTo ? assignTo : "",
+        time: time ? time : "",
         fiscal_year_id: fiscal_year_id ? fiscal_year_id : "",
-        categories: categories,
+        categories: categoriesIds,
       });
     }
   }, [id, event]);
 
-  const isCategorySelected = (category) => {
-    return data.categories.includes(category);
-  };
+  // const isCategorySelected = (category) => {
+  //   return data.categories.includes(category);
+  // };
 
   return (
-    <div className="flex justify-center bg-white p-5 ">
-      <div className="md:w-8/12   mb-10">
-        <div className="font-bold  py-3  ">
-          नयाँ क्रियाकलाप सिर्जना गर्नुहोस् |
-        </div>
+    <div className="md:flex justify-between bg-white p-5 gap-10 ">
+      <div className="md:w-6/12 w-full   mb-10">
+        {!id && (
+          <div className="font-bold  py-3 mb-5 underline text-gray-600 ">
+            नयाँ क्रियाकलाप सिर्जना गर्नुहोस् |
+          </div>
+        )}
         <form
           onSubmit={(e) => {
             if (id) {
@@ -131,7 +136,7 @@ function EventForm() {
             setEmpty();
           }}
         >
-          <div className="mb-2">
+          <div className="mb-5">
             <label className="myLabel" htmlFor="year">
               आर्थिक वर्ष
             </label>
@@ -151,7 +156,7 @@ function EventForm() {
               ))}
             </select>
           </div>
-          <div className="mb-2">
+          <div className="mb-5">
             <label className="myLabel" htmlFor="title">
               शीर्षक
             </label>
@@ -165,7 +170,7 @@ function EventForm() {
               required
             />
           </div>
-          <div className="mb-2">
+          <div className="mb-5">
             <label className="myLabel" htmlFor="desc">
               वर्णन
             </label>
@@ -180,7 +185,7 @@ function EventForm() {
             />
           </div>
 
-          <div className="mb-2 ">
+          <div className="mb-5 ">
             <label className="myLabel" htmlFor="date">
               तोकिएको मिति
             </label>
@@ -209,14 +214,15 @@ function EventForm() {
                 <TimePicker
                   onChange={timeChange}
                   value={data.time}
-                  className={"bg-white "}
+                  className={"bg-white focous:outline-none "}
                   disableClock={true}
+                  clockClassName={"bg-white border-none"}
                 />
               </div>
             </div>
           </div>
 
-          <div className="mb-2">
+          <div className="mb-5">
             <label className="myLabel" htmlFor="assignTo">
               खटाइएका
             </label>
@@ -231,7 +237,7 @@ function EventForm() {
             />
           </div>
 
-          <div className="mb-2">
+          <div className="mb-5">
             <label className="myLabel" htmlFor="categories">
               वर्गहरू
             </label>
@@ -242,17 +248,18 @@ function EventForm() {
                     id="categories"
                     type="checkbox"
                     name="categories"
-                    // checked={isCategorySelected(category.id)}
+                    checked={data.categories.includes(`${category.id}`)}
+                    label={category.name}
                     onChange={handleCheckboxChange}
                     value={category.id}
                   />
-                  {category.name}
+                  <label className="px-1 text-gray-600"> {category.name}</label>
                 </label>
               ))}
             </div>
           </div>
           {id && (
-            <div className="mb-2">
+            <div className="mb-5">
               <label className="myLabel" htmlFor="st">
                 स्थिति
               </label>
@@ -272,7 +279,7 @@ function EventForm() {
               </select>
             </div>
           )}
-          <div className="mt-5 flex gap-3 justify-between md:col-span-2  overflow-auto">
+          <div className="my-10 flex gap-3 justify-between md:col-span-2  overflow-auto">
             <button
               type="button"
               onClick={() => {
@@ -288,6 +295,13 @@ function EventForm() {
             </button>
           </div>
         </form>
+      </div>
+
+      <div className="md:block hidden">
+        {" "}
+        <div className=" flex items-center justify-center m-10 ">
+          <img src="/svgs/form.svg" className="w-96 h-96" alt="" />
+        </div>
       </div>
     </div>
   );

@@ -18,7 +18,7 @@
   }
 
   .myLabel {
-    @apply block uppercase tracking-wide text-gray-700 text-sm font-bold mb-2;
+    @apply block uppercase tracking-wide text-gray-600 text-sm font-bold mb-2;
   }
 
   .myButton {

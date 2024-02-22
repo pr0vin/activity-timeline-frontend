@@ -25,9 +25,9 @@ function NavBar() {
   } = user.company;
   return (
     <>
-      <div className="">
-        <div className=" bg-primary text-white flex items-center  justify-end  text-xs px-10  gap-5">
-          <div className="flex items-center gap-2 p-2">
+      <div className=" bg-primary text-white   text-xs  ">
+        <div className="max-w-screen-2xl mx-auto flex items-center px-10  gap-5  justify-end">
+          <div className="flex items-center gap-2 p-2 ">
             <MdOutlinePhone size={16} />
             {contact && <span>{contact}</span>}
           </div>
@@ -36,7 +36,8 @@ function NavBar() {
             {email && <span>{email}</span>}
           </div>
         </div>
-
+      </div>
+      <div className="max-w-screen-2xl mx-auto">
         <div className="flex overflow-hidden justify-between ">
           <div className="flex  items-center">
             <div className="w-2/10 p-2 md:block hidden">

@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import { useParams } from "react-router-dom";
 import { useTasks } from "../../providers/TaskProvider";
 
 export default function TaskForm() {
-  const { eventId } = useParams();
-  const { handleSubmit, handleUpdate } = useTasks();
+  const { eventId, id } = useParams();
+  const { handleSubmit, handleUpdate, task, taskLoading, getTask } = useTasks();
   const [name, setName] = useState("");
   const [file, setFiles] = useState(null);
   const setImgFiles = (e) => {
@@ -23,6 +23,23 @@ export default function TaskForm() {
 
     handleSubmit(data);
   };
+
+  useEffect(() => {
+    if (id) {
+      getTask(id);
+    }
+  }, [id]);
+
+  useEffect(() => {
+    if (id && task) {
+      setName(task.name);
+      setFiles(task.documents);
+    }
+  }, [id, task]);
+
+  if (taskLoading) {
+    return "Loading...";
+  }
 
   return (
     <div className="flex  justify-center">
@@ -58,7 +75,7 @@ export default function TaskForm() {
         </div>
         <div className="mt-5 text-end ">
           <button className="myButton px-10 rounded-full">
-            {!eventId ? "Update" : "Save"}
+            {id ? "Update" : "Save"}
           </button>
         </div>
       </form>

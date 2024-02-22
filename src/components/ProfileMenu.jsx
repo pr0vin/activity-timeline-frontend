@@ -28,27 +28,27 @@ function ProfileMenu() {
         </div>
 
         {open && (
-          <ul className="absolute text-start right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-10 cursor-pointer">
+          <ul className="absolute text-start right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-10 cursor-pointer text-sm">
             <li className="text-start px-2 border-b">
-              <h6 className="font-bold text-xl">{name}</h6>
+              <h6 className="font-bold text-lg capitalize">{name}</h6>
               <small>{email}</small>
             </li>
             <li
-              className="p-2 flex gap-5 hover:bg-gray-100"
+              className="p-2 flex gap-3 hover:bg-gray-100"
               onClick={() => navigate(`/settings/profile`)}
             >
-              <LuUserCircle2 size={23} />
+              <LuUserCircle2 size={18} />
               <span>प्रोफाइल</span>
             </li>
             <li
               onClick={() => navigate(`/dashboard`)}
-              className="p-2 flex gap-5 hover:bg-gray-100"
+              className="p-2 flex gap-3 hover:bg-gray-100"
             >
-              <LuSettings size={23} />
+              <LuSettings size={18} />
               <span>ड्यासबोर्ड</span>
             </li>
-            <li onClick={logOut} className="p-2 flex gap-5 hover:bg-gray-100">
-              <LuLogOut size={23} />
+            <li onClick={logOut} className="p-2 flex gap-3 hover:bg-gray-100">
+              <LuLogOut size={18} />
               <span>लग Out</span>{" "}
             </li>
           </ul>

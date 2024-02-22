@@ -20,7 +20,7 @@ function ProfileSetting() {
       ...prevData,
       [name]: value,
     }));
-    if (name === "confirm") {
+    if (name === "confirm" && data.password !== "") {
       setPasswordsMatch(value === data.password);
     }
   };
@@ -80,10 +80,13 @@ function ProfileSetting() {
                   className="myInput"
                   onChange={handleInputChange}
                 />
-                {!passwordsMatch ? (
+                {!passwordsMatch && data.password && data.confirm ? (
                   <p className="text-red-600">Passwords do not match.</p>
                 ) : (
-                  <p className="text-green-600">You can proceed now</p>
+                  data.password &&
+                  data.confirm && (
+                    <p className="text-green-600">You can proceed now</p>
+                  )
                 )}
               </div>
 

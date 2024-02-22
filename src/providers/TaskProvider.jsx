@@ -8,6 +8,7 @@ const TaskContext = createContext();
 function TaskProvider({ children }) {
   const init = {
     tasks: [],
+    taskLoading: true,
     task: {},
   };
   const navigate = useNavigate();
@@ -85,6 +86,7 @@ const reducer = (state, action) => {
     case "SINGLE":
       return {
         ...state,
+        taskLoading: false,
         task: action.payload,
       };
 

@@ -12,6 +12,7 @@ import { CompanyProvider } from "./providers/CompanyProvider.jsx";
 import { EventProvider } from "./providers/EventProvider.jsx";
 import { TaskProvider } from "./providers/TaskProvider.jsx";
 import { ToastMessage } from "./helpers/ToastMessage.jsx";
+import ScrollToTop from "./helpers/ScrollToTop.jsx";
 
 const API_URL = import.meta.env.VITE_API_URL;
 axios.defaults.baseURL = API_URL;
@@ -19,6 +20,7 @@ axios.defaults.baseURL = API_URL;
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
+      <ScrollToTop />
       <ToastMessage />
       <AuthProvider>
         <FiscalYearProvider>

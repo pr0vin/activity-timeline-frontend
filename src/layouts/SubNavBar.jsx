@@ -23,7 +23,7 @@ function SubNavBar({
 
   return (
     <>
-      <div className="text-center max-w-screen-2xl mx-auto my-3 shadow-lg">
+      <div className="text-center max-w-screen-2xl mx-auto my-3 shadow">
         {/* <StatusDots /> */}
 
         <div className=" md:flex gap-5 justify-between items-center p-2 ">

@@ -8,6 +8,7 @@ const EventContext = createContext();
 function EventProvider({ children }) {
   const init = {
     events: [],
+    eventLoading: true,
     event: {},
   };
 
@@ -89,6 +90,7 @@ const reducer = (state, action) => {
     case "SINGLE":
       return {
         ...state,
+        eventLoading: false,
         event: action.payload,
       };
 

@@ -1,6 +1,3 @@
-import { useState } from "react";
-import reactLogo from "./assets/react.svg";
-import viteLogo from "/vite.svg";
 import "./App.css";
 import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
@@ -52,10 +49,14 @@ function App() {
               >
                 <Route index Component={TasksList} />
                 <Route
-                  path="/dashboard/events/:eventId/view/add"
+                  path="/dashboard/events/:eventId/view/add/:id"
                   Component={TaskForm}
                 />
               </Route>
+              <Route
+                path="/dashboard/events/:eventId/tasks/:id"
+                Component={TaskForm}
+              />
             </Route>
 
             <Route path="/dashboard/settings/:id" Component={CompanyForm} />
