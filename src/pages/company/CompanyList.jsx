@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCompany } from "../../providers/CompanyProvider";
 import { BiEdit, BiPlus, BiTrash } from "react-icons/bi";
@@ -8,6 +8,21 @@ function CompanyList() {
   const navigate = useNavigate();
 
   const { companies, handleDelete } = useCompany();
+
+  const [isTransfer, setIsTransfer] = useState(false);
+  const [arrCompanies, setArrCompanies] = useState([]);
+  const handleCheckboxChange = (event) => {
+    const { value, checked } = event.target;
+    if (checked) {
+      setData({ ...data, categories: [...data.categories, value] });
+    } else {
+      setData({
+        ...data,
+        categories: data.categories.filter((c) => c !== value),
+      });
+    }
+  };
+
   return (
     <div className="bg-white  shadow-lg">
       <div className="flex justify-between items-center border-b  bg-zinc-50 p-3 ">
@@ -71,7 +86,24 @@ function CompanyList() {
                     ) => (
                       <tr key={i} className={i / 2 !== 0 ? "bg-gray-50 " : ""}>
                         <td className="whitespace-nowrap px-6 py-4 font-medium">
-                          {i + 1}
+                          <label htmlFor="" key={i}>
+                            <input
+                              id={i}
+                              type="checkbox"
+                              name="companies"
+                              // checked={
+                              //   data.categories &&
+                              //   data.categories.includes(`${category.id}`)
+                              // }
+                              // label={category.name}
+                              // onChange={handleCheckboxChange}
+                              // value={category.id}
+                            />
+                            <label className="px-1 text-gray-600">
+                              {" "}
+                              {category.name}
+                            </label>
+                          </label>
                         </td>
                         <td className="whitespace-nowrap px-6 py-4">
                           <div className="flex  items-center gap-3 ">
