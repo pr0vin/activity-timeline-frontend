@@ -23,6 +23,7 @@ function EventProvider({ children }) {
       const res = await axios.post(`/api/events`, data);
       getEvents();
       notifySuccess(res.data.message);
+      navigate(`/dashboard/events`);
     } catch (error) {
       console.log(error);
     }
@@ -61,13 +62,25 @@ function EventProvider({ children }) {
     dispatch({ type: "SINGLE", payload: res.data });
   };
 
+  const handleCopyEvent = async (data) => {
+    const res = await axios.post(`/api/copy-events`, data);
+    notifySuccess(res.data.message);
+  };
+
   useEffect(() => {
     getEvents();
   }, [token]);
 
   return (
     <EventContext.Provider
-      value={{ ...state, handleDelete, handleSubmit, handleUpdate, getEvent }}
+      value={{
+        ...state,
+        handleDelete,
+        handleSubmit,
+        handleUpdate,
+        getEvent,
+        handleCopyEvent,
+      }}
     >
       {children}
     </EventContext.Provider>

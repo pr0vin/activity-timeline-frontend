@@ -12,7 +12,7 @@ const init = {
 };
 function CompanyProvider({ children }) {
   const navigate = useNavigate();
-  const { getUser } = useAuth();
+  const { getUser, token } = useAuth();
   const [state, dispatch] = useReducer(reducer, init);
 
   const handleSubmit = async (data) => {
@@ -60,7 +60,7 @@ function CompanyProvider({ children }) {
 
   useEffect(() => {
     getCompanies();
-  }, []);
+  }, [token]);
 
   return (
     <CompanyContext.Provider

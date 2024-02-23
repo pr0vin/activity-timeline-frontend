@@ -1,38 +1,118 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCompany } from "../../providers/CompanyProvider";
-import { BiEdit, BiPlus, BiTrash } from "react-icons/bi";
+import { BiEdit, BiPlus, BiTrash, BiCopy } from "react-icons/bi";
+import CopyEvents from "../../components/CopyEvents";
+import { useFiscalYear } from "../../providers/FiscalYearProvider";
+import { useEvent } from "../../providers/EventProvider";
 
 const API_URL = import.meta.env.VITE_API_URL;
 function CompanyList() {
   const navigate = useNavigate();
 
+  const { fiscalYears, fiscalYearLoading } = useFiscalYear();
+  const { handleCopyEvent } = useEvent();
   const { companies, handleDelete } = useCompany();
-
+  const [selectAll, setSelectAll] = useState(false);
   const [isTransfer, setIsTransfer] = useState(false);
   const [arrCompanies, setArrCompanies] = useState([]);
+  const [data, setData] = useState({
+    source_id: "",
+    target_id: "",
+    from_fiscal_year: "",
+    to_fiscal_year: "",
+    target_companies: [],
+  });
+
   const handleCheckboxChange = (event) => {
     const { value, checked } = event.target;
     if (checked) {
-      setData({ ...data, categories: [...data.categories, value] });
+      setArrCompanies([...arrCompanies, value]);
     } else {
-      setData({
-        ...data,
-        categories: data.categories.filter((c) => c !== value),
-      });
+      setArrCompanies(arrCompanies.filter((company) => company !== value));
     }
   };
 
+  const toggleSelectAll = () => {
+    if (selectAll) {
+      setArrCompanies([]);
+    } else {
+      const com = companies.map((company) => company.id.toString());
+      setArrCompanies(com);
+    }
+    setSelectAll(!selectAll);
+  };
+
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const setEmpty = () => {
+    setData({
+      ...data,
+      from_fiscal_year: "",
+      to_fiscal_year: "",
+      target_companies: [],
+    });
+    setArrCompanies([]);
+  };
+
+  const toggleTransfer = () => {
+    setIsTransfer(!isTransfer);
+  };
+
+  useEffect(() => {
+    setData({
+      ...data,
+      target_companies: arrCompanies,
+    });
+  }, [arrCompanies]);
+
+  const handleTransfer = (e) => {
+    e.preventDefault();
+
+    handleCopyEvent(data);
+    setEmpty();
+    toggleTransfer();
+  };
+
+  const copyProp = {
+    handleChange,
+    data,
+    fiscalYears,
+    setEmpty,
+    handleTransfer,
+    toggleTransfer,
+  };
+
+  if (fiscalYearLoading) {
+    return "loading";
+  }
   return (
     <div className="bg-white  shadow-lg">
-      <div className="flex justify-between items-center border-b  bg-zinc-50 p-3 ">
+      <div className="md:flex justify-between items-center   py-8 px-3 ">
         <div className="heading md:flex items-center gap-5 ">
           <h2>कम्पनी</h2>
           <p>(यहाँ कम्पनीहरूको सूची छ)</p>
         </div>
-        <div className="text-end mb-3 ">
+        <div className="text-end mb-3  flex gap-3">
+          {" "}
           <button
-            className="myButtonOutline  py-2 "
+            className={`myButtonOutline  bg-white py-2 ${
+              isTransfer && "border-primary border bg-secondary"
+            }`}
+            onClick={() => setIsTransfer((prev) => !prev)}
+          >
+            <label className="flex gap-2 items-center">
+              <BiCopy size={20} />
+              <span>नक्कल</span>
+            </label>
+          </button>
+          <button
+            className="myButton px-10  py-2 "
             onClick={() => navigate(`/dashboard/config/companies/add`)}
           >
             <div className="flex gap-2 items-center">
@@ -43,16 +123,31 @@ function CompanyList() {
         </div>
       </div>
 
+      {isTransfer && (
+        <div>
+          <CopyEvents {...copyProp} />
+        </div>
+      )}
+
       <div className="flex flex-col  overflow-x-scroll">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-hidden">
               <table className="min-w-full text-center text-sm font-light">
-                <thead className="font-bold   ">
+                <thead className="font-bold border-b  ">
                   <tr>
-                    <th scope="col" className="px-6 py-4">
-                      #
-                    </th>
+                    {isTransfer ? (
+                      <label>
+                        <input
+                          type="checkbox"
+                          checked={selectAll}
+                          onChange={toggleSelectAll}
+                        />{" "}
+                        All
+                      </label>
+                    ) : (
+                      <label>#</label>
+                    )}
 
                     <th scope="col" className="px-6 py-4">
                       कम्पनी
@@ -86,24 +181,22 @@ function CompanyList() {
                     ) => (
                       <tr key={i} className={i / 2 !== 0 ? "bg-gray-50 " : ""}>
                         <td className="whitespace-nowrap px-6 py-4 font-medium">
-                          <label htmlFor="" key={i}>
-                            <input
-                              id={i}
-                              type="checkbox"
-                              name="companies"
-                              // checked={
-                              //   data.categories &&
-                              //   data.categories.includes(`${category.id}`)
-                              // }
-                              // label={category.name}
-                              // onChange={handleCheckboxChange}
-                              // value={category.id}
-                            />
-                            <label className="px-1 text-gray-600">
-                              {" "}
-                              {category.name}
+                          {isTransfer ? (
+                            <label>
+                              <input
+                                id={i}
+                                type="checkbox"
+                                name="companies"
+                                checked={
+                                  arrCompanies && arrCompanies.includes(`${id}`)
+                                }
+                                onChange={handleCheckboxChange}
+                                value={id}
+                              />
                             </label>
-                          </label>
+                          ) : (
+                            <label>{i + 1}</label>
+                          )}
                         </td>
                         <td className="whitespace-nowrap px-6 py-4">
                           <div className="flex  items-center gap-3 ">
