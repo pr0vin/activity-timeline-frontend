@@ -15,7 +15,7 @@ function EventForm() {
   const navigate = useNavigate();
   const { handleSubmit, handleUpdate, event, getEvent } = useEvent();
   const { fiscalYears } = useFiscalYear();
-  const { categories } = useCategory();
+  const { categories, categoriesLoading } = useCategory();
   const { id } = useParams();
   const [data, setData] = useState({
     title: "",
@@ -86,18 +86,10 @@ function EventForm() {
 
   useMemo(() => {
     if (id && event) {
-      const {
-        title,
-        content,
-        assignTo,
-        categories,
-        fiscal_year_id,
-        time,
-        date,
-        status,
-      } = event;
+      const { title, content, assignTo, fiscal_year_id, time, date, status } =
+        event;
 
-      const categoriesIds = categories?.map((category) =>
+      const categoriesIds = event.categories?.map((category) =>
         category.id.toString()
       );
       setData({
@@ -117,6 +109,10 @@ function EventForm() {
   // const isCategorySelected = (category) => {
   //   return data.categories.includes(category);
   // };
+
+  if (categoriesLoading) {
+    return "Loading...";
+  }
 
   return (
     <div className="md:flex justify-between bg-white p-5 gap-10 ">
@@ -248,7 +244,10 @@ function EventForm() {
                     id="categories"
                     type="checkbox"
                     name="categories"
-                    checked={data.categories.includes(`${category.id}`)}
+                    checked={
+                      data.categories &&
+                      data.categories.includes(`${category.id}`)
+                    }
                     label={category.name}
                     onChange={handleCheckboxChange}
                     value={category.id}

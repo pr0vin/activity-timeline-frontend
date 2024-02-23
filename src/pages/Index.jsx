@@ -16,11 +16,16 @@ import SubNavBar from "../layouts/SubNavBar";
 import { useEvent } from "../providers/EventProvider";
 import { useFiscalYear } from "../providers/FiscalYearProvider";
 import { useCategory } from "../providers/CategoryProvider";
+import { useNavigate } from "react-router-dom";
+import { BiCheck } from "react-icons/bi";
+import { BsEye } from "react-icons/bs";
+const API_URL = import.meta.env.VITE_API_URL;
 
 function Index() {
   const { events } = useEvent();
   const { fiscalYears, fiscalYearLoading } = useFiscalYear();
   const { categories } = useCategory();
+  const navigate = useNavigate();
 
   const upcomingRef = useRef(null);
   const [selectedYear, setSelectedYear] = useState("");
@@ -47,12 +52,6 @@ function Index() {
 
     return filteredByStatus;
   }, [selectedYear, selectedStatus, selectedCategory, events]);
-
-  // const sortedEvents = useMemo(() => {
-  //   return [...filteredData].sort(
-  //     (a, b) => new NepaliDate(a.date) - new NepaliDate(b.date)
-  //   );
-  // }, [filteredData]);
 
   const sortedEvents = useMemo(() => {
     const fiscalYearStartMonth = 3;
@@ -182,7 +181,7 @@ function Index() {
                     }
                     contentStyle={{
                       backgroundColor: "#fff",
-                      borderTop: "5px solid #4B0082",
+                      borderTop: "5px solid #D22B2B",
                     }}
                     contentArrowStyle={{ borderRight: "7px solid  #fff" }}
                     date={
@@ -214,29 +213,67 @@ function Index() {
                       )
                     }
                   >
-                    <div>
-                      <div className="flex gap-2">
+                    <div
+                      onClick={() =>
+                        navigate(`/dashboard/events/${activity.id}/view`)
+                      }
+                    >
+                      <div className="flex  gap-2">
                         {activity.categories?.map((cat, i) => (
                           <span
                             key={i}
-                            className="border py-1 px-2  rounded-full  text-sm"
+                            className="border py-1 px-2 shadow   rounded-full  text-xs"
                           >
                             {cat.name}
                           </span>
                         ))}
                       </div>
                       <div>
-                        <h3 className="font-bold text-xl">{activity.title}</h3>
+                        <h3 className="font-bold text-xl mt-5">
+                          {activity.title}
+                        </h3>
                         <small>{activity.content.slice(0, 100)}...</small>
+                      </div>
+                      <div className="text-xs my-3 text-gray-500">
+                        <strong>Assigned To :</strong>{" "}
+                        <span>{activity.assignTo}</span>
                       </div>
 
                       <div className="my-5">
-                        <div className="font-bold">कार्यहरू :</div>
+                        <div className="font-bold text-gray-600 ">
+                          कार्यहरू :
+                        </div>
                         <ul>
-                          {activity.tasks?.map((task, i) => (
+                          {activity.tasks?.map(({ documents, name }, i) => (
                             <li className="flex p-2 border-b gap-2" key={i}>
-                              <small className="">{i + 1}. </small>
-                              <small>{task.name}</small>
+                              <div className="w-4 h-4  border rounded relative">
+                                {documents && (
+                                  <div className="absolute -top-2 z-[9] -left-2">
+                                    {" "}
+                                    <BiCheck
+                                      size={28}
+                                      className="text-green-600"
+                                    />
+                                  </div>
+                                )}{" "}
+                              </div>
+                              <small>{name}</small>
+
+                              {documents && (
+                                <span className="flex gap-5">
+                                  {/* <a
+                                    href={`${API_URL}/storage/${documents}`}
+                                    className="flex items-center gap-3 hover:text-blue-600 hover:underline"
+                                    download="FileName.pdf"
+                                  >
+                                    <BsEye
+                                      size={23}
+                                      className="text-gray-600"
+                                    />
+                                    <span className="italic ">view</span>
+                                  </a> */}
+                                </span>
+                              )}
                             </li>
                           ))}
                         </ul>

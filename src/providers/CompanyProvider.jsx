@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
 import { notifySuccess } from "../helpers/ToastMessage";
+import { useAuth } from "./AuthProvider";
 
 const CompanyContext = createContext();
 
@@ -11,6 +12,7 @@ const init = {
 };
 function CompanyProvider({ children }) {
   const navigate = useNavigate();
+  const { getUser } = useAuth();
   const [state, dispatch] = useReducer(reducer, init);
 
   const handleSubmit = async (data) => {
@@ -26,9 +28,10 @@ function CompanyProvider({ children }) {
   const handleUpdate = async (data, id) => {
     try {
       const res = await axios.post(`/api/companies/${id}`, data);
+      getUser();
       getCompanies();
       notifySuccess(res.data.message);
-      navigate(`/dashboard/config/companies`);
+      navigate(`/home`);
     } catch (error) {
       console.log(error);
     }

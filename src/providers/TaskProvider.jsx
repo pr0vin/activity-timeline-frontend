@@ -21,6 +21,7 @@ function TaskProvider({ children }) {
 
       notifySuccess(res.data.message);
       getEvent(res.data.task.event_id);
+      navigate(`/dashboard/events/${res.data.task.event_id}/view`);
     } catch (error) {
       console.log(error);
     }
@@ -28,9 +29,11 @@ function TaskProvider({ children }) {
   const handleUpdate = async (data, id) => {
     try {
       const res = await axios.post(`/api/tasks/${id}`, data);
+
+      console.log(res.data);
       notifySuccess(res.data.message);
-      // getTasks();
-      // navigate(`/dashboard/config/tasks`);
+      getEvent(res.data.task.event_id);
+      navigate(`/dashboard/events/${res.data.task.event_id}/view`);
     } catch (error) {
       console.log(error);
     }
@@ -38,9 +41,11 @@ function TaskProvider({ children }) {
   const handleDelete = async (e, id) => {
     e.preventDefault();
     try {
+      window.confirm("Are you sure you want to delete");
       const res = await axios.delete(`/api/tasks/${id}`);
-      getTasks();
-      navigate(`/dashboard/config/tasks`);
+      getEvent(res.data.task.event_id);
+      notifySuccess(res.data.message);
+      navigate(`/dashboard/events/${res.data.task.event_id}/view`);
     } catch (error) {
       console.log(error);
     }

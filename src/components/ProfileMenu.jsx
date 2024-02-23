@@ -4,7 +4,7 @@ import { LuUserCircle2, LuSettings, LuLogOut } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 function ProfileMenu() {
   const [open, setOpen] = useState(false);
-  const { user, userLoading, logOut } = useAuth();
+  const { user, userLoading, logOut, isAdmin, isSuperAdmin } = useAuth();
   const navigate = useNavigate();
 
   const toggleMenu = () => {
@@ -15,7 +15,7 @@ function ProfileMenu() {
     return "...";
   }
 
-  const { name, email } = user;
+  const { name, email, company_id } = user;
   return (
     <>
       <div className="relative group md:me-3 " onClick={toggleMenu}>
@@ -40,13 +40,15 @@ function ProfileMenu() {
               <LuUserCircle2 size={18} />
               <span>प्रोफाइल</span>
             </li>
-            <li
-              onClick={() => navigate(`/dashboard`)}
-              className="p-2 flex gap-3 hover:bg-gray-100"
-            >
-              <LuSettings size={18} />
-              <span>ड्यासबोर्ड</span>
-            </li>
+            {(isAdmin || isSuperAdmin) && (
+              <li
+                onClick={() => navigate(`/dashboard/settings/${company_id}`)}
+                className="p-2 flex gap-3 hover:bg-gray-100"
+              >
+                <LuSettings size={18} />
+                <span>सेटिङहरू</span>
+              </li>
+            )}
             <li onClick={logOut} className="p-2 flex gap-3 hover:bg-gray-100">
               <LuLogOut size={18} />
               <span>लग Out</span>{" "}

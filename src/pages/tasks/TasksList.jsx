@@ -1,11 +1,16 @@
 import React, { useState } from "react";
 import { BiCheck, BiEdit, BiTrash } from "react-icons/bi";
+import { BsEye } from "react-icons/bs";
 import { IoCloudUploadOutline } from "react-icons/io5";
-import { MdOutlinePreview } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { useTasks } from "../../providers/TaskProvider";
+import { convertToNepaliUnicode } from "../../helpers/UnicodeToEnglish";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
   const navigate = useNavigate();
+  const { handleDelete } = useTasks();
   return (
     <div>
       <div className="flex flex-col overflow-x-auto bg-white min-h-screen ">
@@ -30,7 +35,7 @@ function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
                   {tasks?.map(({ id, name, documents }, i) => (
                     <tr key={i} className={i % 2 == 0 ? "bg-gray-50 " : ""}>
                       <td className="whitespace-nowrap px-6 py-4 font-medium">
-                        {i + 1}
+                        {convertToNepaliUnicode(i + 1)}
                       </td>
                       <td className="whitespace-nowrap px-6 py-4">{name}</td>
 
@@ -38,36 +43,45 @@ function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
                         {documents ? (
                           <span className="flex gap-5">
                             <BiCheck size={23} className="text-green-600" />{" "}
-                            {/* <BsEye size={23} className="text-blue-600" /> */}
-                            <span className="italic">completed</span>
+                            <a
+                              href={`${API_URL}/storage/${documents}`}
+                              className="flex items-center gap-3 hover:text-blue-600 hover:underline"
+                              download="FileName.pdf"
+                            >
+                              <BsEye size={23} className="text-gray-600" />
+                              <span className="italic ">view</span>
+                            </a>
                           </span>
                         ) : (
-                          <label
-                            htmlFor={id}
-                            className="px-10 py-2 bg-gray-50  rounded-lg  flex gap-5 items-center"
-                          >
-                            <div className="text-[8px]">
-                              {i === index && file && file.name}
-                            </div>
+                          <div className="flex items-center">
+                            <label
+                              htmlFor={id}
+                              className="px-10 py-2 bg-gray-50  rounded-lg  flex gap-5 items-center"
+                            >
+                              <div className="text-[8px]">
+                                {i === index && file && file.name}
+                              </div>
 
-                            <div>
-                              {index !== i ? (
-                                <div className="flex gap-5">
-                                  <IoCloudUploadOutline size={23} />
-                                  <small>upload</small>
-                                </div>
-                              ) : (
-                                <div>
-                                  <button
-                                    onClick={() => upload(id)}
-                                    className="border bg-indigo-100 px-2 rounded"
-                                  >
-                                    upload
-                                  </button>
-                                </div>
-                              )}
-                            </div>
-                          </label>
+                              <div>
+                                {index !== i && (
+                                  <div className="flex gap-5">
+                                    <IoCloudUploadOutline size={23} />
+                                    <small>upload</small>
+                                  </div>
+                                )}
+                              </div>
+                            </label>
+                            {index === i && file && (
+                              <div>
+                                <button
+                                  onClick={() => upload(id)}
+                                  className="myButtonOutline px-2 rounded"
+                                >
+                                  upload
+                                </button>
+                              </div>
+                            )}
+                          </div>
                         )}
 
                         <div className="mb-2">
@@ -76,7 +90,7 @@ function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
                             type="file"
                             className="hidden"
                             name="documents"
-                            onChange={(e) => setImgFiles(e, i)}
+                            onChange={(e) => setImgFiles(e, i, name)}
                             required
                           />
                         </div>
@@ -84,23 +98,23 @@ function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
 
                       <td className="whitespace-nowrap px-6 py-4">
                         <div className="flex gap-2">
-                          <MdOutlinePreview
+                          {/* <MdOutlinePreview
                             className="text-gray-400"
                             size={23}
-                          />
+                          /> */}
                           <BiEdit
                             onClick={() =>
                               navigate(
                                 `/dashboard/events/${eventId}/tasks/${id}`
                               )
                             }
-                            className="text-blue-300"
-                            size={23}
+                            className="text-blue-300 shadow-lg"
+                            size={26}
                           />
                           <BiTrash
-                            // onClick={(e) => handleDelete(e, id)}
-                            className="text-red-300"
-                            size={23}
+                            onClick={(e) => handleDelete(e, id)}
+                            className="text-red-300 shadow-lg"
+                            size={26}
                           />
                         </div>{" "}
                       </td>

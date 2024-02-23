@@ -6,14 +6,17 @@ import React, {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
+import { notifyError, notifySuccess } from "../helpers/ToastMessage";
 import axios from "axios";
 
 const AuthContext = createContext();
 function AuthProvider({ children }) {
-  const navigate = useNavigate("/");
+  const navigate = useNavigate();
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [userLoading, setUserLoading] = useState(true);
   const [user, setUser] = useState({});
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
   const logOut = () => {
     try {
@@ -26,8 +29,10 @@ function AuthProvider({ children }) {
     }
   };
 
-  const handlePasswordChange = (data) => {
-    console.log(data);
+  const handlePasswordChange = async (data) => {
+    const res = await axios.post(`/api/change-password`, data);
+    notifySuccess(res.data.message);
+    navigate("/");
   };
 
   const handleLogin = async (e, data) => {
@@ -35,19 +40,32 @@ function AuthProvider({ children }) {
     try {
       const res = await axios.post(`/api/login`, data);
       // localStorage.setItem("token", res.data.token);
-      getUser();
       setToken(res.data.token);
+      getUser();
+      notifySuccess(res.data.message);
       navigate("/home");
     } catch (error) {
-      console.log(error.response.data.message);
+      notifyError(error.response.data.message);
     }
   };
 
   const getUser = async () => {
     try {
       const res = await axios.get(`/api/user`);
-      setUser(res.data.user);
+      const { user } = res.data;
+      setUser(user);
       setUserLoading(false);
+      if (user) {
+        const admin = user.roles.some((item) => item.name === "admin");
+        setIsAdmin(admin);
+      }
+      if (user) {
+        const superAdmin = user.roles.some(
+          (item) => item.name === "Super-Admin"
+        );
+
+        setIsSuperAdmin(superAdmin);
+      }
     } catch (error) {
       console.log(error.response.data.message);
     }
@@ -69,7 +87,17 @@ function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{ token, user, userLoading, logOut, handleLogin }}
+      value={{
+        token,
+        user,
+        userLoading,
+        isAdmin,
+        isSuperAdmin,
+        logOut,
+        handleLogin,
+        handlePasswordChange,
+        getUser,
+      }}
     >
       {children}
     </AuthContext.Provider>

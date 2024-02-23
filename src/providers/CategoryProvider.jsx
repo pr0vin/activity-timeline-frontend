@@ -7,6 +7,7 @@ import { useAuth } from "./AuthProvider";
 const CategoryContext = createContext();
 
 const init = {
+  categoriesLoading: true,
   categories: [],
   category: {},
 };
@@ -87,6 +88,7 @@ const reducer = (state, action) => {
     case "ALL":
       return {
         ...state,
+        categoriesLoading: false,
         categories: action.payload,
       };
 

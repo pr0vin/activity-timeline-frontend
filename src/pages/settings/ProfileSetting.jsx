@@ -3,7 +3,7 @@ import { useAuth } from "../../providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
 
 function ProfileSetting() {
-  const { user } = useAuth();
+  const { user, handlePasswordChange } = useAuth();
   const navigate = useNavigate();
   const [data, setData] = useState({
     name: "",
@@ -38,6 +38,7 @@ function ProfileSetting() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (data.password === data.confirm) {
+      handlePasswordChange(data);
     } else {
       // Passwords don't match, display an error message or prevent form submission
       console.log("Passwords do not match.");
@@ -54,7 +55,7 @@ function ProfileSetting() {
           </div>
 
           <div className=" my-10 md:px-5">
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="password" className="myLabel">
                   New Password:

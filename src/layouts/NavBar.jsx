@@ -57,10 +57,10 @@ function NavBar() {
                 />
               )}
             </div>
-            <div className="flex-1  p-2 md:ms-10 text-red-600">
+            <div className="flex-1  p-2 md:ms-5 text-red-600">
               <div className="text-center ">
-                <h3 className="text-lg ">{name}</h3>
-                <h1 className="font-bold text-2xl">{description}</h1>
+                <div className="text-lg font-bold ">{name}</div>
+                <h2 className="font-bold text-3xl py-2">{description}</h2>
                 <p className="">
                   {municipality}, {district}
                 </p>

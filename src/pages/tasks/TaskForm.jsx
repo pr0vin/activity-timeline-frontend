@@ -24,6 +24,17 @@ export default function TaskForm() {
     handleSubmit(data);
   };
 
+  const Update = (e) => {
+    e.preventDefault();
+    var data = new FormData();
+    data.append("_method", "PUT");
+    data.append("event_id", eventId);
+    data.append("name", name);
+    data.append("documents", file);
+
+    handleUpdate(data, id);
+  };
+
   useEffect(() => {
     if (id) {
       getTask(id);
@@ -43,7 +54,7 @@ export default function TaskForm() {
 
   return (
     <div className="flex  justify-center">
-      <form className="md:w-1/2" onSubmit={Submit}>
+      <form className="md:w-1/2" onSubmit={id ? Update : Submit}>
         <div className="font-bold my-5">Add the task below</div>
 
         <div className="mb-2">

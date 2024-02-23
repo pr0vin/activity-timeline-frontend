@@ -16,7 +16,7 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(isTabletMid ? false : true);
   const sidebarRef = useRef();
   const { pathname } = useLocation();
-  const { user } = useAuth();
+  const { user, isSuperAdmin } = useAuth();
 
   useEffect(() => {
     if (isTabletMid) {
@@ -168,7 +168,7 @@ const Sidebar = () => {
               </div>
             )} */}
 
-            {(isOpen || isTabletMid) && (
+            {(isOpen || isTabletMid) && isSuperAdmin && (
               <div className="border-y py-5 border-secondary">
                 <small className="pl-3  inline-block mb-2">
                   Configurations

@@ -26,11 +26,13 @@ function EventView() {
   });
 
   const [index, setIndex] = useState(-1);
+  const [name, setName] = useState("");
   const [file, setFiles] = useState(null);
-  const setImgFiles = (e, index) => {
+  const setImgFiles = (e, index, task) => {
     const value = e.target.files[0];
     setFiles(value);
     setIndex(index);
+    setName(task);
   };
 
   useEffect(() => {
@@ -40,12 +42,13 @@ function EventView() {
   }, [eventId]);
 
   const upload = (id) => {
-    let data = new FormData();
-    data.append("_method", "PUT");
-    data.append("documents", file);
-    data.append("event_id", eventId);
+    let formData = new FormData();
+    formData.append("_method", "PUT");
+    formData.append("documents", file);
+    formData.append("event_id", eventId);
+    formData.append("name", name);
 
-    handleUpdate(data, id);
+    handleUpdate(formData, id);
     setIndex(-1);
   };
 
@@ -145,7 +148,7 @@ function EventView() {
         <div>
           <TasksList {...taskProps} />
         </div>
-        <div className="overflow-x-scroll w-full">
+        {/* <div className="overflow-x-scroll w-full">
           <ul>
             {event.tasks?.map((task, i) => (
               <li
@@ -195,14 +198,14 @@ function EventView() {
                     type="file"
                     className="hidden"
                     name="documents"
-                    onChange={(e) => setImgFiles(e, i)}
+                    onChange={(e) => setImgFiles(e, i, task.name)}
                     required
                   />
                 </div>
               </li>
             ))}
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   );
