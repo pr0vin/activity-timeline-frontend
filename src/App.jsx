@@ -22,6 +22,7 @@ import TaskForm from "./pages/tasks/TaskForm";
 import ProfileSetting from "./pages/settings/ProfileSetting";
 import SettingIndex from "./pages/settings/SettingIndex";
 import RequireAuth from "./pages/auth/RequireAuth";
+import CompanyProfile from "./pages/company/CompanyProfile";
 
 function App() {
   return (
@@ -34,8 +35,9 @@ function App() {
         <Route path="/" Component={RequireAuth}>
           <Route path="/home" Component={MainIndex}>
             <Route index Component={Index} />
+            <Route path="/home/profile" Component={CompanyProfile} />
+            <Route path="/home/settings/profile" Component={ProfileSetting} />
           </Route>
-          <Route path="/settings/profile" Component={ProfileSetting} />
 
           <Route path="/dashboard" Component={AdminIndex}>
             <Route index Component={Dashboard} />

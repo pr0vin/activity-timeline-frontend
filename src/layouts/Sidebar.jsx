@@ -11,6 +11,7 @@ import { GrDocumentConfig } from "react-icons/gr";
 // import Topbar from "./Topbar";
 import UserSubMenu from "./Submenu";
 import { useAuth } from "../providers/AuthProvider";
+import { LuHome } from "react-icons/lu";
 const Sidebar = () => {
   let isTabletMid = useMediaQuery({ query: "(max-width: 768px)" });
   const [isOpen, setIsOpen] = useState(isTabletMid ? false : true);
@@ -114,10 +115,10 @@ const Sidebar = () => {
             <li>
               <NavLink
                 className={({ isActive }) => (isActive ? " link " : "link")}
-                to={"/dashboard"}
+                to={"/home"}
               >
-                <AiOutlineAppstore size={23} className="min-w-max" />
-                ड्यासबोर्ड
+                <LuHome size={23} className="min-w-max" />
+                Home
               </NavLink>
             </li>
             <li>

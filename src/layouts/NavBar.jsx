@@ -1,7 +1,6 @@
 import React from "react";
 import { MdOutlinePhone } from "react-icons/md";
 import { PiEnvelope } from "react-icons/pi";
-import { company } from "../json/company";
 import { useAuth } from "../providers/AuthProvider";
 import StatusDots from "../components/StatusDots";
 const API_URL = import.meta.env.VITE_API_URL;
@@ -20,6 +19,7 @@ function NavBar() {
     name,
     description,
     address,
+    subLogo,
     municipality,
     district,
   } = user.company;
@@ -38,7 +38,7 @@ function NavBar() {
         </div>
       </div>
       <div className="max-w-screen-2xl mx-auto">
-        <div className="flex overflow-hidden justify-between ">
+        <div className="flex overflow-hidden  ">
           <div className="flex  items-center">
             <div className="w-2/10 p-2 md:block hidden">
               {logo ? (
@@ -66,11 +66,23 @@ function NavBar() {
                 </p>
               </div>
             </div>
-          </div>
 
+            <div className="w-2/10 p-2 md:block hidden">
+              {subLogo && (
+                <div className="w-32 h-32 rounded-full">
+                  <img
+                    src={`${API_URL}/storage/${subLogo}`}
+                    className="w-32 h-32 rounded-full md:p-2"
+                    alt=""
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+          {/* 
           <div className="p-5 md:block hidden">
             <StatusDots />
-          </div>
+          </div> */}
         </div>
       </div>
     </>

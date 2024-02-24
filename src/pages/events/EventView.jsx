@@ -1,13 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { useEvent } from "../../providers/EventProvider";
 import { Outlet, useNavigate, useParams } from "react-router-dom";
-import { BiCalendarEvent, BiCheck } from "react-icons/bi";
+import {
+  BiCalendarEvent,
+  BiCheck,
+  BiCross,
+  BiEdit,
+  BiEditAlt,
+} from "react-icons/bi";
 import { IoCloudUploadOutline } from "react-icons/io5";
 import { BsEye } from "react-icons/bs";
 import { useTasks } from "../../providers/TaskProvider";
 import { PiPlus } from "react-icons/pi";
 import NepaliDate from "nepali-date-converter";
 import TasksList from "../tasks/TasksList";
+import { RxCross2 } from "react-icons/rx";
 
 function EventView() {
   const navigate = useNavigate();
@@ -80,14 +87,22 @@ function EventView() {
           </p>
         </div>
 
-        <div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => navigate(`/dashboard/events/add/${eventId}`)}
+            className="flex text-primary items-center gap-2 text-sm rounded hover:border hover:border-gray-200 hover:bg-gray-100 py-1.5 px-3 "
+          >
+            {" "}
+            <BiEdit className="text-primary" size={18} /> <span> Edit</span>
+          </button>
+
           {!open && (
             <button
-              className="myButtonOutline py-2 px-10  "
+              className="myButtonOutline   py-2 px-10  "
               onClick={handleOpen}
             >
               <div className="flex items-center gap-2">
-                <PiPlus size={16} /> <span>New</span>
+                <PiPlus size={16} /> <span>नयाँ</span>
               </div>
             </button>
           )}
@@ -97,7 +112,7 @@ function EventView() {
       <div>
         <p className="my-5 p-3 bg-gray-50">{event.content}</p>
 
-        <div className="text-xs text-gray-500">
+        <div className="text-xs text-end text-gray-500">
           <strong>Assigned To :</strong> <span>{event.assignTo}</span>
         </div>
       </div>
@@ -116,34 +131,36 @@ function EventView() {
             }}
           >
             <div className="md:flex  md:mx-5 items-center  gap-2  mt-10  py-3 ">
-              <div className="md:w-1/2">
+              <div className="md:w-8/12 flex items-center border   rounded-lg">
                 <input
                   type="text"
-                  className="myInput   "
+                  className="appearance-none rounded   w-full  px-4 text-gray-700 text-sm  py-2 focus:outline-none focus:bg-white focus:border-primary   "
                   value={data.name}
                   onChange={(e) => setData({ ...data, name: e.target.value })}
                   required
                 />
-              </div>
-
-              <div className="flex items-center gap-2 ">
-                <button className="border px-5 flex items-center">
-                  <PiPlus size={18} className=" mx-3 my-2" /> <span>Add</span>
-                </button>
-                <button
-                  onClick={handleOpen}
-                  className="border px-10 py-1 text-red-300"
-                >
-                  cancel
-                </button>
+                <div className="flex items-center">
+                  <button className=" border-x border-gray-100 hover:bg-gray-100 hover:rounded px-3  flex items-center ">
+                    <PiPlus size={18} className=" mx-3 my-2" />{" "}
+                    <span>थप्नुहोस्</span>
+                  </button>
+                  <button
+                    onClick={handleOpen}
+                    className=" hover:bg-gray-100 hover:rounded px-3  text-red-300"
+                  >
+                    <RxCross2 size={23} className=" mx-3 my-2" />
+                  </button>
+                </div>
               </div>
             </div>
           </form>
         </div>
       )}
 
-      <div className="bg-white pt-10 overflow-hidden ">
-        <div className="font-bold text-lg mb-5 text-gray-500">Tasks:</div>
+      <div className="bg-white  overflow-hidden ">
+        <div className="font-bold text-lg my-5 px-3 text-gray-500">
+          कार्यहरू
+        </div>
 
         <div>
           <TasksList {...taskProps} />

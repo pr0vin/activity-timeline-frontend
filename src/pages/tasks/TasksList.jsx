@@ -18,7 +18,7 @@ function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-x-auto">
               <table className="min-w-full text-center text-sm font-light">
-                <thead className="font-medium ">
+                <thead className="font-medium border-b ">
                   <tr>
                     <th scope="col" className="px-6 py-4">
                       #
@@ -33,7 +33,7 @@ function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
                 </thead>
                 <tbody>
                   {tasks?.map(({ id, name, documents }, i) => (
-                    <tr key={i} className={i % 2 == 0 ? "bg-gray-50 " : ""}>
+                    <tr key={i} className="">
                       <td className="whitespace-nowrap px-6 py-4 font-medium">
                         {convertToNepaliUnicode(i + 1)}
                       </td>
@@ -108,15 +108,15 @@ function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
                                 `/dashboard/events/${eventId}/tasks/${id}`
                               )
                             }
-                            className="text-blue-300 shadow-lg"
-                            size={26}
+                            className="text-blue-300"
+                            size={24}
                           />
                           <BiTrash
                             onClick={(e) => handleDelete(e, id)}
-                            className="text-red-300 shadow-lg"
-                            size={26}
+                            className="text-red-300"
+                            size={24}
                           />
-                        </div>{" "}
+                        </div>
                       </td>
                     </tr>
                   ))}

@@ -24,6 +24,7 @@ function CopyEvents({
                 onChange={handleChange}
                 className="mySelect"
               >
+                <option value="">select</option>
                 {fiscalYears?.map(({ id, year }, i) => (
                   <option value={id} key={i}>
                     {year}
@@ -42,6 +43,7 @@ function CopyEvents({
                 onChange={handleChange}
                 className="mySelect"
               >
+                <option value="">select</option>
                 {fiscalYears?.map(({ id, year }, i) => (
                   <option value={id} key={i}>
                     {year}

@@ -137,7 +137,7 @@ function Index() {
   return (
     <div className="relative max-w-screen">
       <div className="bg-white sticky top-0 z-[999]">
-        <div>
+        <div className="shadow-lg">
           <SubNavBar
             handleCategoryChange={handleCategoryChange}
             handleStatusChange={handleStatusChange}
@@ -234,10 +234,6 @@ function Index() {
                         </h3>
                         <small>{activity.content.slice(0, 100)}...</small>
                       </div>
-                      <div className="text-xs my-3 text-gray-500">
-                        <strong>Assigned To :</strong>{" "}
-                        <span>{activity.assignTo}</span>
-                      </div>
 
                       <div className="my-5">
                         <div className="font-bold text-gray-600 ">
@@ -277,6 +273,10 @@ function Index() {
                             </li>
                           ))}
                         </ul>
+                      </div>
+                      <div className="text-xs mt-3 text-gray-500">
+                        <strong>Assigned To :</strong>
+                        <span>{activity.assignTo}</span>
                       </div>
 
                       <div>

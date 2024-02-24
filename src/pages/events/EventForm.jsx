@@ -237,9 +237,9 @@ function EventForm() {
             <label className="myLabel" htmlFor="categories">
               वर्गहरू
             </label>
-            <div className="flex flex-row gap-3">
+            <div className="md:flex flex-row gap-3">
               {categories?.map((category, i) => (
-                <label htmlFor="" key={i}>
+                <label htmlFor="" key={i} className="flex">
                   <input
                     id="categories"
                     type="checkbox"
