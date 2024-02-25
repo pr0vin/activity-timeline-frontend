@@ -49,7 +49,7 @@ function DashboardMenu() {
             </li>
             <li
               className="p-2 flex gap-3 hover:bg-gray-100"
-              onClick={() => navigate(`/settings/profile`)}
+              onClick={() => navigate(`/home/settings/profile`)}
             >
               <LuUserCircle2 size={18} />
               <span>Profile</span>

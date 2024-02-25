@@ -17,7 +17,7 @@ function MainIndex() {
           <NavBar />
         </div>
 
-        <div>
+        <div className="bg-slate-50">
           <Outlet />
         </div>
       </div>

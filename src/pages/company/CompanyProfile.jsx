@@ -15,11 +15,11 @@ function CompanyProfile() {
     user.company;
   return (
     <div className="md:flex justify-center">
-      <div className="md:w-8/12  md:mt-10 p-5 shadow text-gray-600">
-        <div className="flex justify-between">
+      <div className="md:w-8/12 bg-white  md:my-10 p-5 shadow text-gray-600">
+        <div className="md:flex justify-between ">
           <div>
             {" "}
-            <div className="font-bold text-xl mb-5">BasicInfo</div>
+            <div className="font-bold text-xl my-5">BasicInfo</div>
             <div className="mb-2 flex gap-5">
               <span>नाम :</span> <strong>{name}</strong>
             </div>
@@ -43,19 +43,19 @@ function CompanyProfile() {
             </div>
           </div>
           <div className="text-gray-600">
-            <div className="font-bold text-xl mb-5">Settings</div>
-            <ul className=" p-5 text-primary italic">
+            <div className="font-bold text-xl my-5">Settings</div>
+            <ul className="  text-blue-500 italic underline">
               <li
-                className="p-2"
+                className="p-2 italic"
                 onClick={() =>
-                  navigate(`/dashoard/settings/${user.company_id}`)
+                  navigate(`/dashboard/settings/${user.company_id}`)
                 }
               >
-                Edit
+                Company Settings
               </li>
 
               <li
-                className="p-2 "
+                className="p-2 italic  "
                 onClick={() => navigate(`/home/settings/profile`)}
               >
                 Change Password
