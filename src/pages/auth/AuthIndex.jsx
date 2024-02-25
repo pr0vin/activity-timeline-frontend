@@ -1,6 +1,7 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useEffect } from "react";
+import { Outlet, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
+import { useAuth } from "../../providers/AuthProvider";
 
 const animated = {
   offscreen: { x: -500, opacitx: 0 },
@@ -29,6 +30,13 @@ const textAnimation = {
 };
 
 function AuthIndex() {
+  const { token } = useAuth();
+  const navigate = useNavigate();
+  useEffect(() => {
+    if (token) {
+      navigate(`/home`);
+    }
+  }, [token]);
   return (
     <>
       <div className=" ">

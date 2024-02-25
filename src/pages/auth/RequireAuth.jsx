@@ -8,7 +8,7 @@ function RequireAuth() {
 
   useEffect(() => {
     if (!token) {
-      navigate("/auth/login");
+      navigate("/");
     }
   }, [token]);
 

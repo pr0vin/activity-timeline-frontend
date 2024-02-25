@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 function CompanyProfile() {
   const navigate = useNavigate();
-  const { user, userLoading } = useAuth();
+  const { user, userLoading, isAdmin, isSuperAdmin } = useAuth();
 
   if (userLoading) {
     return "Loading...";
@@ -45,14 +45,16 @@ function CompanyProfile() {
           <div className="text-gray-600">
             <div className="font-bold text-xl my-5">Settings</div>
             <ul className="  text-blue-500 italic underline">
-              <li
-                className="p-2 italic"
-                onClick={() =>
-                  navigate(`/dashboard/settings/${user.company_id}`)
-                }
-              >
-                Company Settings
-              </li>
+              {(isAdmin || isSuperAdmin) && (
+                <li
+                  className="p-2 italic"
+                  onClick={() =>
+                    navigate(`/dashboard/settings/${user.company_id}`)
+                  }
+                >
+                  Company Settings
+                </li>
+              )}
 
               <li
                 className="p-2 italic  "
