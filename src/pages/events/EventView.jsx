@@ -15,6 +15,7 @@ import { PiPlus } from "react-icons/pi";
 import NepaliDate from "nepali-date-converter";
 import TasksList from "../tasks/TasksList";
 import { RxCross2 } from "react-icons/rx";
+import LoadingPage from "../../helpers/LoadingPage";
 
 function EventView() {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ function EventView() {
   };
 
   if (eventLoading) {
-    return "loading";
+    return <LoadingPage />;
   }
 
   const { tasks } = event;
@@ -102,7 +103,7 @@ function EventView() {
               onClick={handleOpen}
             >
               <div className="flex items-center gap-2">
-                <PiPlus size={16} /> <span>नयाँ</span>
+                <PiPlus size={16} /> <span>नयाँ कार्य</span>
               </div>
             </button>
           )}

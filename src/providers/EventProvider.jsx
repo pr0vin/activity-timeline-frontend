@@ -23,7 +23,7 @@ function EventProvider({ children }) {
       const res = await axios.post(`/api/events`, data);
       getEvents();
       notifySuccess(res.data.message);
-      navigate(`/dashboard/events`);
+      navigate(`/dashboard/events/${res.data.event.id}/view`);
     } catch (error) {
       console.log(error);
     }

@@ -12,8 +12,8 @@ const company = {
 
 const status = ["done", "notDone", "canceled", "postponed"];
 const statusNepali = {
-  done: "भएको",
-  notDone: "नभएको",
+  done: "सम्पन्न भएको",
+  notDone: "सम्पन्न नभएको",
   postponed: " हुने तर नभएको",
   canceled: "रद्द गरिएको",
 };

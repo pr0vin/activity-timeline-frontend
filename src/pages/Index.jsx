@@ -19,11 +19,12 @@ import { useCategory } from "../providers/CategoryProvider";
 import { useNavigate } from "react-router-dom";
 import { BiCheck } from "react-icons/bi";
 import { BsEye } from "react-icons/bs";
+import LoadingPage from "../helpers/LoadingPage";
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Index() {
   const { events } = useEvent();
-  const { fiscalYears, fiscalYearLoading } = useFiscalYear();
+  const { fiscalYears, fiscalYearLoading, activeYear } = useFiscalYear();
   const { categories } = useCategory();
   const navigate = useNavigate();
 
@@ -130,8 +131,12 @@ function Index() {
     setSelectedCategory(event.target.value);
   };
 
+  useEffect(() => {
+    setSelectedYear(activeYear.id);
+  }, [activeYear]);
+
   if (fiscalYearLoading) {
-    return "...";
+    return <LoadingPage />;
   }
 
   return (
@@ -152,7 +157,7 @@ function Index() {
         </div>
         <div className="text-center -mt-8">
           <span className="font-bold bg-white   p-2 text-blue-900 border border-red ">
-            वार्षिक कार्य योजना
+            वार्षिक कार्ययोजना
           </span>
         </div>
       </div>

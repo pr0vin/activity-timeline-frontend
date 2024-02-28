@@ -4,7 +4,14 @@ import { IoIosArrowBack } from "react-icons/io";
 import { NavLink, useLocation } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { MdMenu } from "react-icons/md";
-import { IoSettingsOutline, IoPeopleOutline } from "react-icons/io5";
+import {
+  IoSettingsOutline,
+  IoPeopleOutline,
+  IoLogOut,
+  IoLogOutOutline,
+  IoLockClosedOutline,
+  IoLockOpenOutline,
+} from "react-icons/io5";
 import { AiOutlineAppstore } from "react-icons/ai";
 import { BsCalendar2Date, BsActivity } from "react-icons/bs";
 import { GrDocumentConfig } from "react-icons/gr";
@@ -17,7 +24,7 @@ const Sidebar = () => {
   const [isOpen, setIsOpen] = useState(isTabletMid ? false : true);
   const sidebarRef = useRef();
   const { pathname } = useLocation();
-  const { user, isSuperAdmin } = useAuth();
+  const { user, isSuperAdmin, logOut } = useAuth();
 
   useEffect(() => {
     if (isTabletMid) {
@@ -96,7 +103,7 @@ const Sidebar = () => {
         className="bg-white text-gray-600 flex-none shadow-xl z-[999] w-[16rem] max-w-[16rem] h-screen overflow-hidden md:relative fixed"
       >
         {/* logo */}
-        <div className="flex items-center  gap-2.5 font-medium  border-slate-300 p-2 ">
+        <div className="flex items-center  gap-2.5 font-medium  border-slate-300 p-2 cursor-pointer ">
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrFK8a1szrFRi4lMNlCRf5ODhQPk0kFxUiXA&usqp=CAU"
             alt="..."
@@ -104,8 +111,8 @@ const Sidebar = () => {
             className="w-18 h-18 rounded-full cover"
           />
           <span className="px-3 text-xl whitespace-pre  text-gray-600">
-            <div className="text-primary font-bold text-2xl "> कार्य</div>
-            <div className="font-bold ">समयरेखा</div>
+            <div className="font-bold ">वार्षिक</div>
+            <div className="text-primary font-bold text-2xl ">कार्ययोजना</div>
           </span>
         </div>
         {/* menus */}
@@ -118,7 +125,7 @@ const Sidebar = () => {
                 to={"/home"}
               >
                 <LuHome size={23} className="min-w-max" />
-                Home
+                Dashboard
               </NavLink>
             </li>
             <li>
@@ -143,6 +150,7 @@ const Sidebar = () => {
                 सेटिङहरू
               </NavLink>
             </li>
+
             {/* <li>
               <NavLink
                 className={({ isActive }) =>
@@ -155,22 +163,9 @@ const Sidebar = () => {
               </NavLink>
             </li>
             {/* submenu */}
-            {/* {(isOpen || isTabletMid) && (
-              <div className="border-t py-5 border-slate-300">
-                <small className="pl-3  inline-block mb-2">Settings</small>
-                <div>
-                  {subMenuList.map((menu) => (
-                    <div key={menu.name} className="flex flex-col gap-1">
-                      {" "}
-                      <UserSubMenu data={menu} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )} */}
 
             {(isOpen || isTabletMid) && isSuperAdmin && (
-              <div className="border-y py-5 border-secondary">
+              <div className="border-t my-3 border-secondary">
                 <small className="pl-3  inline-block mb-2">
                   Configurations
                 </small>
@@ -184,6 +179,23 @@ const Sidebar = () => {
                 </div>
               </div>
             )}
+            <li className="border-t border-secondary pt-3">
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "active link " : "link"
+                }
+                to={`/dashboard/change-user-password`}
+              >
+                <IoLockOpenOutline size={23} className="min-w-max" />
+                Change Users Password
+              </NavLink>
+            </li>
+            <li>
+              <div className="  link" onClick={logOut}>
+                <IoLogOutOutline size={23} className="min-w-max" />
+                Log Out
+              </div>
+            </li>
           </ul>
         </div>
 

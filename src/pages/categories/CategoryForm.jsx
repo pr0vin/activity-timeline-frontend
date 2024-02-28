@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useCategory } from "../../providers/CategoryProvider";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 function CategoryForm({ handleOpen }) {
   const { id } = useParams();
+  const navigate = useNavigate();
   const { handleSubmit, handleUpdate, category, getCategory } = useCategory();
   const [data, setData] = useState({
     name: "",
@@ -31,12 +32,14 @@ function CategoryForm({ handleOpen }) {
     }
   }, [id]);
   useEffect(() => {
-    setData({
-      ...data,
-      name: category.name ? category.name : "",
-      description: category.description ? category.description : "",
-    });
-  }, [category, id]);
+    if (id && category) {
+      setData({
+        ...data,
+        name: category.name ? category.name : "",
+        description: category.description ? category.description : "",
+      });
+    }
+  }, [id]);
 
   return (
     <div className="">
@@ -86,6 +89,7 @@ function CategoryForm({ handleOpen }) {
             onClick={() => {
               Empty();
               handleOpen();
+              navigate(`/dashboard/config/categories`);
             }}
             className="myButtonOutline text-red-600  "
           >

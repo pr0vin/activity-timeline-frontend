@@ -7,9 +7,6 @@ import { useFiscalYear } from "../providers/FiscalYearProvider";
 function MainIndex() {
   const { user } = useAuth();
 
-  if (!user) {
-    return "loading...";
-  }
   return (
     <>
       <div>

@@ -1,10 +1,15 @@
 import React, { useState } from "react";
 import { useAuth } from "../providers/AuthProvider";
-import { LuUserCircle2, LuSettings, LuHome, LuLogOut } from "react-icons/lu";
-import { IoArrowBackCircleOutline } from "react-icons/io5";
+import {
+  LuUserCircle2,
+  LuSettings,
+  LuHome,
+  LuLogOut,
+  LuLock,
+} from "react-icons/lu";
 import { IoChevronDown } from "react-icons/io5";
-import { IoHomeOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import LoadingPage from "../helpers/LoadingPage";
 function DashboardMenu() {
   const [open, setOpen] = useState(false);
   const { user, userLoading, logOut } = useAuth();
@@ -15,7 +20,7 @@ function DashboardMenu() {
   };
 
   if (userLoading) {
-    return "...";
+    return <LoadingPage />;
   }
 
   const { name, email } = user;
@@ -49,7 +54,7 @@ function DashboardMenu() {
             </li>
             <li
               className="p-2 flex gap-3 hover:bg-gray-100"
-              onClick={() => navigate(`/home/settings/profile`)}
+              onClick={() => navigate(`/home/profile`)}
             >
               <LuUserCircle2 size={18} />
               <span>Profile</span>
@@ -59,7 +64,18 @@ function DashboardMenu() {
               className="p-2 flex gap-3 hover:bg-gray-100"
             >
               <LuHome size={18} />
-              <span>Home</span>
+              <span>Dashboard</span>
+            </li>
+
+            <li className="px-2 border-b">
+              <small>Settings</small>
+            </li>
+            <li
+              onClick={() => navigate(`/home`)}
+              className="p-2 flex gap-3 hover:bg-gray-100"
+            >
+              <LuLock size={18} />
+              <span>Change Password</span>
             </li>
             <li onClick={logOut} className="p-2 flex gap-3 hover:bg-gray-100">
               <LuLogOut size={18} />

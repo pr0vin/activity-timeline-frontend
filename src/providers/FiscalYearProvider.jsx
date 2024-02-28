@@ -10,6 +10,7 @@ function FiscalYearProvider({ children }) {
     fiscalYearLoading: true,
     fiscalYears: [],
     fiscalYear: {},
+    activeYear: {},
   };
 
   const { token } = useAuth();
@@ -59,8 +60,25 @@ function FiscalYearProvider({ children }) {
     dispatch({ type: "SINGLE", payload: res.data });
   };
 
+  const getActiveYears = async () => {
+    const res = await axios.get(`/api/active-year`);
+    dispatch({ type: "ACTIVE", payload: res.data });
+  };
+
+  const handleSaveOrder = async (data) => {
+    const fiscalYearOrder = data.map((category) => category.id);
+
+    const res = await axios.put(`/api/order-fiscal-years`, {
+      fiscalYearOrder: fiscalYearOrder,
+    });
+
+    notifySuccess(res.data.message);
+    getFiscalYear();
+  };
+
   useEffect(() => {
     getFiscalYears();
+    getActiveYears();
   }, [token]);
 
   return (
@@ -72,6 +90,7 @@ function FiscalYearProvider({ children }) {
         handleSubmit,
         handleUpdate,
         handleDelete,
+        handleSaveOrder,
       }}
     >
       {children}
@@ -99,7 +118,11 @@ const reducer = (state, action) => {
         ...state,
         fiscalYear: action.payload,
       };
-
+    case "ACTIVE":
+      return {
+        ...state,
+        activeYear: action.payload,
+      };
     default:
       return state;
   }

@@ -51,7 +51,7 @@ function AuthIndex() {
               >
                 <div className="text-lg mt-10">स्वागत छ !!!</div>
 
-                <div className="text-4xl mt-10"> कार्य समयरेखा</div>
+                <div className="text-4xl mt-10"> वार्षिक कार्ययोजना</div>
                 <p className="py-5">हामी तपाईंको कामको ख्याल राख्छौं</p>
               </motion.div>
               <motion.div

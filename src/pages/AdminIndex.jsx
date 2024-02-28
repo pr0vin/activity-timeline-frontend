@@ -4,8 +4,6 @@ import { Outlet } from "react-router-dom";
 import DashboardMenu from "../layouts/DashboardMenu";
 
 function AdminIndex() {
-  const [wid, setWid] = useState(false);
-
   return (
     <>
       {/* <div className="mx-auto">

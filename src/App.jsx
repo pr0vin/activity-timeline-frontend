@@ -23,6 +23,7 @@ import ProfileSetting from "./pages/settings/ProfileSetting";
 import SettingIndex from "./pages/settings/SettingIndex";
 import RequireAuth from "./pages/auth/RequireAuth";
 import CompanyProfile from "./pages/company/CompanyProfile";
+import ChangeUserPasssword from "./pages/settings/ChangeUserPasssword";
 
 function App() {
   return (
@@ -62,6 +63,10 @@ function App() {
             </Route>
 
             <Route path="/dashboard/settings/:id" Component={CompanyForm} />
+            <Route
+              path="/dashboard/change-user-password"
+              Component={ChangeUserPasssword}
+            />
 
             <Route
               path="/dashboard/config/fiscal-year"

@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import CategoryForm from "./CategoryForm";
 import CategoryLists from "./CategoryLists";
+import { useParams } from "react-router-dom";
 
 function CategoryIndex() {
   const [open, setOpen] = useState(false);
+  const { id } = useParams();
 
   const handleOpen = () => {
     setOpen(!open);
   };
+
+  useEffect(() => {
+    if (id) {
+      setOpen(true);
+    }
+  }, [id]);
   return (
     <div>
       {/* <div className="heading">

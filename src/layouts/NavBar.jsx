@@ -3,13 +3,14 @@ import { MdOutlinePhone } from "react-icons/md";
 import { PiEnvelope } from "react-icons/pi";
 import { useAuth } from "../providers/AuthProvider";
 import StatusDots from "../components/StatusDots";
+import LoadingPage from "../helpers/LoadingPage";
 const API_URL = import.meta.env.VITE_API_URL;
 
 function NavBar() {
   const { user, userLoading } = useAuth();
 
   if (userLoading) {
-    return "Loading...";
+    return <LoadingPage />;
   }
 
   const {

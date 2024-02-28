@@ -50,6 +50,17 @@ function CategoryProvider({ children }) {
     }
   };
 
+  const handleSaveOrder = async (data) => {
+    const categoryOrder = data.map((category) => category.id);
+
+    const res = await axios.put(`/api/order-categories/`, {
+      categoryOrder: categoryOrder,
+    });
+
+    notifySuccess(res.data.message);
+    getCategories();
+  };
+
   const getCategories = async () => {
     const res = await axios.get(`/api/categories`);
 
@@ -71,6 +82,7 @@ function CategoryProvider({ children }) {
         handleSubmit,
         handleUpdate,
         getCategory,
+        handleSaveOrder,
       }}
     >
       {children}

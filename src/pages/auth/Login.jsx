@@ -52,7 +52,7 @@ function Login() {
             <div className="mb-5 gap-3">
               {/* <div>Email:</div> */}
               <label className="myLabel" htmlFor="email">
-                Email:
+                Username/Email:
               </label>
               <div>
                 <input

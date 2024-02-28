@@ -35,6 +35,11 @@ function AuthProvider({ children }) {
     navigate("/");
   };
 
+  const handleUserPasswordChange = async (data, id) => {
+    const res = await axios.put(`/api/change-user-password/${id}`, data);
+    notifySuccess(res.data.message);
+  };
+
   const handleLogin = async (e, data) => {
     e.preventDefault();
     try {
@@ -96,6 +101,7 @@ function AuthProvider({ children }) {
         logOut,
         handleLogin,
         handlePasswordChange,
+        handleUserPasswordChange,
         getUser,
       }}
     >

@@ -15,12 +15,6 @@ function SubNavBar({
   setSelectedYear,
   categories,
 }) {
-  useEffect(() => {
-    if (fiscalYears.length > 0) {
-      setSelectedYear(fiscalYears.length);
-    }
-  }, []);
-
   return (
     <>
       <div className="text-center max-w-screen-2xl mx-auto my-3">
