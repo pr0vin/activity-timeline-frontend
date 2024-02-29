@@ -229,7 +229,6 @@ function EventForm() {
               name="assignTo"
               onChange={handleChange}
               value={data.assignTo}
-              required
             />
           </div>
 

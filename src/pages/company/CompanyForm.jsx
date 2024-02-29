@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { FiEdit } from "react-icons/fi";
 import { useCompany } from "../../providers/CompanyProvider";
 import { useNavigate, useParams } from "react-router-dom";
+
+import municipalities from "../../json/municipalities";
+import Addresses from "../../helpers/Addresses";
+
 const animated = {
   offscreen: { y: -200, opacity: 0 },
   onscreen: {
@@ -160,6 +164,11 @@ function CompanyForm() {
       }
     }
   }, [id, company]);
+
+  const props = {
+    handleInputChange,
+    data,
+  };
 
   return (
     <div>
@@ -333,56 +342,7 @@ function CompanyForm() {
                   onChange={handleInputChange}
                 />
               </div>
-              <div className="mb-2">
-                <label htmlFor="" className="myLabel">
-                  प्रदेश
-                </label>
-                <input
-                  type="text"
-                  name="province"
-                  className="myInput"
-                  value={data.province}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className="mb-2">
-                <label htmlFor="" className="myLabel">
-                  जिल्ला
-                </label>
-                <input
-                  type="text"
-                  name="district"
-                  className="myInput"
-                  value={data.district}
-                  onChange={handleInputChange}
-                  required
-                />
-              </div>
-              <div className="mb-3 ">
-                <label htmlFor="" className="myLabel">
-                  नगरपालिका
-                </label>
-                <input
-                  type="text"
-                  name="municipality"
-                  className="myInput"
-                  value={data.municipality}
-                  onChange={handleInputChange}
-                />
-              </div>
-              <div className="mb-3  md:col-span-2">
-                <label htmlFor="" className="myLabel">
-                  ठेगाना
-                </label>
-                <input
-                  type="text"
-                  name="address"
-                  className="myInput"
-                  value={data.address}
-                  onChange={handleInputChange}
-                />
-              </div>
+              <Addresses {...props} />
               <div className="my-10 flex gap-3 justify-between md:col-span-2  ">
                 <button
                   type="button"

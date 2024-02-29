@@ -6,13 +6,14 @@ import CopyEvents from "../../components/CopyEvents";
 import { useFiscalYear } from "../../providers/FiscalYearProvider";
 import { useEvent } from "../../providers/EventProvider";
 import { TiWarningOutline } from "react-icons/ti";
+import LoadingPage from "../../helpers/LoadingPage";
 
 const API_URL = import.meta.env.VITE_API_URL;
 function CompanyList() {
   const navigate = useNavigate();
 
   const { fiscalYears, fiscalYearLoading } = useFiscalYear();
-  const { handleCopyEvent } = useEvent();
+  const { handleCopyEvent, handleSelfCopyEvent } = useEvent();
   const { companies, handleDelete, renewCompnay } = useCompany();
   const [selectAll, setSelectAll] = useState(false);
   const [isTransfer, setIsTransfer] = useState(false);
@@ -80,6 +81,17 @@ function CompanyList() {
     toggleTransfer();
   };
 
+  const handleSelfTransfer = (e) => {
+    e.preventDefault();
+    if (!data.to_fiscal_year || !data.from_fiscal_year) {
+      return null;
+    }
+
+    handleSelfCopyEvent(data);
+    setEmpty();
+    toggleTransfer();
+  };
+
   const copyProp = {
     handleChange,
     data,
@@ -87,15 +99,15 @@ function CompanyList() {
     setEmpty,
     handleTransfer,
     toggleTransfer,
+    handleSelfTransfer,
   };
 
   if (fiscalYearLoading) {
-    return "loading";
+    return <LoadingPage />;
   }
 
-  console.log(companies);
   return (
-    <div className="bg-white  shadow-lg">
+    <div className="  ">
       <div className="md:flex justify-between items-center   py-8 px-3 ">
         <div className="heading md:flex items-center gap-5 ">
           <h2>कम्पनी</h2>
@@ -132,26 +144,27 @@ function CompanyList() {
         </div>
       )}
 
-      <div className="flex flex-col  overflow-x-scroll">
+      <div className="flex flex-col  overflow-x-scroll bg-white shadow-lg py-5 rounded">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-hidden">
               <table className="min-w-full text-center text-sm font-light">
-                <thead className="font-bold border-b  ">
+                <thead className="font-bold border-b   ">
                   <tr>
-                    {isTransfer ? (
-                      <label>
-                        <input
-                          type="checkbox"
-                          checked={selectAll}
-                          onChange={toggleSelectAll}
-                        />{" "}
-                        All
-                      </label>
-                    ) : (
-                      <label>#</label>
-                    )}
-
+                    <th scope="col" className="px-6 py-4">
+                      {isTransfer ? (
+                        <span>
+                          <input
+                            type="checkbox"
+                            checked={selectAll}
+                            onChange={toggleSelectAll}
+                          />{" "}
+                          All
+                        </span>
+                      ) : (
+                        <span>#</span>
+                      )}
+                    </th>
                     <th scope="col" className="px-6 py-4">
                       कम्पनी
                     </th>
@@ -188,7 +201,7 @@ function CompanyList() {
                       },
                       i
                     ) => (
-                      <tr key={i} className={i / 2 !== 0 ? "bg-gray-50 " : ""}>
+                      <tr key={i} className={i % 2 === 0 ? "bg-gray-50 " : ""}>
                         <td className="whitespace-nowrap px-6 py-4 font-medium">
                           {isTransfer ? (
                             <label>

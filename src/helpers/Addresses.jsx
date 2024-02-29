@@ -1,13 +1,7 @@
 import React, { useMemo } from "react";
 import addresses from "../json/municipalities";
 
-function Addresses({
-  handleDistrictChange,
-  handleMuncipalityChange,
-  handleProvinceChange,
-  handleInputChange,
-  data,
-}) {
+function Addresses({ handleInputChange, data }) {
   const filterAddresses = (data, condition) => {
     return data.filter(condition);
   };
@@ -124,6 +118,18 @@ function Addresses({
             </option>
           ))}
         </select>
+      </div>
+      <div className="mb-3  md:col-span-2">
+        <label htmlFor="" className="myLabel">
+          ठेगाना
+        </label>
+        <input
+          type="text"
+          name="address"
+          className="myInput"
+          value={data.address}
+          onChange={handleInputChange}
+        />
       </div>
     </>
   );

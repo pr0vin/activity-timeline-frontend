@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useMemo } from "react";
+import React, { Suspense, useEffect, useRef, useState, useMemo } from "react";
 import {
   VerticalTimeline,
   VerticalTimelineElement,
@@ -12,7 +12,8 @@ import { monthColors } from "../json/monthsColors";
 import Share from "../components/Share";
 import NepaliDate from "nepali-date-converter";
 import { status, statusNepali, categories } from "../json/company";
-import SubNavBar from "../layouts/SubNavBar";
+// import SubNavBar from "../layouts/SubNavBar";
+const SubNavBar = React.lazy(() => import("../layouts/SubNavBar"));
 import { useEvent } from "../providers/EventProvider";
 import { useFiscalYear } from "../providers/FiscalYearProvider";
 import { useCategory } from "../providers/CategoryProvider";
@@ -144,19 +145,21 @@ function Index() {
   return (
     <div className="relative max-w-screen">
       <div className="bg-white sticky top-0 z-[999]">
-        <div className="shadow-lg">
-          <SubNavBar
-            handleCategoryChange={handleCategoryChange}
-            handleStatusChange={handleStatusChange}
-            selectedStatus={selectedStatus}
-            selectedCategory={selectedCategory}
-            selectedYear={selectedYear}
-            handleChangeYear={handleChangeYear}
-            fiscalYears={fiscalYears}
-            setSelectedYear={setSelectedYear}
-            categories={categories}
-          />
-        </div>
+        <Suspense fallback={<div>Loading...</div>}>
+          <div className="shadow-lg">
+            <SubNavBar
+              handleCategoryChange={handleCategoryChange}
+              handleStatusChange={handleStatusChange}
+              selectedStatus={selectedStatus}
+              selectedCategory={selectedCategory}
+              selectedYear={selectedYear}
+              handleChangeYear={handleChangeYear}
+              fiscalYears={fiscalYears}
+              setSelectedYear={setSelectedYear}
+              categories={categories}
+            />
+          </div>
+        </Suspense>
         <div className="text-center -mt-8">
           <span className="font-bold bg-white   p-2 text-blue-900 border border-red ">
             वार्षिक कार्ययोजना

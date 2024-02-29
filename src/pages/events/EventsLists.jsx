@@ -19,9 +19,15 @@ function EventsLists() {
   const [selectedYear, setSelectedYear] = useState("");
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [searchTerm, setSearchterm] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [perPage, setPerPage] = useState(10);
 
   useMemo(() => {
-    const filtered = events.filter(
+    const paginatedEvents = events.slice(
+      (currentPage - 1) * perPage,
+      currentPage * perPage
+    );
+    const filtered = paginatedEvents.filter(
       (event) =>
         (!selectedYear || event.fiscal_year_id == selectedYear) &&
         (!selectedCategory ||
@@ -32,7 +38,15 @@ function EventsLists() {
         event.title.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredEvents(filtered);
-  }, [events, searchTerm, selectedCategory, selectedYear, selectedStatus]);
+  }, [
+    events,
+    searchTerm,
+    selectedCategory,
+    selectedYear,
+    selectedStatus,
+    perPage,
+    currentPage,
+  ]);
 
   const handleSearch = (e) => {
     setSearchterm(e.target.value);
@@ -49,7 +63,7 @@ function EventsLists() {
     setSelectedStatus(event.target.value);
   };
 
-  useMemo(() => {
+  useEffect(() => {
     if (activeYear) {
       setSelectedYear(activeYear.id);
     }
@@ -70,18 +84,32 @@ function EventsLists() {
     setSelectedYear,
   };
 
+  const goToPreviousPage = () => {
+    setCurrentPage((prevPage) => prevPage - 1);
+  };
+
+  const goToNextPage = () => {
+    setCurrentPage((prevPage) => prevPage + 1);
+  };
+  const handlePerPageChange = (e) => {
+    const value = parseInt(e.target.value);
+    if (!isNaN(value)) {
+      setPerPage(value);
+    }
+  };
+
   return (
     <div className="">
-      <div className="bg-white shadow-lg p-5 ">
-        <div className="flex  justify-between items-center   p-3 ">
-          <div className="heading  text-gray-600 items-center gap-5 ">
+      <div className=" ">
+        <div className="flex  justify-between items-center mb-5   p-3 ">
+          <div className="heading   items-center gap-5 ">
             <h2 className="">कार्यहरू</h2>
             <p className="text-lg">(यहाँ कार्यहरूको सूची छ)</p>
           </div>
 
           <div className="text-end mb-3 ">
             <button
-              className="myButtonOutline text-primary hover:border-gray-300 border hover:text-white py-2 "
+              className="myButton px-10 hover:border-gray-300 border hover:text-white py-2 "
               onClick={() => navigate(`/dashboard/events/add`)}
             >
               <div className="flex gap-2 items-center">
@@ -114,121 +142,160 @@ function EventsLists() {
           </div>
         </div> */}
 
-        <div>
-          <EventsFilter {...props} />
-        </div>
-        <div className="flex flex-col overflow-x-auto bg-white min-h-screen ">
-          <div className="sm:-mx-6 lg:-mx-8">
-            <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
-              <div className="overflow-x-auto">
-                <table className="min-w-full text-center text-sm font-light">
-                  <thead className="font-medium ">
-                    <tr>
-                      <th scope="col" className="px-6 py-4">
-                        #
-                      </th>
+        <div className=" bg-white shadow-lg p-2 rounded ">
+          <div className="">
+            <EventsFilter {...props} />
+          </div>
+          <div className="flex flex-col overflow-auto bg-white min-h-[60vh] ">
+            <div className="sm:-mx-6 lg:-mx-8">
+              <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                <div className="overflow-x-auto">
+                  <table className="min-w-full text-center text-sm font-light">
+                    <thead className="font-medium border-t ">
+                      <tr>
+                        <th scope="col" className="px-6 py-4">
+                          #
+                        </th>
 
-                      <th scope="col" className="px-6 py-4">
-                        शीर्षक
-                      </th>
-                      <th scope="col" className="px-6 py-4">
-                        वर्णन
-                      </th>
-                      <th scope="col" className="px-6 py-4"></th>
+                        <th scope="col" className="px-6 py-4">
+                          शीर्षक
+                        </th>
+                        <th scope="col" className="px-6 py-4">
+                          वर्णन
+                        </th>
+                        <th scope="col" className="px-6 py-4"></th>
 
-                      <th scope="col" className="px-6 py-4">
-                        तोकिएको मिति
-                      </th>
-                      <th scope="col" className="px-6 py-4">
-                        वर्गहरू
-                      </th>
-                      <th scope="col" className="px-6 py-4">
-                        आर्थिक वर्ष
-                      </th>
+                        <th scope="col" className="px-6 py-4">
+                          तोकिएको मिति
+                        </th>
+                        <th scope="col" className="px-6 py-4">
+                          वर्गहरू
+                        </th>
+                        <th scope="col" className="px-6 py-4">
+                          आर्थिक वर्ष
+                        </th>
 
-                      <th scope="col" className="px-6 py-4">
-                        खटाइएका
-                      </th>
-                      <th scope="col" className="px-6 py-4"></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {filteredEvents?.map(
-                      (
-                        {
-                          id,
-                          title,
-                          content,
-                          categories,
-                          fiscal_year,
-                          date,
-                          status,
-                          assignTo,
-                        },
-                        i
-                      ) => (
-                        <tr key={i} className={i % 2 == 0 ? "bg-gray-50 " : ""}>
-                          <td className="whitespace-nowrap px-6 py-4 font-medium">
-                            {i + 1}
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            {title}
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4 ">
-                            {content.slice(0, 50)}...
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <StatusView status={status} />
-                          </td>
+                        <th scope="col" className="px-6 py-4">
+                          खटाइएका
+                        </th>
+                        <th scope="col" className="px-6 py-4"></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredEvents?.map(
+                        (
+                          {
+                            id,
+                            title,
+                            content,
+                            categories,
+                            fiscal_year,
+                            date,
+                            status,
+                            assignTo,
+                          },
+                          i
+                        ) => (
+                          <tr
+                            key={i}
+                            className={i % 2 == 0 ? "bg-gray-50 " : ""}
+                          >
+                            <td className="whitespace-nowrap px-6 py-4 font-medium">
+                              {i + 1}
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              {title}
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4 ">
+                              {content.slice(0, 50)}...
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <StatusView status={status} />
+                            </td>
 
-                          <td className="whitespace-nowrap px-6 py-4">
-                            {date}
-                          </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              {date}
+                            </td>
 
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <ul className="flex whitespace-nowrap gap-2">
-                              {categories?.map((innerItem, innerIndex) => (
-                                <li className="border p-1" key={innerIndex}>
-                                  {innerItem.name}
-                                </li>
-                              ))}
-                            </ul>
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            {fiscal_year.year}
-                          </td>
-                          <td className="whitespace-nowrap px-6 py-4">
-                            {assignTo}
-                          </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <ul className="flex whitespace-nowrap gap-2">
+                                {categories?.map((innerItem, innerIndex) => (
+                                  <li className="border p-1" key={innerIndex}>
+                                    {innerItem.name}
+                                  </li>
+                                ))}
+                              </ul>
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              {fiscal_year.year}
+                            </td>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              {assignTo}
+                            </td>
 
-                          <td className="whitespace-nowrap px-6 py-4">
-                            <div className="flex gap-2">
-                              <MdOutlinePreview
-                                onClick={() =>
-                                  navigate(`/dashboard/events/${id}/view`)
-                                }
-                                className="text-gray-400"
-                                size={23}
-                              />
-                              <BiEdit
-                                onClick={() =>
-                                  navigate(`/dashboard/events/add/${id}`)
-                                }
-                                className="text-blue-300"
-                                size={23}
-                              />
-                              <BiTrash
-                                onClick={(e) => handleDelete(e, id)}
-                                className="text-red-300"
-                                size={23}
-                              />
-                            </div>{" "}
-                          </td>
-                        </tr>
-                      )
-                    )}
-                  </tbody>
-                </table>
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <div className="flex gap-2">
+                                <MdOutlinePreview
+                                  onClick={() =>
+                                    navigate(`/dashboard/events/${id}/view`)
+                                  }
+                                  className="text-gray-400"
+                                  size={23}
+                                />
+                                <BiEdit
+                                  onClick={() =>
+                                    navigate(`/dashboard/events/add/${id}`)
+                                  }
+                                  className="text-blue-300"
+                                  size={23}
+                                />
+                                <BiTrash
+                                  onClick={(e) => handleDelete(e, id)}
+                                  className="text-red-300"
+                                  size={23}
+                                />
+                              </div>{" "}
+                            </td>
+                          </tr>
+                        )
+                      )}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div>
+            {" "}
+            <div className=" relative flex justify-between p-2">
+              <div>
+                <select
+                  name="perPage"
+                  className="mySelect"
+                  value={perPage}
+                  onChange={handlePerPageChange}
+                  id=""
+                >
+                  <option value={10}>10</option>
+                  <option value={25}>25</option>
+                  <option value={100}>100</option>
+                </select>
+              </div>
+              <div className="flex gap-3">
+                <button
+                  className="myButtonOutline"
+                  disabled={currentPage === 1}
+                  onClick={goToPreviousPage}
+                >
+                  Previous
+                </button>
+                <button
+                  className="myButtonOutline"
+                  disabled={currentPage * perPage >= events.length}
+                  onClick={goToNextPage}
+                >
+                  Next Page
+                </button>
               </div>
             </div>
           </div>

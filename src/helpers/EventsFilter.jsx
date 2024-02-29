@@ -26,20 +26,20 @@ function EventsFilter({
   }, []);
   return (
     <div>
-      <div className="text-center max-w-screen-2xl mx-auto  border-b">
+      <div className="text-center max-w-screen-2xl mx-auto  ">
         {/* <StatusDots /> */}
 
         <div className=" md:flex gap-3 justify-between items-center p-2  ">
-          <div className="flex gap-3 w-full">
+          <div className="flex gap-2 w-full">
             <div className="relative   border px-2 py-2  rounded  cursor-pointer  ">
               <div
-                className="flex items-center  text-primary "
+                className="flex items-center  text-gray-600 "
                 onClick={handleOpen}
               >
-                <IoFilter size={25} />
+                <IoFilter size={23} />
               </div>
             </div>
-            <div className="relative md:w-1/4">
+            <div className="relative md:w-4/12 ">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg
                   className="h-5 w-5 text-gray-400"
@@ -60,7 +60,7 @@ function EventsFilter({
                 placeholder="Search"
                 // value={searchTerm}
                 onChange={handleSearch}
-                className="w-full py-2 pl-10 pr-4 rounded border border-gray-300 focus:outline-none focus:border-blue-500"
+                className="w-full py-2 pl-10 pr-4 rounded  border border-gray-300 focus:outline-none focus:border-blue-500"
               />
             </div>
           </div>

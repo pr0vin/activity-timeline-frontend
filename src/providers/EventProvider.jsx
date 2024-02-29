@@ -1,5 +1,11 @@
 import axios from "axios";
-import React, { createContext, useContext, useEffect, useReducer } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useReducer,
+  useState,
+} from "react";
 import { useNavigate } from "react-router-dom";
 import { notifySuccess } from "../helpers/ToastMessage";
 import { useAuth } from "./AuthProvider";
@@ -66,6 +72,10 @@ function EventProvider({ children }) {
     const res = await axios.post(`/api/copy-events`, data);
     notifySuccess(res.data.message);
   };
+  const handleSelfCopyEvent = async (data) => {
+    const res = await axios.post(`/api/copy-my-events`, data);
+    notifySuccess(res.data.message);
+  };
 
   useEffect(() => {
     getEvents();
@@ -80,6 +90,7 @@ function EventProvider({ children }) {
         handleUpdate,
         getEvent,
         handleCopyEvent,
+        handleSelfCopyEvent,
       }}
     >
       {children}

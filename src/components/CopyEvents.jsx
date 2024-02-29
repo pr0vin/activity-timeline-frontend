@@ -7,9 +7,15 @@ function CopyEvents({
   setEmpty,
   toggleTransfer,
   handleTransfer,
+  handleSelfTransfer,
 }) {
   return (
     <>
+      <div>
+        <button className="myButton" onClick={handleSelfTransfer}>
+          self transfer
+        </button>
+      </div>
       <form onSubmit={handleTransfer}>
         <div className=" md:flex items-center gap-20 m-3  p-2">
           <div className="flex items-center gap-5">
@@ -64,6 +70,7 @@ function CopyEvents({
             >
               रद्द गर्नुहोस्
             </button>
+
             <button className="myButton md:px-10  ">अपडेट गर्नुहोस्</button>
           </div>
         </div>
