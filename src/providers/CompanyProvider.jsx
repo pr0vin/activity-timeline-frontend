@@ -48,6 +48,15 @@ function CompanyProvider({ children }) {
     }
   };
 
+  const renewCompnay = async (comp) => {
+    const res = await axios.post(`/api/companies/${comp}/renew`);
+
+    console.log(res.data);
+    getCompanies();
+    notifySuccess(res.data.message);
+    // navigate(`/dashboard/config/companies`);
+  };
+
   const getCompanies = async () => {
     const res = await axios.get(`/api/companies`);
 
@@ -64,7 +73,14 @@ function CompanyProvider({ children }) {
 
   return (
     <CompanyContext.Provider
-      value={{ ...state, handleDelete, handleSubmit, handleUpdate, getCompany }}
+      value={{
+        ...state,
+        handleDelete,
+        handleSubmit,
+        handleUpdate,
+        getCompany,
+        renewCompnay,
+      }}
     >
       {children}
     </CompanyContext.Provider>

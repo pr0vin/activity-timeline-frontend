@@ -5,6 +5,7 @@ import { BiEdit, BiPlus, BiTrash, BiCopy } from "react-icons/bi";
 import CopyEvents from "../../components/CopyEvents";
 import { useFiscalYear } from "../../providers/FiscalYearProvider";
 import { useEvent } from "../../providers/EventProvider";
+import { TiWarningOutline } from "react-icons/ti";
 
 const API_URL = import.meta.env.VITE_API_URL;
 function CompanyList() {
@@ -12,7 +13,7 @@ function CompanyList() {
 
   const { fiscalYears, fiscalYearLoading } = useFiscalYear();
   const { handleCopyEvent } = useEvent();
-  const { companies, handleDelete } = useCompany();
+  const { companies, handleDelete, renewCompnay } = useCompany();
   const [selectAll, setSelectAll] = useState(false);
   const [isTransfer, setIsTransfer] = useState(false);
   const [arrCompanies, setArrCompanies] = useState([]);
@@ -91,6 +92,8 @@ function CompanyList() {
   if (fiscalYearLoading) {
     return "loading";
   }
+
+  console.log(companies);
   return (
     <div className="bg-white  shadow-lg">
       <div className="md:flex justify-between items-center   py-8 px-3 ">
@@ -162,6 +165,10 @@ function CompanyList() {
                     <th scope="col" className="px-6 py-4">
                       इमेल ठेगाना
                     </th>
+                    <th scope="col" className="px-6 py-4">
+                      Expires on
+                    </th>
+                    <th scope="col" className="px-6 py-4"></th>
                     <th scope="col" className="px-6 py-4"></th>
                   </tr>
                 </thead>
@@ -176,6 +183,8 @@ function CompanyList() {
                         contact,
                         email,
                         subLogo,
+                        remaining_days,
+                        status,
                       },
                       i
                     ) => (
@@ -221,7 +230,44 @@ function CompanyList() {
                         </td>
                         <td className="whitespace-nowrap px-6 py-4">{email}</td>
                         <td className="whitespace-nowrap px-6 py-4">
-                          <div className="flex gap-2">
+                          {!remaining_days ? (
+                            <span className="text-amber-600">
+                              <button
+                                onClick={() => renewCompnay(id)}
+                                className="bg-red-600  text-white  px-2 py-1 rounded hover:bg-red-900"
+                              >
+                                Renew
+                              </button>
+                            </span>
+                          ) : remaining_days < 30 ? (
+                            <span className="text-red-600">
+                              <div className="flex  gap-2 pt-5 items-center">
+                                <span>
+                                  {" "}
+                                  <TiWarningOutline size={18} />
+                                </span>
+                                <span> {remaining_days}</span>
+                                <span> days left</span>
+                              </div>
+                            </span>
+                          ) : (
+                            <span className="text-amber-600 ">
+                              <span> {remaining_days}</span>
+                              <span className="px-2">days left</span>
+                            </span>
+                          )}
+                          <span className="px-2 text-blue-600"></span>
+                        </td>
+                        <td className="whitespace-nowrap px-6 py-4">
+                          {status === "1" ? (
+                            <span className="text-green-500">Active</span>
+                          ) : (
+                            <span className="text-red-600">expired</span>
+                          )}
+                        </td>
+
+                        <td className="whitespace-nowrap px-6 py-4">
+                          <span className="flex gap-2">
                             <BiEdit
                               onClick={() =>
                                 navigate(
@@ -236,7 +282,7 @@ function CompanyList() {
                               className="text-red-300"
                               size={23}
                             />
-                          </div>{" "}
+                          </span>{" "}
                         </td>
                       </tr>
                     )

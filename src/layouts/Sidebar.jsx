@@ -4,15 +4,13 @@ import { IoIosArrowBack } from "react-icons/io";
 import { NavLink, useLocation } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
 import { MdMenu } from "react-icons/md";
+import { LiaUserLockSolid } from "react-icons/lia";
 import {
   IoSettingsOutline,
-  IoPeopleOutline,
-  IoLogOut,
   IoLogOutOutline,
-  IoLockClosedOutline,
   IoLockOpenOutline,
 } from "react-icons/io5";
-import { AiOutlineAppstore } from "react-icons/ai";
+
 import { BsCalendar2Date, BsActivity } from "react-icons/bs";
 import { GrDocumentConfig } from "react-icons/gr";
 // import Topbar from "./Topbar";
@@ -151,19 +149,6 @@ const Sidebar = () => {
               </NavLink>
             </li>
 
-            {/* <li>
-              <NavLink
-                className={({ isActive }) =>
-                  isActive ? "active link " : "link"
-                }
-                to={"/dashboard/activities"}
-              >
-                <BsActivity size={23} className="min-w-max" />
-                Activity
-              </NavLink>
-            </li>
-            {/* submenu */}
-
             {(isOpen || isTabletMid) && isSuperAdmin && (
               <div className="border-t my-3 border-secondary">
                 <small className="pl-3  inline-block mb-2">
@@ -186,8 +171,8 @@ const Sidebar = () => {
                 }
                 to={`/dashboard/change-user-password`}
               >
-                <IoLockOpenOutline size={23} className="min-w-max" />
-                Change Users Password
+                <LiaUserLockSolid size={23} className="min-w-max" />
+                Users Password
               </NavLink>
             </li>
             <li>

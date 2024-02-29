@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useEvent } from "../../providers/EventProvider";
 import { useCategory } from "../../providers/CategoryProvider";
@@ -12,7 +12,7 @@ function EventsLists() {
   const { events } = useEvent();
   const { categories } = useCategory();
 
-  const { fiscalYears } = useFiscalYear();
+  const { fiscalYears, activeYear } = useFiscalYear();
 
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
@@ -20,7 +20,7 @@ function EventsLists() {
   const [filteredEvents, setFilteredEvents] = useState([]);
   const [searchTerm, setSearchterm] = useState("");
 
-  useEffect(() => {
+  useMemo(() => {
     const filtered = events.filter(
       (event) =>
         (!selectedYear || event.fiscal_year_id == selectedYear) &&
@@ -48,6 +48,12 @@ function EventsLists() {
   const handleStatusChange = (event) => {
     setSelectedStatus(event.target.value);
   };
+
+  useMemo(() => {
+    if (activeYear) {
+      setSelectedYear(activeYear.id);
+    }
+  }, [activeYear]);
 
   const props = {
     selectedCategory,

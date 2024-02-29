@@ -132,7 +132,9 @@ function Index() {
   };
 
   useEffect(() => {
-    setSelectedYear(activeYear.id);
+    if (activeYear) {
+      setSelectedYear(activeYear.id);
+    }
   }, [activeYear]);
 
   if (fiscalYearLoading) {

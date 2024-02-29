@@ -62,7 +62,7 @@ function FiscalYearProvider({ children }) {
 
   const getActiveYears = async () => {
     const res = await axios.get(`/api/active-year`);
-    dispatch({ type: "ACTIVE", payload: res.data });
+    dispatch({ type: "ACTIVE", payload: res.data.activeYear });
   };
 
   const handleSaveOrder = async (data) => {

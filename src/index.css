@@ -37,7 +37,7 @@
 
 @layer utilities {
   .link {
-    @apply p-2 flex  gap-6 items-center   md:cursor-pointer cursor-default duration-300 font-medium;
+    @apply p-2 flex  gap-6 items-center hover:bg-gray-100    md:cursor-pointer cursor-default duration-300 font-medium;
   }
   .active {
     @apply bg-gray-100 text-primary  border-l-4 border-primary;
