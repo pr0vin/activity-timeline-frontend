@@ -19,7 +19,7 @@ import EventsLists from "./pages/events/EventsLists";
 import EventView from "./pages/events/EventView";
 import TasksList from "./pages/tasks/TasksList";
 import TaskForm from "./pages/tasks/TaskForm";
-import ProfileSetting from "./pages/settings/ProfileSetting";
+import ChangePassword from "./pages/settings/ChangePassword";
 import SettingIndex from "./pages/settings/SettingIndex";
 import RequireAuth from "./pages/auth/RequireAuth";
 import CompanyProfile from "./pages/company/CompanyProfile";
@@ -37,11 +37,13 @@ function App() {
           <Route path="/home" Component={MainIndex}>
             <Route index Component={Index} />
             <Route path="/home/profile" Component={CompanyProfile} />
-            <Route path="/home/settings/profile" Component={ProfileSetting} />
+            <Route path="/home/settings/profile" Component={ChangePassword} />
           </Route>
 
           <Route path="/dashboard" Component={AdminIndex}>
             <Route index Component={Dashboard} />
+
+            {/* events */}
             <Route path="/dashboard/events" Component={EventIndex}>
               <Route index Component={EventsLists} />
               <Route path="/dashboard/events/add" Component={EventForm} />
@@ -62,7 +64,22 @@ function App() {
               />
             </Route>
 
-            <Route path="/dashboard/settings/:id" Component={CompanyForm} />
+            <Route path="/dashboard/settings" Component={SettingIndex}>
+              <Route
+                path="/dashboard/settings/profile"
+                index
+                Component={CompanyProfile}
+              />
+              <Route
+                path="/dashboard/settings/company/:id"
+                Component={CompanyForm}
+              />
+              <Route
+                path="/dashboard/settings/change-password"
+                Component={ChangePassword}
+              />
+            </Route>
+
             <Route
               path="/dashboard/change-user-password"
               Component={ChangeUserPasssword}

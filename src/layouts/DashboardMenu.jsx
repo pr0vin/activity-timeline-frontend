@@ -26,7 +26,7 @@ function DashboardMenu() {
   const { name, email } = user;
   return (
     <>
-      <div className="relative group px-3 cursor-pointer" onClick={toggleMenu}>
+      <div className="relative group px-3 cursor-pointer " onClick={toggleMenu}>
         <div className="flex gap-3 items-center">
           <div className="w-10 h-10">
             <img

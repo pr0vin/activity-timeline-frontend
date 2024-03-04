@@ -142,7 +142,7 @@ const Sidebar = () => {
                 className={({ isActive }) =>
                   isActive ? "active link " : "link"
                 }
-                to={`/dashboard/settings/${user.company_id}`}
+                to={`/dashboard/settings`}
               >
                 <IoSettingsOutline size={23} className="min-w-max" />
                 सेटिङहरू

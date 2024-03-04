@@ -35,7 +35,8 @@ function EventsLists() {
             (category) => category.id == selectedCategory
           )) &&
         (!selectedStatus || event.status === selectedStatus) &&
-        event.title.toLowerCase().includes(searchTerm.toLowerCase())
+        (event.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          event.date.toLowerCase().includes(searchTerm.toString()))
     );
     setFilteredEvents(filtered);
   }, [

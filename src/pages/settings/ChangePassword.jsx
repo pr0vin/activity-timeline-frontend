@@ -47,14 +47,14 @@ function ProfileSetting() {
 
   return (
     <>
-      <div className=" w-full h-screen bg-slate-50  md:flex py-20 justify-center">
-        <div className="bg-white shadow-lg p-5 md:w-4/12 w-full">
-          <div className="heading ">
+      <div className=" w-full  justify-center">
+        <div className="bg-white  md:w-4/12 w-full">
+          {/* <div className="heading ">
             <h2>प्रोफाइल</h2>
             <p>Change Your password</p>
-          </div>
+          </div> */}
 
-          <div className=" my-10 md:px-5">
+          <div className=" p-5 ">
             <form onSubmit={handleSubmit}>
               <div className="mb-3">
                 <label htmlFor="password" className="myLabel">
