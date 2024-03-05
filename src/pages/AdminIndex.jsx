@@ -31,8 +31,8 @@ function AdminIndex() {
           <Sidebar />
         </div>
 
-        <main className="flex-grow overflow-hidden  h-screen  bg-slate-50">
-          <div className=" flex items-center justify-end px-3 py-2 z-[999] shadow-lg  bg-white ">
+        <main className="flex-grow overflow-hidden  h-screen  bg-gray-50">
+          <div className=" flex items-center justify-end px-3 py-2 z-[999] drop-shadow-xl   bg-white ">
             {/* <img
               src="https://img.pikbest.com/origin/09/25/73/25qpIkbEsT5w8.png!f305cw"
               className="h-12 w-12 rounded-full shadow border"
@@ -41,7 +41,7 @@ function AdminIndex() {
 
             <DashboardMenu />
           </div>
-          <div className="  p-5 bg-white mt-1  w-full h-[90%]  overflow-y-scroll  mx-auto pb-20 ">
+          <div className=" p-5 w-full h-[90%]  overflow-y-scroll  mx-auto pb-20 ">
             <Outlet />
           </div>
         </main>

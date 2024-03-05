@@ -11,24 +11,21 @@ function SettingIndex() {
   }
   return (
     <>
-      <div className="bg-white min-h-screen">
+      <div className="bg-white min-h-screen p-5">
         <div className=" p-5 font-bold  text-lg gap-5 cursor-pointer ">
           <div className="heading mb-5">
             <h2 className="">Settings</h2>
-            <small className="text-gray-500">
-              {" "}
-              make cahages in your detail
-            </small>
+            <p className=""> make cahages in your detail</p>
           </div>
 
           <nav>
-            <ul className="flex gap-3 border-b pb-1">
+            <ul className="flex gap-3 text-sm justify-start">
               <li>
                 <NavLink
                   className={({ isActive }) =>
                     isActive
                       ? "border-b-4 border-secondary p-1 font-normal "
-                      : "text-gray-400 font-normal"
+                      : "text-gray-400  font-normal"
                   }
                   to={`/dashboard/settings/profile`}
                 >
@@ -40,7 +37,7 @@ function SettingIndex() {
                   className={({ isActive }) =>
                     isActive
                       ? "border-b-4 border-secondary p-1 font-normal "
-                      : "text-gray-400 font-normal"
+                      : "text-gray-400  font-normal"
                   }
                   to={`/dashboard/settings/company/${user.company.id}`}
                 >
@@ -52,7 +49,7 @@ function SettingIndex() {
                   className={({ isActive }) =>
                     isActive
                       ? "border-b-4 border-secondary p-1 font-normal "
-                      : "text-gray-400 font-normal"
+                      : "text-gray-400  font-normal"
                   }
                   to={`/dashboard/settings/change-password`}
                 >

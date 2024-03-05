@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { status, statusNepali } from "../json/company";
 import { IoFilter } from "react-icons/io5";
+import { BiPlus } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 function EventsFilter({
   selectedCategory,
   handleCategoryChange,
@@ -14,6 +16,7 @@ function EventsFilter({
   setSelectedYear,
 }) {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   const handleOpen = () => {
     setOpen(!open);
@@ -25,24 +28,35 @@ function EventsFilter({
     }
   }, []);
   return (
-    <div>
+    <div className="">
+      <div className="text-end px-3">
+        <button
+          className="myButton  hover:border-gray-300 border hover:text-white  "
+          onClick={() => navigate(`/dashboard/events/add`)}
+        >
+          <div className="flex gap-2 items-center">
+            <BiPlus size={18} />
+            <span>नयाँ</span>
+          </div>
+        </button>
+      </div>
       <div className="text-center max-w-screen-2xl mx-auto  ">
         {/* <StatusDots /> */}
 
-        <div className=" md:flex gap-3 justify-between items-center p-2  ">
+        <div className=" md:flex gap-3  items-center p-2  ">
           <div className="flex gap-2 w-full">
-            <div className="relative   border px-2 py-2  rounded  cursor-pointer  ">
+            {/* <div className="relative   border px-2 py-2  rounded  cursor-pointer  ">
               <div
                 className="flex items-center  text-gray-600 "
                 onClick={handleOpen}
               >
-                <IoFilter size={23} />
+                <IoFilter size={18} />
               </div>
-            </div>
-            <div className="relative md:w-4/12 ">
+            </div> */}
+            <div className="relative md:w-4/12 flex items-center ">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                 <svg
-                  className="h-5 w-5 text-gray-400"
+                  className="h-4 w-4 text-gray-400"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -57,22 +71,21 @@ function EventsFilter({
               </div>
               <input
                 type="text"
-                placeholder="Search"
+                placeholder="Search..."
                 // value={searchTerm}
                 onChange={handleSearch}
-                className="w-full py-2 pl-10 pr-4 rounded  border border-gray-300 focus:outline-none focus:border-blue-500"
+                className="w-full  py-1 pl-10 pr-4 rounded-full  border border-gray-200 focus:outline-none focus:border-secondary"
               />
             </div>
           </div>
-
-          <div className="md:flex items-center gap-3 my-3">
+          <div className="md:flex items-center gap-3 my-3 text-sm ">
             {/* search bar */}
 
             <div className="">
               <select
                 value={selectedCategory}
                 onChange={handleCategoryChange}
-                className=" mySelect min-w-32"
+                className=" mySelect min-w-32 text-xs"
               >
                 <option value="">सबै</option>
 
@@ -83,24 +96,6 @@ function EventsFilter({
                 ))}
               </select>
             </div>
-
-            {/* <div className="">
-              <select
-                value={selectedStatus}
-                onChange={handleStatusChange}
-                className=" rounded-lg text-sm  mySelect"
-              >
-                <option value="" className="p-5">
-                  All
-                </option>
-
-                {status?.map((item, i) => (
-                  <option value={item} key={i} className="p-5 capitalize">
-                    {item}
-                  </option>
-                ))}
-              </select>
-            </div> */}
 
             <div className="">
               <select

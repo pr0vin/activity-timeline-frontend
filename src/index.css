@@ -5,10 +5,15 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    font-family: "Montserrat", sans-serif;
+    font-family: "Roboto", sans-serif;
   }
   *::-webkit-scrollbar {
     width: 2px;
+  }
+
+  button {
+    margin: 0;
+    padding: 0;
   }
 }
 @tailwind components;
@@ -18,14 +23,14 @@
   }
 
   .myLabel {
-    @apply block uppercase tracking-wide text-gray-600 text-sm font-bold mb-2;
+    @apply block  tracking-wide text-gray-600 text-sm font-bold mb-2;
   }
 
   .myButton {
-    @apply flex-shrink-0  rounded bg-primary hover:bg-primaryDark border-primary  text-sm border text-white py-1 px-5 shadow-md;
+    @apply flex-shrink-0  rounded bg-blue-900 hover:bg-blue-800 text-sm focus:outline-none text-white py-1.5 px-8;
   }
   .myButtonOutline {
-    @apply flex-shrink-0  rounded bg-gray-100 hover:bg-secondary border-gray-300 hover:border-primaryDark text-sm border  py-1.5 px-5 shadow-md;
+    @apply flex-shrink-0 py-1 px-3  rounded bg-gray-50   border-gray-300  text-xs border  hover:bg-gray-200;
   }
 
   .mySelect {
@@ -47,9 +52,9 @@
     @apply p-2;
   }
   .heading h2 {
-    @apply font-bold text-2xl;
+    @apply font-bold md:text-2xl text-gray-600;
   }
   .heading p {
-    @apply text-xs;
+    @apply text-xs text-gray-400 pt-2;
   }
 }

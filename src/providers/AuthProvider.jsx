@@ -15,6 +15,7 @@ function AuthProvider({ children }) {
   const [token, setToken] = useState(localStorage.getItem("token"));
   const [userLoading, setUserLoading] = useState(true);
   const [user, setUser] = useState({});
+  const [allUsers, setAllUsers] = useState([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [isSuperAdmin, setIsSuperAdmin] = useState(false);
 
@@ -76,6 +77,15 @@ function AuthProvider({ children }) {
     }
   };
 
+  const getAllUsers = async () => {
+    try {
+      const res = await axios.get(`/api/all-users`);
+      setAllUsers(res.data);
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+
   useMemo(() => {
     if (token) {
       axios.defaults.headers.common["Authorization"] = "Bearer " + token;
@@ -88,6 +98,7 @@ function AuthProvider({ children }) {
 
   useMemo(() => {
     getUser();
+    getAllUsers();
   }, [token]);
 
   return (
@@ -98,11 +109,13 @@ function AuthProvider({ children }) {
         userLoading,
         isAdmin,
         isSuperAdmin,
+        allUsers,
         logOut,
         handleLogin,
         handlePasswordChange,
         handleUserPasswordChange,
         getUser,
+        getAllUsers,
       }}
     >
       {children}

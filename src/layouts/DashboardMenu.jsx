@@ -48,17 +48,17 @@ function DashboardMenu() {
 
         {open && (
           <ul className="absolute text-start right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-10 cursor-pointer text-sm">
-            <li className="text-start px-2 border-b">
-              <h6 className="font-bold text-xl capitalize">{name}</h6>
+            <li className="text-start p-2 border-b">
+              <h6 className="font-bold  capitalize">{name}</h6>
               <small>{email}</small>
             </li>
-            <li
+            {/* <li
               className="p-2 flex gap-3 hover:bg-gray-100"
               onClick={() => navigate(`/home/profile`)}
             >
               <LuUserCircle2 size={18} />
               <span>Profile</span>
-            </li>
+            </li> */}
             <li
               onClick={() => navigate(`/home`)}
               className="p-2 flex gap-3 hover:bg-gray-100"
@@ -67,16 +67,16 @@ function DashboardMenu() {
               <span>Dashboard</span>
             </li>
 
-            <li className="px-2 border-b">
+            {/* <li className="px-2 border-b">
               <small>Settings</small>
-            </li>
-            <li
+            </li> */}
+            {/* <li
               onClick={() => navigate(`/home`)}
               className="p-2 flex gap-3 hover:bg-gray-100"
             >
               <LuLock size={18} />
               <span>Change Password</span>
-            </li>
+            </li> */}
             <li onClick={logOut} className="p-2 flex gap-3 hover:bg-gray-100">
               <LuLogOut size={18} />
               <span>Log Out</span>{" "}

@@ -13,11 +13,11 @@ function MainIndex() {
   return (
     <>
       <div>
-        <Suspense fallback={<div>Loading...</div>}>
+        {/* <Suspense fallback={<div>Loading...</div>}>
           <Nav />
-        </Suspense>
+        </Suspense> */}
 
-        <div className="bg-slate-50">
+        <div className=" border-t-4 border-red-600 bg-zinc-50">
           <Outlet />
         </div>
       </div>

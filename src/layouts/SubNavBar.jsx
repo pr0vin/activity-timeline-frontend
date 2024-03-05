@@ -17,11 +17,11 @@ function SubNavBar({
 }) {
   return (
     <>
-      <div className="text-center max-w-screen-2xl mx-auto my-3">
+      <div className="text-center max-w-screen-2xl mx-auto mb-3 ">
         {/* <StatusDots /> */}
 
-        <div className=" md:flex gap-5 justify-between items-center p-2 ">
-          <div className="relative w-full overflow-x-auto">
+        <div className=" md:flex gap-5  justify-between items-center px-2 ">
+          <div className="relative w-full overflow-x-auto text-sm">
             <div className="flex items-center">
               <div className="flex items-center">
                 <input
@@ -37,9 +37,7 @@ function SubNavBar({
                   htmlFor="all"
                   className={`cursor-pointer select-none px-3 py-1 
           ${
-            selectedCategory == 0
-              ? "border-b-4 border-primary text-sm font-bold bg-gray-100"
-              : ""
+            selectedCategory == 0 ? "border-b-2 border-primary  font-bold " : ""
           }`}
                 >
                   सबै
@@ -62,7 +60,7 @@ function SubNavBar({
                     className={`cursor-pointer select-none px-3 py-1 
             ${
               selectedCategory == id
-                ? "border-b-4 border-primary text-sm font-bold bg-gray-100"
+                ? "border-b-2 border-primary  font-bold "
                 : ""
             }`}
                   >
@@ -73,64 +71,13 @@ function SubNavBar({
             </div>
           </div>
 
-          <div className="md:flex items-center gap-3 my-3">
-            {/* <div className="flex items-center">
-              <div className="flex items-center">
-                <input
-                  type="radio"
-                  id="isa"
-                  name="status"
-                  value="all"
-                  className="sr-only"
-                  checked={selectedStatus === "all"}
-                  onChange={handleStatusChange}
-                />
-                <label
-                  htmlFor="isa"
-                  className={`cursor-pointer select-none px-3 py-1 
-          ${
-            selectedStatus === "all"
-              ? "border-b-4 border-primary text-sm font-bold bg-gray-100"
-              : ""
-          }`}
-                >
-                  सबै
-                </label>
-              </div>
-              <div className="flex  items-center ">
-                {status.map((s) => (
-                  <div key={s} className="flex items-center">
-                    <input
-                      type="radio"
-                      id={s}
-                      name="status"
-                      value={s}
-                      className="sr-only"
-                      checked={selectedStatus === s}
-                      onChange={handleStatusChange}
-                    />
-                    <label
-                      htmlFor={s}
-                      className={`cursor-pointer select-none px-3 py-1 
-            ${
-              selectedStatus === s
-                ? "border-b-4 border-primary text-sm font-bold bg-gray-100 "
-                : ""
-            }`}
-                    >
-                      {statusNepali[s]}
-                    </label>
-                  </div>
-                ))}
-              </div>
-            </div> */}
-
+          <div className="md:flex items-center gap-3">
             <div className="flex items-center justify-between md:my-2 gap-3 mb-8 ">
               <div className="">
                 <select
                   value={selectedStatus}
                   onChange={handleStatusChange}
-                  className=" rounded-lg text-sm min-w-32  mySelect"
+                  className="text-sm min-w-28 block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-50 rounded  focus:outline-none "
                 >
                   <option value="all">सबै</option>
                   {status?.map((s, i) => (
@@ -146,7 +93,7 @@ function SubNavBar({
                   <select
                     value={selectedYear}
                     onChange={handleChangeYear}
-                    className=" rounded-lg text-sm min-w-28  mySelect"
+                    className="  text-sm min-w-28 block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-50 rounded  focus:outline-none "
                   >
                     {fiscalYears?.map(({ year, id }) => (
                       <option value={id} key={id}>

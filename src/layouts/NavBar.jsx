@@ -25,9 +25,9 @@ function NavBar() {
     district,
   } = user.company;
   return (
-    <>
-      <div className=" bg-primary text-white   text-xs  ">
-        <div className="max-w-screen-2xl mx-auto flex items-center px-10  gap-5  justify-end">
+    <div>
+      <div className="   text-xs  ">
+        <div className="max-w-screen-2xl mx-auto flex items-center px-10  gap-5  j">
           <div className="flex items-center gap-2 p-2 ">
             <MdOutlinePhone size={16} />
             {contact && <span>{contact}</span>}
@@ -46,14 +46,14 @@ function NavBar() {
                 <div className="w-32 h-32 rounded-full">
                   <img
                     src={`${API_URL}/storage/${logo}`}
-                    className="w-32 h-32 rounded-full md:p-2"
+                    className="w-32 h-32 rounded-full  object-cover"
                     alt=""
                   />
                 </div>
               ) : (
                 <img
                   src="https://upload.wikimedia.org/wikipedia/commons/e/ea/National_Emblem_Of_Nepal.png"
-                  className="w-32 h-32 rounded-full md:p-2"
+                  className="w-32 h-32 rounded-full md:p-2  object-cover"
                   alt=""
                 />
               )}
@@ -86,7 +86,7 @@ function NavBar() {
           </div> */}
         </div>
       </div>
-    </>
+    </div>
   );
 }
 

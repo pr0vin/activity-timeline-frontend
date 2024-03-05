@@ -21,7 +21,7 @@ function ProfileMenu() {
       <div className="relative group md:me-3 " onClick={toggleMenu}>
         <div className="w-10 h-10">
           <img
-            src="https://media.istockphoto.com/id/1313644269/vector/gold-and-silver-circle-star-logo-template.jpg?s=612x612&w=0&k=20&c=hDqCI9qTkNqNcKa6XS7aBim7xKz8cZbnm80Z_xiU2DI="
+            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrFK8a1szrFRi4lMNlCRf5ODhQPk0kFxUiXA&usqp=CAU"
             className="w-10 h-10 rounded-full"
             alt=""
           />
@@ -29,29 +29,29 @@ function ProfileMenu() {
 
         {open && (
           <ul className="absolute text-start right-0 mt-2 w-48 bg-white border rounded-md shadow-lg z-10 cursor-pointer text-sm">
-            <li className="text-start px-2 border-b">
-              <h6 className="font-bold text-lg capitalize">{name}</h6>
-              <small>{email}</small>
+            <li className="text-start p-2 border-b">
+              <div className="font-bold ">{name}</div>
+              <small className="text-xs">{email}</small>
             </li>
-            <li
+            {/* <li
               className="p-2 flex gap-3 hover:bg-gray-100"
               onClick={() => navigate(`/home/profile`)}
             >
               <LuUserCircle2 size={18} />
               <span>प्रोफाइल</span>
-            </li>
+            </li> */}
             {(isAdmin || isSuperAdmin) && (
               <li
-                onClick={() => navigate(`/dashboard/settings/${company_id}`)}
+                onClick={() => navigate(`/dashboard/settings/profile`)}
                 className="p-2 flex gap-3 hover:bg-gray-100"
               >
                 <LuSettings size={18} />
                 <span>सेटिङहरू</span>
               </li>
             )}
-            <li onClick={logOut} className="p-2 flex gap-3 hover:bg-gray-100">
+            <li onClick={logOut} className="p-2 flex gap-3 hover:bg-gray-100 ">
               <LuLogOut size={18} />
-              <span>लग Out</span>{" "}
+              <span>Log Out</span>{" "}
             </li>
           </ul>
         )}

@@ -3,9 +3,11 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useCompany } from "../../providers/CompanyProvider";
 import { notifySuccess } from "../../helpers/ToastMessage";
+import { useAuth } from "../../providers/AuthProvider";
 function Register() {
   const navigate = useNavigate();
   const { companies } = useCompany();
+  const { getAllUsers } = useAuth();
 
   const [data, setData] = useState({
     company_id: "",
@@ -40,6 +42,7 @@ function Register() {
     try {
       const res = await axios.post(`/api/register`, data);
       notifySuccess(res.data);
+      getAllUsers();
       setEmpty();
     } catch (error) {
       console.log(error.response.data.message);

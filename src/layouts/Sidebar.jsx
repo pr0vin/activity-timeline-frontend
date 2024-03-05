@@ -9,6 +9,7 @@ import {
   IoSettingsOutline,
   IoLogOutOutline,
   IoLockOpenOutline,
+  IoPeopleOutline,
 } from "react-icons/io5";
 
 import { BsCalendar2Date, BsActivity } from "react-icons/bs";
@@ -117,7 +118,7 @@ const Sidebar = () => {
 
         <div className="flex flex-col h-full  mt-10">
           <ul className="whitespace-pre ps-2.5 text-[0.9rem] pb-3 flex flex-col gap-1 font-medium overflow-x-hidden scrollbar-thin scrollbar-track-white scrollbar-thumb-slate-100 h-[80%] md:max-h-[78%] ">
-            <li>
+            {/* <li>
               <NavLink
                 className={({ isActive }) => (isActive ? " link " : "link")}
                 to={"/home"}
@@ -125,7 +126,7 @@ const Sidebar = () => {
                 <LuHome size={23} className="min-w-max" />
                 Dashboard
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink
                 className={({ isActive }) =>
@@ -134,7 +135,18 @@ const Sidebar = () => {
                 to={"/dashboard/events"}
               >
                 <BsCalendar2Date size={23} className="min-w-max" />
-                कार्यहरू
+                कार्ययोजनाहरू
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                className={({ isActive }) =>
+                  isActive ? "active link " : "link"
+                }
+                to={"/dashboard/users"}
+              >
+                <IoPeopleOutline size={23} className="min-w-max" />
+                Users
               </NavLink>
             </li>
             <li>

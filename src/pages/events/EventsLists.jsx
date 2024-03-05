@@ -7,6 +7,7 @@ import { BiEdit, BiHappyHeartEyes, BiPlus, BiTrash } from "react-icons/bi";
 import StatusView from "../../components/StatusView";
 import { MdOutlinePreview } from "react-icons/md";
 import EventsFilter from "../../helpers/EventsFilter";
+import NepaliDate from "nepali-date-converter";
 function EventsLists() {
   const navigate = useNavigate();
   const { events } = useEvent();
@@ -99,18 +100,20 @@ function EventsLists() {
     }
   };
 
+  const now = new NepaliDate().format("ddd DD, MMMM YYYY", "np");
+
   return (
     <div className="">
       <div className=" ">
-        <div className="flex  justify-between items-center mb-5   p-3 ">
-          <div className="heading   items-center gap-5 ">
-            <h2 className="">कार्यहरू</h2>
-            <p className="text-lg">(यहाँ कार्यहरूको सूची छ)</p>
-          </div>
+        <div className="md:flex  justify-end items-center   ">
+          {/* <div className="heading   items-center gap-5 ">
+            <h2>कार्ययोजनाहरू</h2>
+            <p className="text-lg">यहाँ कार्यहरूको सूची छ |</p>
+          </div> */}
 
-          <div className="text-end mb-3 ">
+          {/* <div className="text-end ">
             <button
-              className="myButton px-10 hover:border-gray-300 border hover:text-white py-2 "
+              className="myButton px-5 py-1 hover:border-gray-300 border hover:text-white  "
               onClick={() => navigate(`/dashboard/events/add`)}
             >
               <div className="flex gap-2 items-center">
@@ -118,7 +121,7 @@ function EventsLists() {
                 <span>नयाँ</span>
               </div>
             </button>
-          </div>
+          </div> */}
         </div>
         {/* <div class="relative w-1/4">
           <input
@@ -143,16 +146,16 @@ function EventsLists() {
           </div>
         </div> */}
 
-        <div className=" bg-white shadow-lg p-2 rounded ">
-          <div className="">
-            <EventsFilter {...props} />
-          </div>
+        <div className="">
+          <EventsFilter {...props} />
+        </div>
+        <div className="  p-2  bg-white rounded-lg drop-shadow-xl   ">
           <div className="flex flex-col overflow-auto bg-white min-h-[60vh] ">
             <div className="sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                 <div className="overflow-x-auto">
-                  <table className="min-w-full text-center text-sm font-light">
-                    <thead className="font-medium border-t ">
+                  <table className="min-w-full text-center text-sm font-light text-gray-500">
+                    <thead className="font-medium   ">
                       <tr>
                         <th scope="col" className="px-6 py-4">
                           #
@@ -164,7 +167,6 @@ function EventsLists() {
                         <th scope="col" className="px-6 py-4">
                           वर्णन
                         </th>
-                        <th scope="col" className="px-6 py-4"></th>
 
                         <th scope="col" className="px-6 py-4">
                           तोकिएको मिति
@@ -172,12 +174,12 @@ function EventsLists() {
                         <th scope="col" className="px-6 py-4">
                           वर्गहरू
                         </th>
-                        <th scope="col" className="px-6 py-4">
-                          आर्थिक वर्ष
-                        </th>
 
                         <th scope="col" className="px-6 py-4">
                           खटाइएका
+                        </th>
+                        <th scope="col" className="px-6 py-4">
+                          स्थिति
                         </th>
                         <th scope="col" className="px-6 py-4"></th>
                       </tr>
@@ -197,21 +199,15 @@ function EventsLists() {
                           },
                           i
                         ) => (
-                          <tr
-                            key={i}
-                            className={i % 2 == 0 ? "bg-gray-50 " : ""}
-                          >
-                            <td className="whitespace-nowrap px-6 py-4 font-medium">
+                          <tr key={i} className={"border-b border-gray-100"}>
+                            <td className="whitespace-nowrap  px-6 py-4 font-medium">
                               {i + 1}
                             </td>
-                            <td className="whitespace-nowrap px-6 py-4">
+                            <td className="whitespace-nowrap  px-6 py-4 text-start">
                               {title}
                             </td>
-                            <td className="whitespace-nowrap px-6 py-4 ">
+                            <td className="whitespace-nowrap px-6 py-4 text-start">
                               {content.slice(0, 50)}...
-                            </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              <StatusView status={status} />
                             </td>
 
                             <td className="whitespace-nowrap px-6 py-4">
@@ -221,38 +217,41 @@ function EventsLists() {
                             <td className="whitespace-nowrap px-6 py-4">
                               <ul className="flex whitespace-nowrap gap-2">
                                 {categories?.map((innerItem, innerIndex) => (
-                                  <li className="border p-1" key={innerIndex}>
+                                  <li
+                                    className="border px-2 text-xs rounded-full"
+                                    key={innerIndex}
+                                  >
                                     {innerItem.name}
                                   </li>
                                 ))}
                               </ul>
                             </td>
-                            <td className="whitespace-nowrap px-6 py-4">
-                              {fiscal_year.year}
-                            </td>
+
                             <td className="whitespace-nowrap px-6 py-4">
                               {assignTo}
                             </td>
-
+                            <td className="whitespace-nowrap px-6 py-4">
+                              <StatusView status={status} />
+                            </td>
                             <td className="whitespace-nowrap px-6 py-4">
                               <div className="flex gap-2">
                                 <MdOutlinePreview
                                   onClick={() =>
                                     navigate(`/dashboard/events/${id}/view`)
                                   }
-                                  className="text-gray-400"
+                                  className="text-secondary"
                                   size={23}
                                 />
                                 <BiEdit
                                   onClick={() =>
                                     navigate(`/dashboard/events/add/${id}`)
                                   }
-                                  className="text-blue-300"
+                                  className="text-secondary"
                                   size={23}
                                 />
                                 <BiTrash
                                   onClick={(e) => handleDelete(e, id)}
-                                  className="text-red-300"
+                                  className="text-secondary"
                                   size={23}
                                 />
                               </div>{" "}
@@ -272,7 +271,7 @@ function EventsLists() {
               <div>
                 <select
                   name="perPage"
-                  className="mySelect"
+                  className="block w-full py-1 px-2 text-gray-700 bg-white border border-gray-200 rounded  focus:outline-none focus:border-secondary;"
                   value={perPage}
                   onChange={handlePerPageChange}
                   id=""
@@ -295,7 +294,7 @@ function EventsLists() {
                   disabled={currentPage * perPage >= events.length}
                   onClick={goToNextPage}
                 >
-                  Next Page
+                  <span> Next Page</span>
                 </button>
               </div>
             </div>

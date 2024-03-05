@@ -2,6 +2,7 @@ import React from "react";
 
 import { useAuth } from "../../providers/AuthProvider";
 import { useNavigate } from "react-router-dom";
+const apiUrl = import.meta.env.VITE_API_URL;
 
 function CompanyProfile() {
   const navigate = useNavigate();
@@ -11,8 +12,16 @@ function CompanyProfile() {
     return "Loading...";
   }
 
-  const { province, municipality, district, address, website, name, email } =
-    user.company;
+  const {
+    province,
+    municipality,
+    district,
+    address,
+    website,
+    name,
+    email,
+    logo,
+  } = user.company;
   return (
     <div className="">
       <div className=" p-5">
@@ -36,10 +45,9 @@ function CompanyProfile() {
           </div>
         </div>
         <div className="md:flex justify-between ">
-          <div>
-            {" "}
-            <div className="font-bold  mb-5 text-gray-600">Company Detail</div>
-            <div className="mb-2 flex gap-5">
+          <div className="text-gray-600">
+            <div className="font-bold  mb-3 text-gray-400">Company Detail</div>
+            <div className="mb-2 flex gap-5 ">
               <span>नाम :</span> <strong>{name}</strong>
             </div>
             <div className="mb-2 flex gap-5 ">
@@ -47,10 +55,10 @@ function CompanyProfile() {
             </div>
             <div className="mb-2 flex gap-5 ">
               <span>प्रदेश:</span> <strong>{province}</strong>
-            </div>{" "}
+            </div>
             <div className="mb-2 flex gap-5 ">
               <span>जिल्ला:</span> <strong>{district}</strong>
-            </div>{" "}
+            </div>
             <div className="mb-2 flex gap-5 ">
               <span>नगरपालिका:</span> <strong>{municipality}</strong>
             </div>
@@ -61,7 +69,20 @@ function CompanyProfile() {
               <span>websites:</span> <strong>{website}</strong>
             </div>
           </div>
-          <div className="text-gray-600">
+
+          <div>
+            {logo && (
+              <div className="h-12 w-12">
+                <img
+                  className="w-12 h-12 rounded-full"
+                  src={`${apiUrl}/storage/${logo}`}
+                  alt=""
+                />
+              </div>
+            )}
+          </div>
+
+          {/* <div className="text-gray-600">
             <div className="font-bold text-xl my-5">Settings</div>
             <ul className="  text-blue-500 italic underline">
               {(isAdmin || isSuperAdmin) && (
@@ -82,7 +103,7 @@ function CompanyProfile() {
                 Change Password
               </li>
             </ul>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

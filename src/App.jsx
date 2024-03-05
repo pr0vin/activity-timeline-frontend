@@ -24,6 +24,8 @@ import SettingIndex from "./pages/settings/SettingIndex";
 import RequireAuth from "./pages/auth/RequireAuth";
 import CompanyProfile from "./pages/company/CompanyProfile";
 import ChangeUserPasssword from "./pages/settings/ChangeUserPasssword";
+import UserIndex from "./pages/users/UserIndex";
+import UsersList from "./pages/users/UsersList";
 
 function App() {
   return (
@@ -65,6 +67,7 @@ function App() {
             </Route>
 
             <Route path="/dashboard/settings" Component={SettingIndex}>
+              <Route index Component={CompanyProfile} />
               <Route
                 path="/dashboard/settings/profile"
                 index
@@ -78,6 +81,10 @@ function App() {
                 path="/dashboard/settings/change-password"
                 Component={ChangePassword}
               />
+            </Route>
+
+            <Route path="/dashboard/users" Component={UserIndex}>
+              <Route index Component={UsersList} />
             </Route>
 
             <Route
