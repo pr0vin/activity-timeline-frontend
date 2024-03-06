@@ -1,25 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../../providers/AuthProvider";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useCompany } from "../../providers/CompanyProvider";
 import LoadingPage from "../../helpers/LoadingPage";
 function ChangeUserPasssword() {
   const { handleUserPasswordChange, user, userLoading } = useAuth();
   const { company, getCompany } = useCompany();
   const navigate = useNavigate();
+  const { userId } = useParams();
   const [data, setData] = useState({
     name: "",
     email: "",
     password: "",
     confirm: "",
-    user_id: "",
+    user_id: userId,
   });
 
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
   useEffect(() => {
     if (!userLoading) {
-      getCompany(user.company_id);
+      getCompany(user.compasny_id);
     }
   }, [user]);
 
@@ -61,16 +62,22 @@ function ChangeUserPasssword() {
 
   return (
     <>
-      <div className=" w-full h-screen bg-slate-50  md:flex  justify-center">
-        <div className="bg-white shadow-lg p-5 md:w-6/12 w-full">
+      <div className=" w-full h-screen  ">
+        <div className="bg-white shadow-lg p-5">
           <div className="heading ">
-            <h2>Change User Password</h2>
-            <p>Change Your password</p>
+            <h2>Change Password</h2>
+            <p>
+              Change password of{" "}
+              <strong className="text-gray-700 font-bold ">
+                {" "}
+                {company.user.name}
+              </strong>
+            </p>
           </div>
 
-          <div className=" my-10 md:px-5">
+          <div className=" my-10 md:px-5 md:w-1/2">
             <form onSubmit={handleSubmit}>
-              <div className="mb-3">
+              {/* <div className="mb-3">
                 <select
                   name="user_id"
                   value={data.user_id}
@@ -85,7 +92,7 @@ function ChangeUserPasssword() {
                     </option>
                   ))}
                 </select>
-              </div>
+              </div> */}
               <div className="mb-3">
                 <label htmlFor="password" className="myLabel">
                   New Password:

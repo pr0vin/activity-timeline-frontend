@@ -12,54 +12,57 @@ function CopyEvents({
   return (
     <>
       <div>
-        <button className="myButton" onClick={handleSelfTransfer}>
+        {/* <button className="myButton" onClick={handleSelfTransfer}>
           self transfer
-        </button>
+        </button> */}
       </div>
-      <form onSubmit={handleTransfer}>
-        <div className=" md:flex items-center gap-20 m-3  p-2">
-          <div className="flex items-center gap-5">
-            <div>
-              <label htmlFor="" className="myLabel">
-                From
-              </label>
-              <select
-                name="from_fiscal_year"
-                id="from"
-                value={data.form_fiscal_year}
-                onChange={handleChange}
-                className="mySelect"
-              >
-                <option value="">select</option>
-                {fiscalYears?.map(({ id, year }, i) => (
-                  <option value={id} key={i}>
-                    {year}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div>
-              <label htmlFor="" className="myLabel">
-                To
-              </label>
-              <select
-                name="to_fiscal_year"
-                id="to"
-                value={data.to_fiscal_year}
-                onChange={handleChange}
-                className="mySelect"
-              >
-                <option value="">select</option>
-                {fiscalYears?.map(({ id, year }, i) => (
-                  <option value={id} key={i}>
-                    {year}
-                  </option>
-                ))}
-              </select>
-            </div>
+
+      <div className="text-xs text-orange-300 italic  px-3">
+        Select the fiscal Year to transfer from one fiscal year to another.
+      </div>
+      <form>
+        {/* <div className=" md:flex items-center gap-20 m-3  p-2"> */}
+        <div className="flex justify-center items-center   gap-5 my-10">
+          <div>
+            <label htmlFor="" className="myLabel">
+              From Year
+            </label>
+            <select
+              name="from_fiscal_year"
+              id="from"
+              value={data.form_fiscal_year}
+              onChange={handleChange}
+              className="mySelect "
+            >
+              <option value="">select</option>
+              {fiscalYears?.map(({ id, year }, i) => (
+                <option value={id} key={i}>
+                  {year}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div>
+            <label htmlFor="" className="myLabel">
+              To Year
+            </label>
+            <select
+              name="to_fiscal_year"
+              id="to"
+              value={data.to_fiscal_year}
+              onChange={handleChange}
+              className="mySelect"
+            >
+              <option value="">select</option>
+              {fiscalYears?.map(({ id, year }, i) => (
+                <option value={id} key={i}>
+                  {year}
+                </option>
+              ))}
+            </select>
           </div>
 
-          <div className="my-5 pt-8 flex gap-3 ">
+          {/* <div className="my-5 pt-8 flex gap-3 ">
             <button
               type="button"
               onClick={() => {
@@ -72,7 +75,7 @@ function CopyEvents({
             </button>
 
             <button className="myButton md:px-10  ">अपडेट गर्नुहोस्</button>
-          </div>
+          </div> */}
         </div>
       </form>
     </>

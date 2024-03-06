@@ -47,8 +47,8 @@ function ProfileSetting() {
 
   return (
     <>
-      <div className=" w-full  justify-center">
-        <div className="bg-white  md:w-4/12 w-full">
+      <div className=" my-5 w-full ">
+        <div className="  md:w-4/12 w-full">
           {/* <div className="heading ">
             <h2>प्रोफाइल</h2>
             <p>Change Your password</p>

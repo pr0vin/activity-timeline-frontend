@@ -172,13 +172,13 @@ function CompanyForm() {
 
   return (
     <div>
-      <div className="flex justify-center bg-white  py-10 ">
+      <div className="  py-10 ">
         <div className="md:w-8/12 w-full   ">
           {/* <div className="font-bold text-center p-3  text-lg mb-5 underline">
             कृपया तलको फारम भर्नुहोस् |
           </div> */}
 
-          <div className="md:flex justify-center gap-20">
+          <div className="md:flex  gap-20">
             <div className="mb-3 ">
               <div
                 style={{ height: 150, width: 150 }}

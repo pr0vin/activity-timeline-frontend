@@ -23,14 +23,14 @@
   }
 
   .myLabel {
-    @apply block  tracking-wide text-gray-600 text-sm font-bold mb-2;
+    @apply block  text-gray-400 text-sm font-bold mb-2;
   }
 
   .myButton {
     @apply flex-shrink-0  rounded bg-blue-900 hover:bg-blue-800 text-sm focus:outline-none text-white py-1.5 px-8;
   }
   .myButtonOutline {
-    @apply flex-shrink-0 py-1 px-3  rounded bg-gray-50   border-gray-300  text-xs border  hover:bg-gray-200;
+    @apply flex-shrink-0 py-1.5 px-8  rounded bg-gray-50   border-gray-300  text-xs border  hover:bg-gray-200;
   }
 
   .mySelect {
@@ -52,7 +52,7 @@
     @apply p-2;
   }
   .heading h2 {
-    @apply font-bold md:text-2xl text-gray-600;
+    @apply font-bold md:text-2xl text-gray-700;
   }
   .heading p {
     @apply text-xs text-gray-400 pt-2;

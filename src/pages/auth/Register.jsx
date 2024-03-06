@@ -7,7 +7,7 @@ import { useAuth } from "../../providers/AuthProvider";
 function Register() {
   const navigate = useNavigate();
   const { companies } = useCompany();
-  const { getAllUsers } = useAuth();
+  const { handleRegisterUser } = useAuth();
 
   const [data, setData] = useState({
     company_id: "",
@@ -39,21 +39,25 @@ function Register() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const res = await axios.post(`/api/register`, data);
-      notifySuccess(res.data);
-      getAllUsers();
-      setEmpty();
-    } catch (error) {
-      console.log(error.response.data.message);
-    }
+    handleRegisterUser(data);
+    setEmpty();
+    // try {
+    //   const res = await axios.post(`/api/register`, data);
+    //   notifySuccess(res.data);
+    //   getAllUsers();
+    //   setEmpty();
+    //   navigate(`/dashboard/config/company-user`);
+    // } catch (error) {
+    //   console.log(error.response.data.message);
+    // }
   };
   return (
-    <div className="bg-white w-full">
-      <div div className="flex justify-center">
+    <div className=" w-full">
+      <div div className="">
         <div className="  p-5 rounded-lg md:w-6/12  ">
           <div className=" mb-5">
-            <h6 className="font-bold text-xl">Register</h6>
+            <h6 className="font-bold text-2xl">Register</h6>
+            <small>add a new user </small>
           </div>
           <form onSubmit={handleSubmit}>
             <div className="mb-2">

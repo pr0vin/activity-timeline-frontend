@@ -55,6 +55,17 @@ function AuthProvider({ children }) {
     }
   };
 
+  const handleRegisterUser = async (data) => {
+    try {
+      const res = await axios.post(`/api/register`, data);
+      notifySuccess(res.data.message);
+      getAllUsers();
+      navigate(`/dashboard/config/company-user`);
+    } catch (error) {
+      console.log(error.response.data.message);
+    }
+  };
+
   const getUser = async () => {
     try {
       const res = await axios.get(`/api/user`);
@@ -116,6 +127,7 @@ function AuthProvider({ children }) {
         handleUserPasswordChange,
         getUser,
         getAllUsers,
+        handleRegisterUser,
       }}
     >
       {children}

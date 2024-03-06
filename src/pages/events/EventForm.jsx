@@ -9,7 +9,11 @@ import "react-time-picker/dist/TimePicker.css";
 import "react-clock/dist/Clock.css";
 import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
 import "@sbmdkl/nepali-datepicker-reactjs/dist/index.css";
-import { convertNepaliUnicodeToEnglish } from "../../helpers/UnicodeToEnglish";
+import {
+  convertEnglishToNepaliUnicode,
+  convertNepaliUnicodeToEnglish,
+} from "../../helpers/UnicodeToEnglish";
+import { GiAlarmClock } from "react-icons/gi";
 
 function EventForm() {
   const navigate = useNavigate();
@@ -17,11 +21,14 @@ function EventForm() {
   const { fiscalYears } = useFiscalYear();
   const { categories, categoriesLoading } = useCategory();
   const { id } = useParams();
+  const [showCalender, setShowCalender] = useState(false);
+  const [time, setTime] = useState();
   const [data, setData] = useState({
     title: "",
     fiscal_year_id: "",
     title: "",
     content: "",
+    ad_date: "",
     date: "",
     time: "10:00",
     assignTo: "",
@@ -36,7 +43,7 @@ function EventForm() {
       fiscal_year_id: "",
       title: "",
       content: "",
-      date: "",
+      date: "2080-11-10",
       time: "10:00",
       assignTo: "",
       status: "",
@@ -51,17 +58,26 @@ function EventForm() {
     });
   };
 
+  const toggleCalender = () => {
+    setShowCalender((prev) => !prev);
+  };
+
+  const toggleTime = () => {
+    setTime((prev) => !prev);
+  };
+
   const timeChange = (newTime) => {
     setData({
       ...data,
       time: newTime,
     });
   };
-  const handleDate = ({ bsDate }) => {
+  const handleDate = ({ bsDate, adDate }) => {
     const date = convertNepaliUnicodeToEnglish(bsDate);
 
     setData({
       ...data,
+      ad_date: adDate,
       date: date,
     });
   };
@@ -106,6 +122,12 @@ function EventForm() {
     }
   }, [id, event]);
 
+  const handleSave = (e) => {
+    e.preventDefault();
+
+    console.log(data);
+  };
+
   // const isCategorySelected = (category) => {
   //   return data.categories.includes(category);
   // };
@@ -115,11 +137,11 @@ function EventForm() {
   }
 
   return (
-    <div className="md:flex justify-between bg-white p-5 gap-10 ">
+    <div className="md:flex justify-between md:p-5 gap-10 ">
       <div className="md:w-6/12 w-full   mb-10">
         {!id && (
-          <div className="font-bold  py-3 mb-5 underline text-gray-600 ">
-            नयाँ क्रियाकलाप सिर्जना गर्नुहोस् |
+          <div className="font-bold  p-3   text-gray-400 ">
+            नयाँ कार्ययोजना सिर्जना गर्नुहोस् |
           </div>
         )}
         <form
@@ -128,9 +150,11 @@ function EventForm() {
               handleUpdate(e, data, id);
             } else {
               handleSubmit(e, data);
+              handleSave(e);
             }
             setEmpty();
           }}
+          className="p-3"
         >
           <div className="mb-5">
             <label className="myLabel" htmlFor="year">
@@ -187,40 +211,62 @@ function EventForm() {
             </label>
 
             <div className="md:flex items-center gap-3">
-              {/* <div className="">
-                <input
-                  id="date"
-                  type="date"
-                  className="myInput"
-                  name="date"
-                  onChange={handleChange}
-                  value={data.date}
-                  required
-                />
-              </div> */}
+              {showCalender && (
+                <label className="text-red-300" onClick={toggleCalender}>
+                  X
+                </label>
+              )}
+              <label>
+                {id && !showCalender && (
+                  <div className="cursor-pointer px-3">
+                    <div className="text-sm  font-bold text-gray-600">
+                      {convertEnglishToNepaliUnicode(event.date)}{" "}
+                    </div>
+                    <small
+                      onClick={toggleCalender}
+                      className="italic  text-gray-300 hover:underline"
+                    >
+                      change
+                    </small>
+                  </div>
+                )}
+              </label>
+
+              {(showCalender || !id) && (
+                <div>
+                  <Calendar
+                    className="myInput "
+                    onChange={handleDate}
+                    theme="deepdark"
+                  />
+                </div>
+              )}
+
               <div>
-                <Calendar
-                  className="myInput "
-                  onChange={handleDate}
-                  theme="deepdark"
+                <GiAlarmClock
+                  size={30}
+                  className="text-primary "
+                  onClick={toggleTime}
                 />
               </div>
 
-              <div className="">
-                <TimePicker
-                  onChange={timeChange}
-                  value={data.time}
-                  className={"bg-white focous:outline-none "}
-                  disableClock={true}
-                  clockClassName={"bg-white border-none"}
-                />
-              </div>
+              {time && (
+                <div className="">
+                  <TimePicker
+                    onChange={timeChange}
+                    value={data.time}
+                    className={"bg-white focous:outline-none "}
+                    disableClock={true}
+                    clockClassName={"bg-white border-none"}
+                  />
+                </div>
+              )}
             </div>
           </div>
 
           <div className="mb-5">
             <label className="myLabel" htmlFor="assignTo">
-              खटाइएका
+              जिम्मेवार व्यक्ति / शाखा
             </label>
             <input
               id="assignTo"

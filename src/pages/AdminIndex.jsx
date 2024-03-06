@@ -27,7 +27,7 @@ function AdminIndex() {
         </div>
       </div> */}
       <div className="flex overflow-hidden ">
-        <div className={`${isAdmin || isSuperAdmin ? "block" : "hidden"}`}>
+        <div className={`${isAdmin || isSuperAdmin ? "block" : "hidden"} `}>
           <Sidebar />
         </div>
 

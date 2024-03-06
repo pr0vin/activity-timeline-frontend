@@ -83,8 +83,16 @@ function App() {
               />
             </Route>
 
-            <Route path="/dashboard/users" Component={UserIndex}>
+            <Route path="/dashboard/config/company-user" Component={UserIndex}>
               <Route index Component={UsersList} />
+              <Route
+                path="/dashboard/config/company-user/change-password/:userId"
+                Component={ChangeUserPasssword}
+              />
+              <Route
+                path="/dashboard/config/company-user/register-new"
+                Component={Register}
+              />
             </Route>
 
             <Route
@@ -122,7 +130,7 @@ function App() {
               />
             </Route>
 
-            <Route path="/dashboard/config/company-user" Component={Register} />
+            <Route path="/dashboard/config/" Component={Register} />
           </Route>
         </Route>
       </Routes>

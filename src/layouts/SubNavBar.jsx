@@ -22,7 +22,7 @@ function SubNavBar({
 
         <div className=" md:flex gap-5  justify-between items-center px-2 ">
           <div className="relative w-full overflow-x-auto text-sm">
-            <div className="flex items-center">
+            <div className="flex items-center ">
               <div className="flex items-center">
                 <input
                   type="radio"
@@ -37,7 +37,9 @@ function SubNavBar({
                   htmlFor="all"
                   className={`cursor-pointer select-none px-3 py-1 
           ${
-            selectedCategory == 0 ? "border-b-2 border-primary  font-bold " : ""
+            selectedCategory == 0
+              ? "border-b-4  border-primary  font-bold "
+              : ""
           }`}
                 >
                   सबै
@@ -60,7 +62,7 @@ function SubNavBar({
                     className={`cursor-pointer select-none px-3 py-1 
             ${
               selectedCategory == id
-                ? "border-b-2 border-primary  font-bold "
+                ? "border-b-4  border-primary  font-bold "
                 : ""
             }`}
                   >

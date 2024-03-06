@@ -29,17 +29,6 @@ function EventsFilter({
   }, []);
   return (
     <div className="">
-      <div className="text-end px-3">
-        <button
-          className="myButton  hover:border-gray-300 border hover:text-white  "
-          onClick={() => navigate(`/dashboard/events/add`)}
-        >
-          <div className="flex gap-2 items-center">
-            <BiPlus size={18} />
-            <span>नयाँ</span>
-          </div>
-        </button>
-      </div>
       <div className="text-center max-w-screen-2xl mx-auto  ">
         {/* <StatusDots /> */}
 

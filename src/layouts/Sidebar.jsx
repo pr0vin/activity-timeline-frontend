@@ -118,15 +118,15 @@ const Sidebar = () => {
 
         <div className="flex flex-col h-full  mt-10">
           <ul className="whitespace-pre ps-2.5 text-[0.9rem] pb-3 flex flex-col gap-1 font-medium overflow-x-hidden scrollbar-thin scrollbar-track-white scrollbar-thumb-slate-100 h-[80%] md:max-h-[78%] ">
-            {/* <li>
+            <li>
               <NavLink
                 className={({ isActive }) => (isActive ? " link " : "link")}
-                to={"/home"}
+                to={"/dashboard"}
               >
                 <LuHome size={23} className="min-w-max" />
                 Dashboard
               </NavLink>
-            </li> */}
+            </li>
             <li>
               <NavLink
                 className={({ isActive }) =>
@@ -138,7 +138,7 @@ const Sidebar = () => {
                 कार्ययोजनाहरू
               </NavLink>
             </li>
-            <li>
+            {/* <li>
               <NavLink
                 className={({ isActive }) =>
                   isActive ? "active link " : "link"
@@ -148,7 +148,7 @@ const Sidebar = () => {
                 <IoPeopleOutline size={23} className="min-w-max" />
                 Users
               </NavLink>
-            </li>
+            </li> */}
             <li>
               <NavLink
                 className={({ isActive }) =>
@@ -176,7 +176,7 @@ const Sidebar = () => {
                 </div>
               </div>
             )}
-            <li className="border-t border-secondary pt-3">
+            {/* <li className="border-t border-secondary pt-3">
               <NavLink
                 className={({ isActive }) =>
                   isActive ? "active link " : "link"
@@ -186,8 +186,8 @@ const Sidebar = () => {
                 <LiaUserLockSolid size={23} className="min-w-max" />
                 Users Password
               </NavLink>
-            </li>
-            <li>
+            </li> */}
+            <li className="border-t border-secondary">
               <div className="  link" onClick={logOut}>
                 <IoLogOutOutline size={23} className="min-w-max" />
                 Log Out

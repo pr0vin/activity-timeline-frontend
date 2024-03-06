@@ -11,15 +11,15 @@ function SettingIndex() {
   }
   return (
     <>
-      <div className="bg-white min-h-screen p-5">
-        <div className=" p-5 font-bold  text-lg gap-5 cursor-pointer ">
+      <div className=" min-h-screen px-5">
+        <div className="  font-bold  text-lg gap-5 cursor-pointer ">
           <div className="heading mb-5">
             <h2 className="">Settings</h2>
             <p className=""> make cahages in your detail</p>
           </div>
 
           <nav>
-            <ul className="flex gap-3 text-sm justify-start">
+            <ul className="flex gap-3 text-sm justify-start border-b border-gray-200 pb-1">
               <li>
                 <NavLink
                   className={({ isActive }) =>

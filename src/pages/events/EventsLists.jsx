@@ -3,14 +3,20 @@ import { useNavigate } from "react-router-dom";
 import { useEvent } from "../../providers/EventProvider";
 import { useCategory } from "../../providers/CategoryProvider";
 import { useFiscalYear } from "../../providers/FiscalYearProvider";
-import { BiEdit, BiHappyHeartEyes, BiPlus, BiTrash } from "react-icons/bi";
+import {
+  BiCopy,
+  BiEdit,
+  BiHappyHeartEyes,
+  BiPlus,
+  BiTrash,
+} from "react-icons/bi";
 import StatusView from "../../components/StatusView";
 import { MdOutlinePreview } from "react-icons/md";
 import EventsFilter from "../../helpers/EventsFilter";
 import NepaliDate from "nepali-date-converter";
 function EventsLists() {
   const navigate = useNavigate();
-  const { events } = useEvent();
+  const { events, handleDelete } = useEvent();
   const { categories } = useCategory();
 
   const { fiscalYears, activeYear } = useFiscalYear();
@@ -105,15 +111,24 @@ function EventsLists() {
   return (
     <div className="">
       <div className=" ">
-        <div className="md:flex  justify-end items-center   ">
-          {/* <div className="heading   items-center gap-5 ">
-            <h2>कार्ययोजनाहरू</h2>
-            <p className="text-lg">यहाँ कार्यहरूको सूची छ |</p>
-          </div> */}
+        <div className="md:flex  justify-between items-center   ">
+          <div className="heading   items-center gap-5 ">
+            <h2 className="">कार्ययोजनाहरू</h2>
+            {/* <p className="text-lg">यहाँ कार्यहरूको सूची छ |</p>s */}
+          </div>
 
-          {/* <div className="text-end ">
+          <div className="flex gap-3 justify-end px-2">
             <button
-              className="myButton px-5 py-1 hover:border-gray-300 border hover:text-white  "
+              className="myButtonOutline bg-white  hover:border-gray-300 w-32 border hover:text-white  "
+              onClick={() => navigate(`/dashboard/events/add`)}
+            >
+              <div className="flex gap-2 items-center">
+                <BiCopy size={18} />
+                <span>select</span>
+              </div>
+            </button>
+            <button
+              className="myButton  hover:border-gray-300 w-32 border hover:text-white  "
               onClick={() => navigate(`/dashboard/events/add`)}
             >
               <div className="flex gap-2 items-center">
@@ -121,7 +136,7 @@ function EventsLists() {
                 <span>नयाँ</span>
               </div>
             </button>
-          </div> */}
+          </div>
         </div>
         {/* <div class="relative w-1/4">
           <input
@@ -154,8 +169,8 @@ function EventsLists() {
             <div className="sm:-mx-6 lg:-mx-8">
               <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
                 <div className="overflow-x-auto">
-                  <table className="min-w-full text-center text-sm font-light text-gray-500">
-                    <thead className="font-medium   ">
+                  <table className="min-w-full text-center text-sm font-light text-gray-700">
+                    <thead className="font-medium border-b border-gray-100  ">
                       <tr>
                         <th scope="col" className="px-6 py-4">
                           #
@@ -165,18 +180,18 @@ function EventsLists() {
                           शीर्षक
                         </th>
                         <th scope="col" className="px-6 py-4">
-                          वर्णन
+                          विवरण
                         </th>
 
                         <th scope="col" className="px-6 py-4">
                           तोकिएको मिति
                         </th>
                         <th scope="col" className="px-6 py-4">
-                          वर्गहरू
+                          समुह
                         </th>
 
                         <th scope="col" className="px-6 py-4">
-                          खटाइएका
+                          जिम्मेवार व्यक्ति / शाखा
                         </th>
                         <th scope="col" className="px-6 py-4">
                           स्थिति

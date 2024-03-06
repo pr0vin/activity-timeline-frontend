@@ -12,8 +12,9 @@ import { monthColors } from "../json/monthsColors";
 import Share from "../components/Share";
 import NepaliDate from "nepali-date-converter";
 import { status, statusNepali, categories } from "../json/company";
-// import SubNavBar from "../layouts/SubNavBar";
-const SubNavBar = React.lazy(() => import("../layouts/SubNavBar"));
+import SubNavBar from "../layouts/SubNavBar";
+// const SubNavBar = React.lazy(() => import("../layouts/SubNavBar"));
+
 import { useEvent } from "../providers/EventProvider";
 import { useFiscalYear } from "../providers/FiscalYearProvider";
 import { useCategory } from "../providers/CategoryProvider";
@@ -144,27 +145,27 @@ function Index() {
 
   return (
     <div className="relative max-w-screen ">
-      <div className=" bg-white border-b-4 border-secondary bg-orange-50 ">
+      <div className=" relative bg-white border-b-4 border-secondary bg-pink-50 ">
         <div className="lg:w-10/12 mx-auto">
           <NavBar />
         </div>
-        <div className=" relative ">
-          <div className=" lg:w-10/12 mx-auto  sticky top-0 z-[999]  ">
-            <Suspense fallback={<div>Loading...</div>}>
-              <div className=" ">
-                <SubNavBar
-                  handleCategoryChange={handleCategoryChange}
-                  handleStatusChange={handleStatusChange}
-                  selectedStatus={selectedStatus}
-                  selectedCategory={selectedCategory}
-                  selectedYear={selectedYear}
-                  handleChangeYear={handleChangeYear}
-                  fiscalYears={fiscalYears}
-                  setSelectedYear={setSelectedYear}
-                  categories={categories}
-                />
-              </div>
-            </Suspense>
+        <div className="  bg-white shadow-lg   sticky top-0 z-[999]">
+          <div className=" lg:w-10/12 mx-auto    ">
+            {/* <Suspense fallback={<div>Loading...</div>}>
+            </Suspense> */}
+            <div className=" ">
+              <SubNavBar
+                handleCategoryChange={handleCategoryChange}
+                handleStatusChange={handleStatusChange}
+                selectedStatus={selectedStatus}
+                selectedCategory={selectedCategory}
+                selectedYear={selectedYear}
+                handleChangeYear={handleChangeYear}
+                fiscalYears={fiscalYears}
+                setSelectedYear={setSelectedYear}
+                categories={categories}
+              />
+            </div>
             <div className="text-center -mt-8">
               <span className="font-bold bg-white   p-2 text-blue-900 border border-red ">
                 वार्षिक कार्ययोजना
