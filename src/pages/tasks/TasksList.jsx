@@ -13,12 +13,12 @@ function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
   const { handleDelete } = useTasks();
   return (
     <div>
-      <div className="flex flex-col overflow-x-auto bg-white min-h-screen ">
+      <div className="flex flex-col overflow-x-auto bg-white  min-h-screen ">
         <div className="sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-x-auto">
-              <table className="min-w-full text-center text-sm font-light">
-                <thead className="font-medium border-b ">
+              <table className="min-w-full text-center text-sm font-light ">
+                {/* <thead className="font-medium border-b ">
                   <tr>
                     <th scope="col" className="px-6 py-4">
                       #
@@ -30,14 +30,16 @@ function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
                     <th></th>
                     <th scope="col" className="px-6 py-4"></th>
                   </tr>
-                </thead>
+                </thead> */}
                 <tbody>
                   {tasks?.map(({ id, name, documents }, i) => (
-                    <tr key={i} className="">
+                    <tr key={i} className="border-b border-gray-100">
                       <td className="whitespace-nowrap px-6 py-4 font-medium">
                         {convertToNepaliUnicode(i + 1)}
                       </td>
-                      <td className="whitespace-nowrap px-6 py-4">{name}</td>
+                      <td className="whitespace-nowrap text-start px-6 py-4">
+                        {name}
+                      </td>
 
                       <td className="whitespace-nowrap px-6 py-4">
                         {documents ? (
@@ -56,7 +58,7 @@ function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
                           <div className="flex items-center">
                             <label
                               htmlFor={id}
-                              className="px-10 py-2 bg-gray-50  rounded-lg  flex gap-5 items-center"
+                              className="px-10 py-2   rounded-lg  flex gap-5 items-center"
                             >
                               <div className="text-[8px]">
                                 {i === index && file && file.name}
@@ -108,12 +110,12 @@ function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
                                 `/dashboard/events/${eventId}/tasks/${id}`
                               )
                             }
-                            className="text-blue-300"
+                            className="text-secondary"
                             size={24}
                           />
                           <BiTrash
                             onClick={(e) => handleDelete(e, id)}
-                            className="text-red-300"
+                            className="text-secondary"
                             size={24}
                           />
                         </div>

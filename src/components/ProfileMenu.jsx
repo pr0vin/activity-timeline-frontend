@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useAuth } from "../providers/AuthProvider";
 import { LuUserCircle2, LuSettings, LuLogOut } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
+import { BsCalendar3Event } from "react-icons/bs";
 function ProfileMenu() {
   const [open, setOpen] = useState(false);
   const { user, userLoading, logOut, isAdmin, isSuperAdmin } = useAuth();
@@ -18,7 +19,10 @@ function ProfileMenu() {
   const { name, email, company_id } = user;
   return (
     <>
-      <div className="relative group md:me-3 " onClick={toggleMenu}>
+      <div
+        className="relative group md:me-3  text-gray-700"
+        onClick={toggleMenu}
+      >
         <div className="w-10 h-10">
           <img
             src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrFK8a1szrFRi4lMNlCRf5ODhQPk0kFxUiXA&usqp=CAU"
@@ -41,13 +45,22 @@ function ProfileMenu() {
               <span>प्रोफाइल</span>
             </li> */}
             {(isAdmin || isSuperAdmin) && (
-              <li
-                onClick={() => navigate(`/dashboard/settings/profile`)}
-                className="p-2 flex gap-3 hover:bg-gray-100"
-              >
-                <LuSettings size={18} />
-                <span>सेटिङहरू</span>
-              </li>
+              <>
+                <li
+                  onClick={() => navigate(`/dashboard/events`)}
+                  className="p-2 flex gap-3 hover:bg-gray-100"
+                >
+                  <BsCalendar3Event size={18} />
+                  <span>कार्ययोजनाहरू</span>
+                </li>
+                <li
+                  onClick={() => navigate(`/dashboard/settings/profile`)}
+                  className="p-2 flex gap-3 hover:bg-gray-100"
+                >
+                  <LuSettings size={18} />
+                  <span>सेटिङहरू</span>
+                </li>
+              </>
             )}
             <li onClick={logOut} className="p-2 flex gap-3 hover:bg-gray-100 ">
               <LuLogOut size={18} />

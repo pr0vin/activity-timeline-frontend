@@ -12,8 +12,8 @@ import { monthColors } from "../json/monthsColors";
 import Share from "../components/Share";
 import NepaliDate from "nepali-date-converter";
 import { status, statusNepali, categories } from "../json/company";
-import SubNavBar from "../layouts/SubNavBar";
-// const SubNavBar = React.lazy(() => import("../layouts/SubNavBar"));
+// import SubNavBar from "../layouts/SubNavBar";
+const SubNavBar = React.lazy(() => import("../layouts/SubNavBar"));
 
 import { useEvent } from "../providers/EventProvider";
 import { useFiscalYear } from "../providers/FiscalYearProvider";
@@ -31,26 +31,28 @@ function Index() {
   const navigate = useNavigate();
 
   const upcomingRef = useRef(null);
+  const presentMonthRef = useRef(null);
+  const selectedYearRef = useRef(null);
   const [selectedYear, setSelectedYear] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("all");
   const [selectedCategory, setSelectedCategory] = useState("0");
 
   const filteredData = useMemo(() => {
-    const selected = parseInt(selectedYear);
-    const filteredByYear = selected
-      ? events.filter((item) => item.fiscal_year_id === selected)
-      : events;
+    // const selected = parseInt(selectedYear);
+    // const filteredByYear = selected
+    //   ? events.filter((item) => item.fiscal_year_id === selected)
+    //   : events;
     const filteredByCategory =
       selectedCategory !== "0"
-        ? filteredByYear.filter((item) =>
+        ? events.filter((item) =>
             item.categories.some((cat) => cat.id === parseInt(selectedCategory))
           )
-        : filteredByYear;
+        : events;
     // return filteredByCategory.filter((item) => item.status === selectedStatus);
 
     const filteredByStatus =
       selectedStatus === "all"
-        ? filteredByCategory // If "all" is selected, return all filtered data
+        ? filteredByCategory
         : filteredByCategory.filter((item) => item.status === selectedStatus);
 
     return filteredByStatus;
@@ -77,17 +79,69 @@ function Index() {
     });
   }, [filteredData]);
 
-  const todosByMonth = useMemo(() => {
-    const todosByMonth = {};
+  // const todosByMonth = useMemo(() => {
+  //   const todosByMonth = {};
+  //   sortedEvents.forEach((todo) => {
+  //     const month = new NepaliDate(todo.date).format("MMMM YYYY", "np");
+  //     if (!todosByMonth[month]) {
+  //       todosByMonth[month] = [];
+  //     }
+  //     todosByMonth[month].push(todo);
+  //   });
+  //   return todosByMonth;
+  // }, [sortedEvents]);
+  // const todosByFiscalYear = useMemo(() => {
+  //   const todosByFiscalYear = {};
+
+  //   sortedEvents.forEach((todo) => {
+  //     const fiscalYearId = todo.fiscal_year_id; // Replace with the actual property name holding fiscal year ID
+  //     const month = new NepaliDate(todo.date).format("MMMM", "np");
+
+  //     // Initialize fiscal year object if not already present
+  //     todosByFiscalYear[fiscalYearId] = todosByFiscalYear[fiscalYearId] || {};
+
+  //     // Initialize month array if not already present
+  //     todosByFiscalYear[fiscalYearId][month] =
+  //       todosByFiscalYear[fiscalYearId][month] || [];
+
+  //     // Push the event to the appropriate month array
+  //     todosByFiscalYear[fiscalYearId][month].push(todo);
+  //   });
+
+  //   return todosByFiscalYear;
+  // }, [sortedEvents]);
+
+  const todosByFiscalYear = useMemo(() => {
+    const todosByFiscalYear = {};
+
     sortedEvents.forEach((todo) => {
+      const fiscalYear = todo.fiscal_year; // Assuming fiscal year object is directly attached to todo
       const month = new NepaliDate(todo.date).format("MMMM", "np");
-      if (!todosByMonth[month]) {
-        todosByMonth[month] = [];
+
+      // Initialize fiscal year object if not already present
+      todosByFiscalYear[fiscalYear.id] = todosByFiscalYear[fiscalYear.id] || {};
+
+      // Initialize fiscal year properties if not already present
+      if (!todosByFiscalYear[fiscalYear.id].fiscalYearYear && fiscalYear.year) {
+        todosByFiscalYear[fiscalYear.id].fiscalYearYear = fiscalYear.year;
       }
-      todosByMonth[month].push(todo);
+
+      // Initialize month array if not already present
+      todosByFiscalYear[fiscalYear.id].months =
+        todosByFiscalYear[fiscalYear.id].months || {};
+
+      // Initialize month array for this month if not already present
+      todosByFiscalYear[fiscalYear.id].months[month] =
+        todosByFiscalYear[fiscalYear.id].months[month] || [];
+
+      // Push the event to the appropriate month array
+      todosByFiscalYear[fiscalYear.id].months[month].push(todo);
     });
-    return todosByMonth;
+
+    return todosByFiscalYear;
   }, [sortedEvents]);
+
+  // console.log(todosByFiscalYear);
 
   useEffect(() => {
     if (upcomingRef.current && sortedEvents.length > 0) {
@@ -133,6 +187,23 @@ function Index() {
     setSelectedCategory(event.target.value);
   };
 
+  const presentMonth = new NepaliDate().format("MMMM", "np");
+  const isPresentMonth = (month) => {
+    return month === presentMonth;
+  };
+
+  useEffect(() => {
+    if (presentMonthRef.current) {
+      presentMonthRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [sortedEvents]);
+
+  useEffect(() => {
+    if (selectedYearRef.current) {
+      selectedYearRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [selectedYear]);
+
   useEffect(() => {
     if (activeYear) {
       setSelectedYear(activeYear.id);
@@ -144,16 +215,16 @@ function Index() {
   }
 
   return (
-    <div className="relative max-w-screen ">
-      <div className=" relative bg-white border-b-4 border-secondary bg-pink-50 ">
-        <div className="lg:w-10/12 mx-auto">
+    <div className="relative max-w-full ">
+      <div className="  bg-pink-50 ">
+        {/* <div className=" mx-auto  ">
           <NavBar />
-        </div>
-        <div className="  bg-white shadow-lg   sticky top-0 z-[999]">
-          <div className=" lg:w-10/12 mx-auto    ">
-            {/* <Suspense fallback={<div>Loading...</div>}>
-            </Suspense> */}
-            <div className=" ">
+        </div> */}
+      </div>
+      <div className="   text-gray-700 bg-white shadow-lg   sticky top-0 z-[999]">
+        <Suspense fallback={<div>Loading...</div>}>
+          <div className="  ">
+            <div className="lg:w-10/12  mx-auto">
               <SubNavBar
                 handleCategoryChange={handleCategoryChange}
                 handleStatusChange={handleStatusChange}
@@ -172,141 +243,170 @@ function Index() {
               </span>
             </div>
           </div>
-        </div>
+        </Suspense>
       </div>
-
       <div className="">
-        {Object.entries(todosByMonth)?.map(([month, activities], index) => (
-          <div
-            className=""
-            style={{
-              backgroundColor: monthColors[index % monthColors.length],
-            }}
-            key={index}
-          >
-            <div ref={upcomingRef}>
-              <VerticalTimeline lineColor="#fff">
-                <h1 className="text-3xl font-bold me-48 text-end underline">
-                  <div>{month}</div>
-                </h1>
-                {activities?.map((activity, i) => (
-                  <VerticalTimelineElement
-                    key={i}
-                    className={
-                      new NepaliDate() < new NepaliDate(activity.date)
-                        ? "brightness-50 p-0 m-0"
-                        : ""
-                    }
-                    contentStyle={{
-                      backgroundColor: "#fff",
-                      borderTop: "5px solid #D22B2B",
+        {Object.entries(todosByFiscalYear)?.map(
+          ([fiscalYearId, fiscalYearData], fiscalYearIndex) => (
+            <div
+              key={fiscalYearIndex}
+              className="relative"
+              ref={selectedYear === fiscalYearId ? selectedYearRef : null}
+            >
+              <h2 className="text-3xl font-bold mb-4 absolute top-5 right-10  z-[99]">
+                {fiscalYearData.fiscalYearYear}
+              </h2>
+              {Object.entries(fiscalYearData.months)?.map(
+                ([month, activities], index) => (
+                  <div
+                    className=""
+                    ref={isPresentMonth(month) ? presentMonthRef : null}
+                    style={{
+                      backgroundColor: monthColors[index % monthColors.length],
                     }}
-                    contentArrowStyle={{ borderRight: "7px solid  #fff" }}
-                    date={
-                      new NepaliDate().format("ddd DD, MMMM YYYY", "np") ===
-                      new NepaliDate(activity.date).format(
-                        "ddd DD, MMMM YYYY",
-                        "np"
-                      )
-                        ? "Today"
-                        : new NepaliDate(activity.date).format(
-                            "ddd DD, MMMM YYYY",
-                            "np"
-                          )
-                    }
-                    iconStyle={{
-                      backgroundColor: {
-                        canceled: "rgba(255,0,0)",
-                        postponed: "#f5d327",
-                        done: "rgb(0, 255, 0)",
-                        notDone: "rgb(33, 150, 243)",
-                      }[activity.status],
-                      color: "#fff",
-                    }}
-                    icon={
-                      activity.status === "done" ? (
-                        <GiCheckMark />
-                      ) : (
-                        <MdOutlineWorkHistory />
-                      )
-                    }
+                    key={index}
                   >
-                    <div
-                      onClick={() =>
-                        navigate(`/dashboard/events/${activity.id}/view`)
-                      }
-                    >
-                      <div className="flex  gap-2">
-                        {activity.categories?.map((cat, i) => (
-                          <span
+                    <div>
+                      <VerticalTimeline lineColor="#fff">
+                        <h1 className="text-3xl font-bold me-48 text-end underline">
+                          <div>{month}</div>
+                        </h1>
+                        {activities?.map((activity, i) => (
+                          <VerticalTimelineElement
                             key={i}
-                            className="border py-1 px-2 shadow   rounded-full  text-xs"
+                            className={
+                              new NepaliDate() < new NepaliDate(activity.date)
+                                ? "brightness-50 p-0 m-0"
+                                : ""
+                            }
+                            contentStyle={{
+                              backgroundColor: "#fff",
+                              borderTop: "5px solid #D22B2B",
+                            }}
+                            contentArrowStyle={{
+                              borderRight: "7px solid  #fff",
+                            }}
+                            date={
+                              new NepaliDate().format(
+                                "ddd DD, MMMM YYYY",
+                                "np"
+                              ) ===
+                              new NepaliDate(activity.date).format(
+                                "ddd DD, MMMM YYYY",
+                                "np"
+                              )
+                                ? "आज"
+                                : new NepaliDate(activity.date).format(
+                                    "ddd DD, MMMM YYYY",
+                                    "np"
+                                  )
+                            }
+                            iconStyle={{
+                              backgroundColor: {
+                                canceled: "rgba(255,0,0)",
+                                postponed: "#f5d327",
+                                done: "rgb(0, 255, 0)",
+                                notDone: "rgb(33, 150, 243)",
+                              }[activity.status],
+                              color: "#fff",
+                            }}
+                            icon={
+                              activity.status === "done" ? (
+                                <GiCheckMark />
+                              ) : (
+                                <MdOutlineWorkHistory />
+                              )
+                            }
                           >
-                            {cat.name}
-                          </span>
-                        ))}
-                      </div>
-                      <div>
-                        <h3 className="font-bold text-xl mt-5">
-                          {activity.title}
-                        </h3>
-                        <small>{activity.content.slice(0, 100)}...</small>
-                      </div>
-
-                      <div className="my-5">
-                        <div className="font-bold text-gray-600 ">
-                          कार्यहरू :
-                        </div>
-                        <ul>
-                          {activity.tasks?.map(({ documents, name }, i) => (
-                            <li className="flex p-2 border-b gap-2" key={i}>
-                              <div className="w-4 h-4  border rounded relative">
-                                {documents && (
-                                  <div className="absolute -top-2 z-[9] -left-2">
-                                    {" "}
-                                    <BiCheck
-                                      size={28}
-                                      className="text-green-600"
-                                    />
-                                  </div>
-                                )}{" "}
-                              </div>
-                              <small>{name}</small>
-
-                              {documents && (
-                                <span className="flex gap-5">
-                                  {/* <a
-                                    href={`${API_URL}/storage/${documents}`}
-                                    className="flex items-center gap-3 hover:text-blue-600 hover:underline"
-                                    download="FileName.pdf"
+                            <div
+                              onClick={() =>
+                                navigate(
+                                  `/dashboard/events/${activity.id}/view`
+                                )
+                              }
+                            >
+                              <div className="flex  gap-2">
+                                {activity.categories?.map((cat, i) => (
+                                  <span
+                                    key={i}
+                                    className="border py-1 px-2 shadow   rounded-full  text-xs"
                                   >
-                                    <BsEye
-                                      size={23}
-                                      className="text-gray-600"
-                                    />
-                                    <span className="italic ">view</span>
-                                  </a> */}
-                                </span>
-                              )}
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                      <div className="text-xs mt-3 text-gray-500">
-                        <strong>Assigned To :</strong>
-                        <span>{activity.assignTo}</span>
-                      </div>
+                                    {cat.name}
+                                  </span>
+                                ))}
+                              </div>
+                              <div>
+                                <h3 className="font-bold text-xl mt-2">
+                                  {activity.title}
+                                </h3>
+                                <small>
+                                  {activity.content.slice(0, 100)}...
+                                </small>
+                              </div>
 
-                      <div>
-                        <Share />
-                      </div>
+                              <div className="my-5">
+                                <div className="font-bold text-gray-600 ">
+                                  कार्यहरू :
+                                </div>
+                                <ul>
+                                  {activity.tasks?.map(
+                                    ({ documents, name }, i) => (
+                                      <li
+                                        className="flex p-2 border-b gap-2"
+                                        key={i}
+                                      >
+                                        <div className="w-4 h-4  border rounded relative">
+                                          {documents && (
+                                            <div className="absolute -top-2 z-[9] -left-2">
+                                              {" "}
+                                              <BiCheck
+                                                size={28}
+                                                className="text-green-600"
+                                              />
+                                            </div>
+                                          )}{" "}
+                                        </div>
+                                        <small>{name}</small>
+
+                                        {documents && (
+                                          <span className="flex gap-5">
+                                            {/* <a
+                                  href={`${API_URL}/storage/${documents}`}
+                                  className="flex items-center gap-3 hover:text-blue-600 hover:underline"
+                                  download="FileName.pdf"
+                                >
+                                  <BsEye
+                                    size={23}
+                                    className="text-gray-600"
+                                  />
+                                  <span className="italic ">view</span>
+                                </a> */}
+                                          </span>
+                                        )}
+                                      </li>
+                                    )
+                                  )}
+                                </ul>
+                              </div>
+                              <div className="text-xs text-end mt-3 text-gray-500">
+                                <strong>जिम्मेवार व्यक्ति / शाखा :</strong>
+                                <span>{activity.assignTo}</span>
+                              </div>
+
+                              {/* <div>
+                      <Share />
+                    </div> */}
+                            </div>
+                          </VerticalTimelineElement>
+                        ))}
+                      </VerticalTimeline>
                     </div>
-                  </VerticalTimelineElement>
-                ))}
-              </VerticalTimeline>
+                  </div>
+                )
+              )}
             </div>
-          </div>
-        ))}
+          )
+        )}
       </div>
     </div>
   );

@@ -76,6 +76,16 @@ function EventProvider({ children }) {
     const res = await axios.post(`/api/copy-my-events`, data);
     notifySuccess(res.data.message);
   };
+  const handleCopySelectedEvent = async (data) => {
+    const res = await axios.post(`/api/copy-selected-events`, data);
+    notifySuccess(res.data.message);
+    getEvents();
+  };
+  const handleDublicateSelectedEvent = async (data) => {
+    const res = await axios.post(`/api/dublicate-events`, data);
+    notifySuccess(res.data.message);
+    getEvents();
+  };
 
   useEffect(() => {
     getEvents();
@@ -91,6 +101,8 @@ function EventProvider({ children }) {
         getEvent,
         handleCopyEvent,
         handleSelfCopyEvent,
+        handleCopySelectedEvent,
+        handleDublicateSelectedEvent,
       }}
     >
       {children}

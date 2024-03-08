@@ -220,7 +220,8 @@ function EventForm() {
                 {id && !showCalender && (
                   <div className="cursor-pointer px-3">
                     <div className="text-sm  font-bold text-gray-600">
-                      {convertEnglishToNepaliUnicode(event.date)}{" "}
+                      {/* {convertEnglishToNepaliUnicode(event.date)}{" "} */}
+                      {event.date}
                     </div>
                     <small
                       onClick={toggleCalender}
