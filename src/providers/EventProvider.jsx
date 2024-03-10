@@ -61,11 +61,11 @@ function EventProvider({ children }) {
   const getEvents = async () => {
     const res = await axios.get(`/api/events`);
 
-    dispatch({ type: "ALL", payload: res.data });
+    dispatch({ type: "ALL", payload: res.data.data });
   };
   const getEvent = async (id) => {
     const res = await axios.get(`/api/events/${id}`);
-    dispatch({ type: "SINGLE", payload: res.data });
+    dispatch({ type: "SINGLE", payload: res.data.data });
   };
 
   const handleCopyEvent = async (data) => {

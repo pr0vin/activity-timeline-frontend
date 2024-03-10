@@ -46,9 +46,11 @@ function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
                           <span className="flex gap-5">
                             <BiCheck size={23} className="text-green-600" />{" "}
                             <a
-                              href={`${API_URL}/storage/${documents}`}
+                              href={`${documents}`}
+                              target="_blank"
+                              rel="noopener noreferrer"
                               className="flex items-center gap-3 hover:text-blue-600 hover:underline"
-                              download="FileName.pdf"
+                              // download="FileName.pdf"
                             >
                               <BsEye size={23} className="text-gray-600" />
                               <span className="italic ">view</span>

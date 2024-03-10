@@ -32,11 +32,11 @@ const textAnimation = {
 function AuthIndex() {
   const { token } = useAuth();
   const navigate = useNavigate();
-  useEffect(() => {
-    if (token) {
-      navigate(`/home`);
-    }
-  }, [token]);
+  // useEffect(() => {
+  //   if (token) {
+  //     navigate(`/home`);
+  //   }
+  // }, [token]);
   return (
     <>
       <div className=" ">

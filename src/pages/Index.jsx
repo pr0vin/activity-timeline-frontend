@@ -48,7 +48,6 @@ function Index() {
             item.categories.some((cat) => cat.id === parseInt(selectedCategory))
           )
         : events;
-    // return filteredByCategory.filter((item) => item.status === selectedStatus);
 
     const filteredByStatus =
       selectedStatus === "all"
@@ -79,38 +78,6 @@ function Index() {
     });
   }, [filteredData]);
 
-  // const todosByMonth = useMemo(() => {
-  //   const todosByMonth = {};
-  //   sortedEvents.forEach((todo) => {
-  //     const month = new NepaliDate(todo.date).format("MMMM YYYY", "np");
-  //     if (!todosByMonth[month]) {
-  //       todosByMonth[month] = [];
-  //     }
-  //     todosByMonth[month].push(todo);
-  //   });
-  //   return todosByMonth;
-  // }, [sortedEvents]);
-  // const todosByFiscalYear = useMemo(() => {
-  //   const todosByFiscalYear = {};
-
-  //   sortedEvents.forEach((todo) => {
-  //     const fiscalYearId = todo.fiscal_year_id; // Replace with the actual property name holding fiscal year ID
-  //     const month = new NepaliDate(todo.date).format("MMMM", "np");
-
-  //     // Initialize fiscal year object if not already present
-  //     todosByFiscalYear[fiscalYearId] = todosByFiscalYear[fiscalYearId] || {};
-
-  //     // Initialize month array if not already present
-  //     todosByFiscalYear[fiscalYearId][month] =
-  //       todosByFiscalYear[fiscalYearId][month] || [];
-
-  //     // Push the event to the appropriate month array
-  //     todosByFiscalYear[fiscalYearId][month].push(todo);
-  //   });
-
-  //   return todosByFiscalYear;
-  // }, [sortedEvents]);
-
   const todosByFiscalYear = useMemo(() => {
     const todosByFiscalYear = {};
 
@@ -140,40 +107,6 @@ function Index() {
 
     return todosByFiscalYear;
   }, [sortedEvents]);
-
-  // console.log(todosByFiscalYear);
-
-  useEffect(() => {
-    if (upcomingRef.current && sortedEvents.length > 0) {
-      const now = new NepaliDate().valueOf();
-      let nearestEvent = null;
-      let minDiff = Infinity;
-
-      for (let i = 0; i < sortedEvents.length; i++) {
-        const event = sortedEvents[i];
-        const eventDate = new NepaliDate(event.date).valueOf();
-        const diff = eventDate - now;
-
-        if (diff > 0 && diff < minDiff) {
-          // Only consider future events
-          minDiff = diff;
-          nearestEvent = event;
-        }
-
-        // Break the loop if the current event is in the future
-        if (diff > 0) {
-          break;
-        }
-      }
-
-      if (nearestEvent) {
-        upcomingRef.current.scrollIntoView({
-          block: "start",
-          behavior: "smooth",
-        });
-      }
-    }
-  }, [fiscalYears]);
 
   const handleChangeYear = (e) => {
     setSelectedYear(e.target.value);
@@ -209,6 +142,57 @@ function Index() {
       setSelectedYear(activeYear.id);
     }
   }, [activeYear]);
+
+  // lazy loading
+
+  // useEffect(() => {
+  //   const fetchEvents = async () => {
+  //     setIsLoading(true);
+  //     try {
+  //       const response = await fetch(
+  //         `https://api.example.com/events?page=${page}`
+  //       );
+  //       const data = await response.json();
+  //       if (data.length === 0) {
+  //         setHasMore(false); // No more data available
+  //       } else {
+  //         setEvents((prevEvents) => [...prevEvents, ...data]);
+  //       }
+  //       setPage((prevPage) => prevPage + 1);
+  //     } catch (error) {
+  //       console.error("Error fetching events:", error);
+  //     } finally {
+  //       setIsLoading(false);
+  //     }
+  //   };
+
+  //   // Calculate the initial page based on the proximity to today's date
+  //   const today = new Date();
+  //   const daysOffset = 30; // Number of days to load before/after today
+  //   const initialPage = Math.floor(
+  //     today.getTime() / 1000 / 60 / 60 / 24 / daysOffset
+  //   );
+  //   setPage(initialPage);
+
+  //   fetchEvents();
+
+  //   const handleScroll = () => {
+  //     if (
+  //       window.innerHeight + document.documentElement.scrollTop ===
+  //         document.documentElement.offsetHeight &&
+  //       hasMore &&
+  //       !isLoading
+  //     ) {
+  //       fetchEvents();
+  //     }
+  //   };
+
+  //   window.addEventListener("scroll", handleScroll);
+
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, []);
 
   if (fiscalYearLoading) {
     return <LoadingPage />;
@@ -253,9 +237,11 @@ function Index() {
               className="relative"
               ref={selectedYear === fiscalYearId ? selectedYearRef : null}
             >
-              <h2 className="text-3xl font-bold mb-4 absolute top-5 right-10  z-[99]">
-                {fiscalYearData.fiscalYearYear}
-              </h2>
+              <div className="relative  md:flex justify-center ">
+                <h2 className=" px-2 py-1 text-blue-900 shadow-lg border border-gray-100 font-bold mb-4 absolute top-5 bg-white  z-[99]">
+                  {fiscalYearData.fiscalYearYear}
+                </h2>
+              </div>
               {Object.entries(fiscalYearData.months)?.map(
                 ([month, activities], index) => (
                   <div
@@ -268,7 +254,7 @@ function Index() {
                   >
                     <div>
                       <VerticalTimeline lineColor="#fff">
-                        <h1 className="text-3xl font-bold me-48 text-end underline">
+                        <h1 className="text-2xl italic text-blue-900 font-bold me-48 text-end ">
                           <div>{month}</div>
                         </h1>
                         {activities?.map((activity, i) => (
@@ -276,12 +262,17 @@ function Index() {
                             key={i}
                             className={
                               new NepaliDate() < new NepaliDate(activity.date)
-                                ? "brightness-50 p-0 m-0"
+                                ? " p-0 m-0"
                                 : ""
                             }
                             contentStyle={{
                               backgroundColor: "#fff",
-                              borderTop: "5px solid #D22B2B",
+                              borderTop: {
+                                canceled: "4px solid rgba(255,0,0)",
+                                postponed: "4px solid #f5d327",
+                                done: "4px solid rgb(0, 255, 0)",
+                                notDone: "4px solid rgb(33, 150, 243)",
+                              }[activity.status],
                             }}
                             contentArrowStyle={{
                               borderRight: "7px solid  #fff",
@@ -345,14 +336,14 @@ function Index() {
                               </div>
 
                               <div className="my-5">
-                                <div className="font-bold text-gray-600 ">
-                                  कार्यहरू :
+                                <div className="font-bold text-gray-700 ">
+                                  कार्यहरू
                                 </div>
                                 <ul>
                                   {activity.tasks?.map(
                                     ({ documents, name }, i) => (
                                       <li
-                                        className="flex p-2 border-b gap-2"
+                                        className="flex p-2 border-b border-gray-100 gap-2"
                                         key={i}
                                       >
                                         <div className="w-4 h-4  border rounded relative">

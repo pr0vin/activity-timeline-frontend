@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useAuth } from "../../providers/AuthProvider";
 import { useNavigate, useParams } from "react-router-dom";
 import { useCompany } from "../../providers/CompanyProvider";
 import LoadingPage from "../../helpers/LoadingPage";
 function ChangeUserPasssword() {
-  const { handleUserPasswordChange, user, userLoading } = useAuth();
+  const { handleUserPasswordChange, userLoading, allUsers } = useAuth();
   const { company, getCompany } = useCompany();
   const navigate = useNavigate();
   const { userId } = useParams();
@@ -18,11 +18,11 @@ function ChangeUserPasssword() {
 
   const [passwordsMatch, setPasswordsMatch] = useState(true);
 
-  useEffect(() => {
-    if (!userLoading) {
-      getCompany(user.compasny_id);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (!userLoading) {
+  //     getCompany(user.compasny_id);
+  //   }
+  // }, [user]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -56,6 +56,12 @@ function ChangeUserPasssword() {
     setEmpty();
   };
 
+  const currentUser = useMemo(() => {
+    return allUsers.find((u) => u.id == userId);
+  }, [userId]);
+
+  console.log(currentUser);
+
   if (userLoading) {
     return <LoadingPage />;
   }
@@ -69,8 +75,7 @@ function ChangeUserPasssword() {
             <p>
               Change password of{" "}
               <strong className="text-gray-700 font-bold ">
-                {" "}
-                {company.user.name}
+                {currentUser.name}
               </strong>
             </p>
           </div>

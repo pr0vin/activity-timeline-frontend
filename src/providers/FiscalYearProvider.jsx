@@ -53,11 +53,11 @@ function FiscalYearProvider({ children }) {
   const getFiscalYears = async () => {
     const res = await axios.get(`/api/fiscal-years`);
 
-    dispatch({ type: "ALL", payload: res.data });
+    dispatch({ type: "ALL", payload: res.data.data });
   };
   const getFiscalYear = async (id) => {
     const res = await axios.get(`/api/fiscal-years/${id}`);
-    dispatch({ type: "SINGLE", payload: res.data });
+    dispatch({ type: "SINGLE", payload: res.data.data });
   };
 
   const getActiveYears = async () => {

@@ -64,11 +64,11 @@ function CategoryProvider({ children }) {
   const getCategories = async () => {
     const res = await axios.get(`/api/categories`);
 
-    dispatch({ type: "ALL", payload: res.data });
+    dispatch({ type: "ALL", payload: res.data.data });
   };
   const getCategory = async (id) => {
     const res = await axios.get(`/api/categories/${id}`);
-    dispatch({ type: "SINGLE", payload: res.data });
+    dispatch({ type: "SINGLE", payload: res.data.data });
   };
 
   useEffect(() => {

@@ -10,12 +10,13 @@ const company = {
   logo: "https://upload.wikimedia.org/wikipedia/commons/e/ea/National_Emblem_Of_Nepal.png",
 };
 
-const status = ["done", "notDone", "canceled", "postponed"];
+const status = ["done", "notDone"];
+// const status = ["done", "notDone", "canceled", "postponed"];
 const statusNepali = {
   done: "सम्पन्न भएको",
   notDone: "सम्पन्न नभएको",
-  postponed: " हुने तर नभएको",
-  canceled: "रद्द गरिएको",
+  // postponed: " हुने तर नभएको",
+  // canceled: "रद्द गरिएको",
 };
 
 const categories = ["LISA", "FRAP", "BUDGET"];

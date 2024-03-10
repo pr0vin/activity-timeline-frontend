@@ -14,14 +14,16 @@ import {
   convertNepaliUnicodeToEnglish,
 } from "../../helpers/UnicodeToEnglish";
 import { GiAlarmClock } from "react-icons/gi";
+import moment from "moment";
 
 function EventForm() {
   const navigate = useNavigate();
   const { handleSubmit, handleUpdate, event, getEvent } = useEvent();
-  const { fiscalYears } = useFiscalYear();
+  const { fiscalYears, activeYear } = useFiscalYear();
   const { categories, categoriesLoading } = useCategory();
   const { id } = useParams();
   const [showCalender, setShowCalender] = useState(false);
+  const [result, setResult] = useState("");
   const [time, setTime] = useState();
   const [data, setData] = useState({
     title: "",
@@ -49,6 +51,8 @@ function EventForm() {
       status: "",
       categories: [],
     });
+
+    setResult("");
   };
 
   const handleChange = (e) => {
@@ -122,15 +126,44 @@ function EventForm() {
     }
   }, [id, event]);
 
-  const handleSave = (e) => {
-    e.preventDefault();
-
-    console.log(data);
-  };
+  useMemo(() => {
+    if (activeYear) {
+      setData({
+        ...data,
+        fiscal_year_id: activeYear.id,
+      });
+    }
+  }, [activeYear]);
 
   // const isCategorySelected = (category) => {
   //   return data.categories.includes(category);
   // };
+
+  const handleSave = (e) => {
+    e.preventDefault();
+
+    let selectedYear = fiscalYears.find((fy) => fy.id == data.fiscal_year_id);
+
+    // Convert input date to moment object
+    const inputMoment = moment(data.date, "YYYY-MM-DD");
+
+    // Define start and end dates
+    const startDate = moment(selectedYear.startDate, "YYYY-MM-DD");
+    const endDate = moment(selectedYear.endDate, "YYYY-MM-DD");
+
+    if (inputMoment.isBetween(startDate, endDate, null, "[]")) {
+      if (id) {
+        handleUpdate(e, data, id);
+      } else {
+        handleSubmit(e, data);
+      }
+      setEmpty();
+    } else {
+      setResult(
+        `The input date ${data.date} does not lie in fiscal Year ${selectedYear.year}`
+      );
+    }
+  };
 
   if (categoriesLoading) {
     return "Loading...";
@@ -144,18 +177,7 @@ function EventForm() {
             नयाँ कार्ययोजना सिर्जना गर्नुहोस् |
           </div>
         )}
-        <form
-          onSubmit={(e) => {
-            if (id) {
-              handleUpdate(e, data, id);
-            } else {
-              handleSubmit(e, data);
-              handleSave(e);
-            }
-            setEmpty();
-          }}
-          className="p-3"
-        >
+        <form onSubmit={handleSave} className="p-3">
           <div className="mb-5">
             <label className="myLabel" htmlFor="year">
               आर्थिक वर्ष
@@ -169,9 +191,9 @@ function EventForm() {
               required
             >
               <option value="">Select Year</option>
-              {fiscalYears?.map(({ year, id }, i) => (
-                <option key={i} value={id}>
-                  {year}
+              {fiscalYears?.map((fy, i) => (
+                <option key={i} value={fy.id}>
+                  {fy.year}
                 </option>
               ))}
             </select>
@@ -210,6 +232,8 @@ function EventForm() {
               तोकिएको मिति
             </label>
 
+            {result && <small className="text-red-300">{result}</small>}
+
             <div className="md:flex items-center gap-3">
               {showCalender && (
                 <label className="text-red-300" onClick={toggleCalender}>
@@ -236,7 +260,7 @@ function EventForm() {
               {(showCalender || !id) && (
                 <div>
                   <Calendar
-                    className="myInput "
+                    className="myInput  "
                     onChange={handleDate}
                     theme="deepdark"
                   />

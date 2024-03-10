@@ -79,7 +79,7 @@ function SubNavBar({
                 <select
                   value={selectedStatus}
                   onChange={handleStatusChange}
-                  className="text-sm min-w-28 block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-50 rounded  focus:outline-none "
+                  className="text-sm min-w-36 block w-full px-4 py-2 mt-2 text-gray-700 bg-white border border-gray-50 rounded  focus:outline-none "
                 >
                   <option value="all">सबै</option>
                   {status?.map((s, i) => (

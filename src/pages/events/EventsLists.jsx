@@ -26,6 +26,7 @@ function EventsLists() {
 
   const { fiscalYears, activeYear } = useFiscalYear();
 
+  const [index, setIndex] = useState(-1);
   const [select, setSelect] = useState(false);
   const [open, setOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("");
@@ -380,7 +381,13 @@ function EventsLists() {
                           },
                           i
                         ) => (
-                          <tr key={i} className={"border-b border-gray-100"}>
+                          <tr
+                            key={i}
+                            onClick={() => setIndex(id)}
+                            className={`border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${
+                              index === id && "bg-gray-100"
+                            }`}
+                          >
                             <td className="whitespace-nowrap  px-6 py-4 font-medium">
                               {select ? (
                                 <label>
@@ -402,7 +409,15 @@ function EventsLists() {
                               )}
                             </td>
                             <td className="whitespace-nowrap  px-6 py-4 text-start">
-                              {title}
+                              <span
+                                className="font-bold hover:underline"
+                                onClick={() =>
+                                  navigate(`/dashboard/events/${id}/view`)
+                                }
+                              >
+                                {" "}
+                                {title}
+                              </span>
                             </td>
                             <td className="whitespace-nowrap px-6 py-4 text-start">
                               {content.slice(0, 50)}...

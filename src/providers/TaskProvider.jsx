@@ -54,11 +54,11 @@ function TaskProvider({ children }) {
   const getTasks = async () => {
     const res = await axios.get(`/api/tasks`);
 
-    dispatch({ type: "ALL", payload: res.data });
+    dispatch({ type: "ALL", payload: res.data.data });
   };
   const getTask = async (id) => {
     const res = await axios.get(`/api/tasks/${id}`);
-    dispatch({ type: "SINGLE", payload: res.data });
+    dispatch({ type: "SINGLE", payload: res.data.data });
   };
 
   useEffect(() => {
