@@ -1,7 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { status, statusNepali } from "../json/company";
 import NepaliDate from "nepali-date-converter";
 import ProfileMenu from "../components/ProfileMenu";
+import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
+import { BsCalendar3Event } from "react-icons/bs";
+import Modal from "../helpers/Modal";
+import FilterEvent from "../components/FilterEvent";
 // import { useFiscalYear } from "../providers/FiscalYearProvider";
 
 function SubNavBar({
@@ -15,6 +19,14 @@ function SubNavBar({
   setSelectedYear,
   categories,
 }) {
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(!open);
+  };
+  const handleDate = ({ bsDate, adDate }) => {
+    console.log(adDate);
+  };
+
   return (
     <>
       <div className="text-center max-w-screen-2xl mx-auto mb-3 ">
@@ -104,12 +116,26 @@ function SubNavBar({
                     ))}
                   </select>
                 </div>
-                <ProfileMenu />
+
+                <div className=" ">
+                  <BsCalendar3Event onClick={handleOpen} size={23} />
+                </div>
+
+                <div>
+                  <ProfileMenu />
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
+
+      <Modal open={open} onClose={handleOpen}>
+        <div className="md:w-[400px] w-full p-2">
+          <div className="fontBold">Search</div>
+          <FilterEvent />
+        </div>
+      </Modal>
     </>
   );
 }

@@ -30,8 +30,6 @@ function Index() {
   const { categories } = useCategory();
   const navigate = useNavigate();
 
-  console.log(loading, hasMore);
-
   const upcomingRef = useRef(null);
   const presentMonthRef = useRef(null);
   const selectedYearRef = useRef(null);
@@ -79,36 +77,72 @@ function Index() {
       return dateA - dateB;
     });
   }, [filteredData]);
-
   const todosByFiscalYear = useMemo(() => {
     const todosByFiscalYear = {};
 
     sortedEvents.forEach((todo) => {
-      const fiscalYear = todo.fiscalYear; // Assuming fiscal year object is directly attached to todo
+      const fiscalYear = todo.fiscalYear;
       const month = new NepaliDate(todo.date).format("MMMM", "np");
 
       // Initialize fiscal year object if not already present
-      todosByFiscalYear[fiscalYear.id] = todosByFiscalYear[fiscalYear.id] || {};
+      todosByFiscalYear[fiscalYear.year] =
+        todosByFiscalYear[fiscalYear.year] || {};
 
       // Initialize fiscal year properties if not already present
-      if (!todosByFiscalYear[fiscalYear.id].fiscalYearYear && fiscalYear.year) {
-        todosByFiscalYear[fiscalYear.id].fiscalYearYear = fiscalYear.year;
+      if (
+        !todosByFiscalYear[fiscalYear.year].fiscalYearYear &&
+        fiscalYear.year
+      ) {
+        todosByFiscalYear[fiscalYear.year].fiscalYearYear = fiscalYear.year;
       }
 
+      // Initialize fiscal year ID
+      todosByFiscalYear[fiscalYear.year].fiscalYearId = fiscalYear.id;
+
       // Initialize month array if not already present
-      todosByFiscalYear[fiscalYear.id].months =
-        todosByFiscalYear[fiscalYear.id].months || {};
+      todosByFiscalYear[fiscalYear.year].months =
+        todosByFiscalYear[fiscalYear.year].months || {};
 
       // Initialize month array for this month if not already present
-      todosByFiscalYear[fiscalYear.id].months[month] =
-        todosByFiscalYear[fiscalYear.id].months[month] || [];
+      todosByFiscalYear[fiscalYear.year].months[month] =
+        todosByFiscalYear[fiscalYear.year].months[month] || [];
 
       // Push the event to the appropriate month array
-      todosByFiscalYear[fiscalYear.id].months[month].push(todo);
+      todosByFiscalYear[fiscalYear.year].months[month].push(todo);
     });
 
     return todosByFiscalYear;
   }, [sortedEvents]);
+
+  // const todosByFiscalYear = useMemo(() => {
+  //   const todosByFiscalYear = {};
+
+  //   sortedEvents.forEach((todo) => {
+  //     const fiscalYear = todo.fiscalYear; // Assuming fiscal year object is directly attached to todo
+  //     const month = new NepaliDate(todo.date).format("MMMM", "np");
+
+  //     // Initialize fiscal year object if not already present
+  //     todosByFiscalYear[fiscalYear.id] = todosByFiscalYear[fiscalYear.id] || {};
+
+  //     // Initialize fiscal year properties if not already present
+  //     if (!todosByFiscalYear[fiscalYear.id].fiscalYearYear && fiscalYear.year) {
+  //       todosByFiscalYear[fiscalYear.id].fiscalYearYear = fiscalYear.year;
+  //     }
+
+  //     // Initialize month array if not already present
+  //     todosByFiscalYear[fiscalYear.id].months =
+  //       todosByFiscalYear[fiscalYear.id].months || {};
+
+  //     // Initialize month array for this month if not already present
+  //     todosByFiscalYear[fiscalYear.id].months[month] =
+  //       todosByFiscalYear[fiscalYear.id].months[month] || [];
+
+  //     // Push the event to the appropriate month array
+  //     todosByFiscalYear[fiscalYear.id].months[month].push(todo);
+  //   });
+
+  //   return todosByFiscalYear;
+  // }, [sortedEvents]);
 
   const handleChangeYear = (e) => {
     setSelectedYear(e.target.value);
@@ -196,23 +230,22 @@ function Index() {
   //   };
   // }, []);
 
-  const handleScroll = () => {
-    if (
-      window.innerHeight + document.documentElement.scrollTop ===
-      document.documentElement.offsetHeight
-    ) {
-      // console.log(loading, hasMore);
-      if (!loading && hasMore) {
-        console.log("yes");
-        nextPage();
-      }
-    }
-  };
+  // const handleScroll = () => {
+  //   if (
+  //     window.innerHeight + document.documentElement.scrollTop ===
+  //     document.documentElement.offsetHeight
+  //   ) {
+  //     if (!loading && hasMore) {
+  //       console.log("yes");
+  //       nextPage();
+  //     }
+  //   }
+  // };
 
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => window.removeEventListener("scroll", handleScroll);
+  // }, [loading, hasMore]);
 
   if (fiscalYearLoading) {
     return <LoadingPage />;
@@ -251,11 +284,15 @@ function Index() {
       </div>
       <div className="">
         {Object.entries(todosByFiscalYear)?.map(
-          ([fiscalYearId, fiscalYearData], fiscalYearIndex) => (
+          ([fiscalYear, fiscalYearData], fiscalYearIndex) => (
             <div
               key={fiscalYearIndex}
               className="relative"
-              ref={selectedYear === fiscalYearId ? selectedYearRef : null}
+              ref={
+                selectedYear == fiscalYearData.fiscalYearId
+                  ? selectedYearRef
+                  : null
+              }
             >
               <div className="relative  md:flex justify-center ">
                 <h2 className=" px-2 py-1 text-blue-900 shadow-lg border border-gray-100 font-bold mb-4 absolute top-5 bg-white  z-[99]">
