@@ -25,10 +25,12 @@ import NavBar from "../layouts/NavBar";
 const API_URL = import.meta.env.VITE_API_URL;
 
 function Index() {
-  const { events } = useEvent();
+  const { events, nextPage, loading, hasMore } = useEvent();
   const { fiscalYears, fiscalYearLoading, activeYear } = useFiscalYear();
   const { categories } = useCategory();
   const navigate = useNavigate();
+
+  console.log(loading, hasMore);
 
   const upcomingRef = useRef(null);
   const presentMonthRef = useRef(null);
@@ -82,7 +84,7 @@ function Index() {
     const todosByFiscalYear = {};
 
     sortedEvents.forEach((todo) => {
-      const fiscalYear = todo.fiscal_year; // Assuming fiscal year object is directly attached to todo
+      const fiscalYear = todo.fiscalYear; // Assuming fiscal year object is directly attached to todo
       const month = new NepaliDate(todo.date).format("MMMM", "np");
 
       // Initialize fiscal year object if not already present
@@ -193,6 +195,24 @@ function Index() {
   //     window.removeEventListener("scroll", handleScroll);
   //   };
   // }, []);
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + document.documentElement.scrollTop ===
+      document.documentElement.offsetHeight
+    ) {
+      // console.log(loading, hasMore);
+      if (!loading && hasMore) {
+        console.log("yes");
+        nextPage();
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   if (fiscalYearLoading) {
     return <LoadingPage />;
