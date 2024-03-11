@@ -45,7 +45,7 @@ function EventForm() {
       fiscal_year_id: "",
       title: "",
       content: "",
-      date: "2080-11-10",
+      date: "",
       time: "10:00",
       assignTo: "",
       status: "",
@@ -134,22 +134,20 @@ function EventForm() {
       });
     }
   }, [activeYear]);
-
-  // const isCategorySelected = (category) => {
-  //   return data.categories.includes(category);
-  // };
-
   const handleSave = (e) => {
     e.preventDefault();
 
     let selectedYear = fiscalYears.find((fy) => fy.id == data.fiscal_year_id);
 
+    let date = data.ad_date;
     // Convert input date to moment object
-    const inputMoment = moment(data.date, "YYYY-MM-DD");
+    const inputMoment = moment(date, "YYYY-MM-DD");
 
-    // Define start and end dates
-    const startDate = moment(selectedYear.startDate, "YYYY-MM-DD");
-    const endDate = moment(selectedYear.endDate, "YYYY-MM-DD");
+    let sdate = selectedYear.ad_startDate;
+    let edate = selectedYear.ad_endDate;
+
+    const startDate = moment(sdate, "YYYY-MM-DD");
+    const endDate = moment(edate, "YYYY-MM-DD");
 
     if (inputMoment.isBetween(startDate, endDate, null, "[]")) {
       if (id) {
