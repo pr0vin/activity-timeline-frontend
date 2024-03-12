@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { status, statusNepali } from "../json/company";
 import NepaliDate from "nepali-date-converter";
 import ProfileMenu from "../components/ProfileMenu";
@@ -6,6 +6,7 @@ import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
 import { BsCalendar3Event } from "react-icons/bs";
 import Modal from "../helpers/Modal";
 import FilterEvent from "../components/FilterEvent";
+import moment from "moment";
 // import { useFiscalYear } from "../providers/FiscalYearProvider";
 
 function SubNavBar({
@@ -18,14 +19,29 @@ function SubNavBar({
   fiscalYears,
   setSelectedYear,
   categories,
+  events,
 }) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => {
     setOpen(!open);
   };
-  const handleDate = ({ bsDate, adDate }) => {
-    console.log(adDate);
+  const [searchTerm, setSearchTerm] = useState("");
+  const handleSearchData = (data) => {
+    setSearchTerm(data);
   };
+
+  const SearchedData = useMemo(() => {
+    const now = new Date();
+    const current = moment(now).format("YYYY-MM-DD");
+    const filtered = events.filter(
+      (event) =>
+        event.ad_date &&
+        (!searchTerm
+          ? event.ad_date.toString().includes(current)
+          : event.ad_date.toString().includes(searchTerm.toString()))
+    );
+    return filtered;
+  }, [searchTerm]);
 
   return (
     <>
@@ -118,7 +134,11 @@ function SubNavBar({
                 </div>
 
                 <div className=" ">
-                  <BsCalendar3Event onClick={handleOpen} size={23} />
+                  <BsCalendar3Event
+                    onClick={handleOpen}
+                    size={23}
+                    className="text-primary"
+                  />
                 </div>
 
                 <div>
@@ -130,10 +150,23 @@ function SubNavBar({
         </div>
       </div>
 
-      <Modal open={open} onClose={handleOpen}>
-        <div className="md:w-[400px] w-full p-2">
-          <div className="fontBold">Search</div>
-          <FilterEvent />
+      <Modal
+        open={open}
+        onClose={() => {
+          handleOpen();
+          setSearchTerm("");
+        }}
+      >
+        <div className="md:w-[500px] w-full p-2">
+          <div className="font-bold text-gray-700 text-lg ">Search</div>
+
+          <label htmlFor="" className="myLabel text-xs mt-5">
+            तपाईंले खोज्न चाहनुभएको मिति छान्नुहोस् |
+          </label>
+          <FilterEvent
+            handleSearh={SearchedData}
+            handleSearchData={handleSearchData}
+          />
         </div>
       </Modal>
     </>

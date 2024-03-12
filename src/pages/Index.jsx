@@ -30,7 +30,6 @@ function Index() {
   const { categories } = useCategory();
   const navigate = useNavigate();
 
-  const upcomingRef = useRef(null);
   const presentMonthRef = useRef(null);
   const selectedYearRef = useRef(null);
   const [selectedYear, setSelectedYear] = useState("");
@@ -114,36 +113,6 @@ function Index() {
     return todosByFiscalYear;
   }, [sortedEvents]);
 
-  // const todosByFiscalYear = useMemo(() => {
-  //   const todosByFiscalYear = {};
-
-  //   sortedEvents.forEach((todo) => {
-  //     const fiscalYear = todo.fiscalYear; // Assuming fiscal year object is directly attached to todo
-  //     const month = new NepaliDate(todo.date).format("MMMM", "np");
-
-  //     // Initialize fiscal year object if not already present
-  //     todosByFiscalYear[fiscalYear.id] = todosByFiscalYear[fiscalYear.id] || {};
-
-  //     // Initialize fiscal year properties if not already present
-  //     if (!todosByFiscalYear[fiscalYear.id].fiscalYearYear && fiscalYear.year) {
-  //       todosByFiscalYear[fiscalYear.id].fiscalYearYear = fiscalYear.year;
-  //     }
-
-  //     // Initialize month array if not already present
-  //     todosByFiscalYear[fiscalYear.id].months =
-  //       todosByFiscalYear[fiscalYear.id].months || {};
-
-  //     // Initialize month array for this month if not already present
-  //     todosByFiscalYear[fiscalYear.id].months[month] =
-  //       todosByFiscalYear[fiscalYear.id].months[month] || [];
-
-  //     // Push the event to the appropriate month array
-  //     todosByFiscalYear[fiscalYear.id].months[month].push(todo);
-  //   });
-
-  //   return todosByFiscalYear;
-  // }, [sortedEvents]);
-
   const handleChangeYear = (e) => {
     setSelectedYear(e.target.value);
   };
@@ -179,77 +148,22 @@ function Index() {
     }
   }, [activeYear]);
 
-  // lazy loading
-
-  // useEffect(() => {
-  //   const fetchEvents = async () => {
-  //     setIsLoading(true);
-  //     try {
-  //       const response = await fetch(
-  //         `https://api.example.com/events?page=${page}`
-  //       );
-  //       const data = await response.json();
-  //       if (data.length === 0) {
-  //         setHasMore(false); // No more data available
-  //       } else {
-  //         setEvents((prevEvents) => [...prevEvents, ...data]);
-  //       }
-  //       setPage((prevPage) => prevPage + 1);
-  //     } catch (error) {
-  //       console.error("Error fetching events:", error);
-  //     } finally {
-  //       setIsLoading(false);
-  //     }
-  //   };
-
-  //   // Calculate the initial page based on the proximity to today's date
-  //   const today = new Date();
-  //   const daysOffset = 30; // Number of days to load before/after today
-  //   const initialPage = Math.floor(
-  //     today.getTime() / 1000 / 60 / 60 / 24 / daysOffset
-  //   );
-  //   setPage(initialPage);
-
-  //   fetchEvents();
-
-  //   const handleScroll = () => {
-  //     if (
-  //       window.innerHeight + document.documentElement.scrollTop ===
-  //         document.documentElement.offsetHeight &&
-  //       hasMore &&
-  //       !isLoading
-  //     ) {
-  //       fetchEvents();
-  //     }
-  //   };
-
-  //   window.addEventListener("scroll", handleScroll);
-
-  //   return () => {
-  //     window.removeEventListener("scroll", handleScroll);
-  //   };
-  // }, []);
-
-  // const handleScroll = () => {
-  //   if (
-  //     window.innerHeight + document.documentElement.scrollTop ===
-  //     document.documentElement.offsetHeight
-  //   ) {
-  //     if (!loading && hasMore) {
-  //       console.log("yes");
-  //       nextPage();
-  //     }
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   window.addEventListener("scroll", handleScroll);
-  //   return () => window.removeEventListener("scroll", handleScroll);
-  // }, [loading, hasMore]);
-
   if (fiscalYearLoading) {
     return <LoadingPage />;
   }
+
+  const valueProps = {
+    handleCategoryChange,
+    handleStatusChange,
+    selectedStatus,
+    selectedCategory,
+    selectedYear,
+    handleChangeYear,
+    fiscalYears,
+    setSelectedYear,
+    categories,
+    events,
+  };
 
   return (
     <div className="relative max-w-full ">
@@ -262,17 +176,7 @@ function Index() {
         <Suspense fallback={<div>Loading...</div>}>
           <div className="  ">
             <div className="lg:w-10/12  mx-auto">
-              <SubNavBar
-                handleCategoryChange={handleCategoryChange}
-                handleStatusChange={handleStatusChange}
-                selectedStatus={selectedStatus}
-                selectedCategory={selectedCategory}
-                selectedYear={selectedYear}
-                handleChangeYear={handleChangeYear}
-                fiscalYears={fiscalYears}
-                setSelectedYear={setSelectedYear}
-                categories={categories}
-              />
+              <SubNavBar {...valueProps} />
             </div>
             <div className="text-center -mt-8">
               <span className="font-bold bg-white   p-2 text-blue-900 border border-red ">
@@ -417,19 +321,7 @@ function Index() {
                                         <small>{name}</small>
 
                                         {documents && (
-                                          <span className="flex gap-5">
-                                            {/* <a
-                                  href={`${API_URL}/storage/${documents}`}
-                                  className="flex items-center gap-3 hover:text-blue-600 hover:underline"
-                                  download="FileName.pdf"
-                                >
-                                  <BsEye
-                                    size={23}
-                                    className="text-gray-600"
-                                  />
-                                  <span className="italic ">view</span>
-                                </a> */}
-                                          </span>
+                                          <span className="flex gap-5"></span>
                                         )}
                                       </li>
                                     )

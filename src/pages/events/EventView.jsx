@@ -177,64 +177,6 @@ function EventView() {
         <div>
           <TasksList {...taskProps} />
         </div>
-        {/* <div className="overflow-x-scroll w-full">
-          <ul>
-            {event.tasks?.map((task, i) => (
-              <li
-                key={i}
-                className="flex justify-between gap-5 items-center border-b mb-5 pb-2"
-              >
-                <span className=" whitespace-pre  md:text- before:w-3 before:h-3 before:me-5 before:bg-gray-600 before:rounded-full before:inline-block">
-                  {task.name}
-                </span>
-                {task.documents ? (
-                  <span className="flex gap-5">
-                    <BiCheck size={23} className="text-green-600" />{" "}
-                    <BsEye size={23} className="text-blue-600" />
-                  </span>
-                ) : (
-                  <label
-                    htmlFor={task.id}
-                    className="px-10 py-2 bg-gray-50  rounded-lg  flex gap-5 items-center"
-                  >
-                    <div className="text-[8px]">
-                      {i === index && file && file.name}
-                    </div>
-
-                    <div>
-                      {index !== i ? (
-                        <div className="flex gap-5">
-                          <IoCloudUploadOutline size={23} />
-                          <small>upload</small>
-                        </div>
-                      ) : (
-                        <div>
-                          <button
-                            onClick={() => upload(task.id)}
-                            className="border bg-indigo-100 px-2 rounded"
-                          >
-                            upload
-                          </button>
-                        </div>
-                      )}
-                    </div>
-                  </label>
-                )}
-
-                <div className="mb-2">
-                  <input
-                    id={task.id}
-                    type="file"
-                    className="hidden"
-                    name="documents"
-                    onChange={(e) => setImgFiles(e, i, task.name)}
-                    required
-                  />
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div> */}
       </div>
 
       <div>
