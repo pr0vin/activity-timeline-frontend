@@ -1,13 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import FiscalYearForm from "./FiscalYearForm";
 import FiscalYearList from "./FiscalYearList";
+import { useParams } from "react-router-dom";
 
 function FiscalYearIndex() {
   const [open, setOpen] = useState(false);
-
+  const { id } = useParams();
   const handleOpen = () => {
-    setOpen(!open);
+    setOpen((prev) => !prev);
   };
+
+  useEffect(() => {
+    setOpen(true);
+  }, [id]);
   return (
     <>
       <div className="md:flex gap-5">

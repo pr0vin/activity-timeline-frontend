@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
-import { notifySuccess } from "../helpers/ToastMessage";
+import { notifyError, notifySuccess } from "../helpers/ToastMessage";
 import { useAuth } from "./AuthProvider";
 
 const FiscalYearContext = createContext();
@@ -17,25 +17,24 @@ function FiscalYearProvider({ children }) {
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, init);
 
-  const handleSubmit = async (e, data) => {
-    e.preventDefault();
+  const handleSubmit = async (data) => {
     try {
       const res = await axios.post(`/api/fiscal-years`, data);
       getFiscalYears();
       notifySuccess(res.data.message);
     } catch (error) {
-      console.log(error);
+      notifyError(error.response.data.message);
     }
   };
-  const handleUpdate = async (e, data, id) => {
-    e.preventDefault();
+  const handleUpdate = async (data, id) => {
     try {
       const res = await axios.put(`/api/fiscal-years/${id}`, data);
+
       getFiscalYears();
       notifySuccess(res.data.message);
       navigate(`/dashboard/config/fiscal-year`);
     } catch (error) {
-      console.log(error);
+      notifyError(error.response.data.message);
     }
   };
   const handleDelete = async (e, id) => {
@@ -46,7 +45,7 @@ function FiscalYearProvider({ children }) {
       notifySuccess(res.data.message);
       navigate(`/dashboard/config/fiscal-year`);
     } catch (error) {
-      console.log(error);
+      notifyError(error.response.data.message);
     }
   };
 

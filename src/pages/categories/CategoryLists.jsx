@@ -37,7 +37,26 @@ function CategoryLists({ handleOpen, open }) {
 
   const handleDragEnd = () => {
     // Reset makeChange state to false after dragging ends
-    // setMakeChange(false);
+    setMakeChange(false);
+  };
+
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    orderedCategories((prevState) => {
+      const newItems = [...prevState];
+
+      if (oldIndex > newIndex) {
+        for (let i = oldIndex - 1; i >= newIndex; i--) {
+          newItems[i].order++;
+          newItems[oldIndex].order = newIndex;
+        }
+      } else if (oldIndex < newIndex) {
+        for (let i = oldIndex + 1; i <= newIndex; i++) {
+          newItems[i].order--;
+          newItems[oldIndex].order = newIndex;
+        }
+      }
+      return newItems.sort((a, b) => a.order - b.order);
+    });
   };
 
   useEffect(() => {

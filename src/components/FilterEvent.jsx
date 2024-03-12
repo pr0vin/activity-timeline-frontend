@@ -1,7 +1,5 @@
-import React, { useMemo, useState } from "react";
+import React from "react";
 import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
-import { useEvent } from "../providers/EventProvider";
-import { IoCalendar } from "react-icons/io5";
 import { BiCalendarCheck } from "react-icons/bi";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";

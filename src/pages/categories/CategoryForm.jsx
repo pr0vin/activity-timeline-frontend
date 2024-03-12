@@ -39,7 +39,13 @@ function CategoryForm({ handleOpen }) {
         description: category.description ? category.description : "",
       });
     }
-  }, [id]);
+  }, [id, category]);
+
+  const handleCancel = () => {
+    Empty();
+    handleOpen();
+    navigate(`/dashboard/config/categories`);
+  };
 
   return (
     <div className="">
@@ -86,11 +92,7 @@ function CategoryForm({ handleOpen }) {
 
         <div className="mt-5 flex gap-3 justify-between  overflow-auto">
           <button
-            onClick={() => {
-              Empty();
-              handleOpen();
-              navigate(`/dashboard/config/categories`);
-            }}
+            onClick={handleCancel}
             className="myButtonOutline text-red-600  "
           >
             रद्द गर्नुहोस्

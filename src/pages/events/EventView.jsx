@@ -78,149 +78,116 @@ function EventView() {
   };
 
   return (
-    <div className="p-5 ">
-      <div className=" md:flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-bold">{event.title}</h1>
+    <div className="">
+      {" "}
+      <div className="p-5 md:w-10/12  mx-auto bg-white">
+        <div className=" md:flex justify-between items-center">
+          <div>
+            <h1 className="text-2xl font-bold">{event.title}</h1>
 
-          <p className="text-sm flex my-2 items-center">
-            <BiCalendarEvent size={18} className="text-primary" />
-            <span> {eventDate}</span>
-          </p>
-        </div>
+            <p className="text-sm flex my-2 items-center">
+              <BiCalendarEvent size={18} className="text-primary" />
+              <span> {eventDate}</span>
+            </p>
+          </div>
 
-        <div className="flex items-center gap-2">
-          <button
-            onClick={() => navigate(`/dashboard/events/add/${eventId}`)}
-            className="flex text-primary items-center gap-2 text-sm rounded hover:border hover:border-gray-200 hover:bg-gray-100 py-1.5 px-3 "
-          >
-            {" "}
-            <BiEdit className="text-primary" size={18} /> <span> Edit</span>
-          </button>
-
-          {!open && (
+          <div className="flex items-center gap-2">
             <button
-              className="myButtonOutline   "
-              onClick={() => navigate(`/dashboard/events/add`)}
+              onClick={() => navigate(`/dashboard/events/add/${eventId}`)}
+              className="flex text-primary items-center gap-2 text-sm rounded hover:border hover:border-gray-200 hover:bg-gray-100 py-1.5 px-3 "
             >
-              <div className="flex items-center gap-2">
-                <PiPlus size={16} /> <span>नयाँ </span>
-              </div>
+              {" "}
+              <BiEdit className="text-primary" size={18} /> <span> Edit</span>
             </button>
-          )}
-        </div>
-      </div>
 
-      <div>
-        <div className="min-h-[10rem] bg-white my-3 ">
-          <p className="p-3 text-gray-600">{event.content}</p>
-        </div>
-
-        <div className="text-xs  text-gray-500">
-          <strong>जिम्मेवार व्यक्ति / शाखा :</strong>{" "}
-          <span>{event.assignTo}</span>
-        </div>
-      </div>
-
-      {/* <div className="bg-white p-5 mt-10">
-        <Outlet />
-      </div> */}
-
-      {/* {open && (
-        <div>
-          <form
-            onSubmit={(e) => {
-              e.preventDefault();
-              handleSubmit(data);
-              setData({ ...data, name: "" });
-            }}
-          >
-            <div className="md:flex  md:mx-5 items-center  gap-2  mt-10  py-3 ">
-              <div className="md:w-8/12 flex items-center border   rounded-lg">
-                <input
-                  type="text"
-                  className="appearance-none rounded   w-full  px-4 text-gray-700 text-sm  py-2 focus:outline-none focus:bg-white focus:border-primary   "
-                  value={data.name}
-                  onChange={(e) => setData({ ...data, name: e.target.value })}
-                  required
-                />
-                <div className="flex items-center">
-                  <button className=" border-x border-gray-100 hover:bg-gray-100 hover:rounded px-3  flex items-center ">
-                    <PiPlus size={18} className=" mx-3 my-2" />{" "}
-                    <span>थप्नुहोस्</span>
-                  </button>
-                  <button
-                    onClick={handleOpen}
-                    className=" hover:bg-gray-100 hover:rounded px-3  text-red-300"
-                  >
-                    <RxCross2 size={23} className=" mx-3 my-2" />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </form>
-        </div>
-      )} */}
-
-      <div className="  overflow-hidden mt-10 ">
-        <div className="flex gap-5 mb-5">
-          <div className="font-bold text-xl px-3   text-gray-700">कार्यहरू</div>
-          {!open && (
-            <button className="myButtonOutline    " onClick={handleOpen}>
-              <div className="flex items-center gap-2">
-                <PiPlus size={16} /> <span>नयाँ </span>
-              </div>
-            </button>
-          )}
-        </div>
-
-        <div>
-          <TasksList {...taskProps} />
-        </div>
-      </div>
-
-      <div>
-        <Modal open={open} onClose={() => setOpen(false)}>
-          {open && (
-            <div className="md:w-[400px] ">
-              <div>
-                <div className="font-bold    text-gray-700 ">
-                  नयाँ कार्य सिर्जना गर्नुहोस् |
-                </div>
-              </div>
-              <form
-                onSubmit={(e) => {
-                  e.preventDefault();
-                  handleSubmit(data);
-                  setData({ ...data, name: "" });
-                }}
+            {!open && (
+              <button
+                className="myButtonOutline   "
+                onClick={() => navigate(`/dashboard/events/add`)}
               >
-                <div className="  items-center  gap-2  my-5  py-3 ">
-                  <label htmlFor="" className="myLabel">
-                    कार्यको शीर्षक
-                  </label>
-                  <input
-                    type="text"
-                    className=" myInput "
-                    value={data.name}
-                    onChange={(e) => setData({ ...data, name: e.target.value })}
-                    required
-                  />
+                <div className="flex items-center gap-2">
+                  <PiPlus size={16} /> <span>नयाँ </span>
                 </div>
+              </button>
+            )}
+          </div>
+        </div>
 
-                <div className="flex justify-between gap-4 mt-5">
-                  <button
-                    className="myButtonOutline text-red-300"
-                    onClick={() => setOpen(false)}
-                  >
-                    Cancel
-                  </button>{" "}
-                  <button className="myButton ">save</button>
-                </div>
-              </form>
+        <div>
+          <div className="min-h-[10rem] bg-white my-3 ">
+            <p className="p-3 text-gray-600">{event.content}</p>
+          </div>
+
+          <div className="text-xs  text-gray-500">
+            <strong>जिम्मेवार व्यक्ति / शाखा :</strong>{" "}
+            <span>{event.assignTo}</span>
+          </div>
+        </div>
+
+        <div className="  overflow-hidden mt-10 ">
+          <div className="flex gap-5 mb-5">
+            <div className="font-bold text-xl px-3   text-gray-700">
+              कार्यहरू
             </div>
-          )}
-        </Modal>
+            {!open && (
+              <button className="myButtonOutline    " onClick={handleOpen}>
+                <div className="flex items-center gap-2">
+                  <PiPlus size={16} /> <span>नयाँ </span>
+                </div>
+              </button>
+            )}
+          </div>
+
+          <div>
+            <TasksList {...taskProps} />
+          </div>
+        </div>
+
+        <div>
+          <Modal open={open} onClose={() => setOpen(false)}>
+            {open && (
+              <div className="md:w-[400px] ">
+                <div>
+                  <div className="font-bold    text-gray-700 ">
+                    नयाँ कार्य सिर्जना गर्नुहोस् |
+                  </div>
+                </div>
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSubmit(data);
+                    setData({ ...data, name: "" });
+                  }}
+                >
+                  <div className="  items-center  gap-2  my-5  py-3 ">
+                    <label htmlFor="" className="myLabel">
+                      कार्यको शीर्षक
+                    </label>
+                    <input
+                      type="text"
+                      className=" myInput "
+                      value={data.name}
+                      onChange={(e) =>
+                        setData({ ...data, name: e.target.value })
+                      }
+                      required
+                    />
+                  </div>
+
+                  <div className="flex justify-between gap-4 mt-5">
+                    <button
+                      className="myButtonOutline text-red-300"
+                      onClick={() => setOpen(false)}
+                    >
+                      Cancel
+                    </button>{" "}
+                    <button className="myButton ">save</button>
+                  </div>
+                </form>
+              </div>
+            )}
+          </Modal>
+        </div>
       </div>
     </div>
   );

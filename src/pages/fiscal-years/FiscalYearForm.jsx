@@ -1,12 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { useFiscalYear } from "../../providers/FiscalYearProvider";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Calendar from "@sbmdkl/nepali-datepicker-reactjs";
 import { convertNepaliUnicodeToEnglish } from "../../helpers/UnicodeToEnglish";
 
 function FiscalYearForm({ handleOpen }) {
   const { id } = useParams();
-  //   const id = 1;
+  const navigate = useNavigate();
   const { handleSubmit, getFiscalYear, fiscalYear, handleUpdate } =
     useFiscalYear();
   const [showCalender, setShowCalender] = useState(false);
@@ -16,7 +16,7 @@ function FiscalYearForm({ handleOpen }) {
     ad_startDate: "",
     endDate: "",
     ad_endDate: "",
-    status: false,
+    status: 0,
   });
 
   const Empty = () => {
@@ -24,8 +24,10 @@ function FiscalYearForm({ handleOpen }) {
       ...data,
       year: "",
       startDate: "",
+      ad_startDate: "",
       endDate: "",
-      status: false,
+      ad_endDate: "",
+      status: 0,
     });
   };
 
@@ -36,15 +38,6 @@ function FiscalYearForm({ handleOpen }) {
     });
   };
 
-  const handleDate = ({ bsDate, adDate }) => {
-    const date = convertNepaliUnicodeToEnglish(bsDate);
-
-    setData({
-      ...data,
-      ad_date: adDate,
-      date: date,
-    });
-  };
   const handleStartDate = ({ bsDate, adDate }) => {
     const date = convertNepaliUnicodeToEnglish(bsDate);
 
@@ -71,7 +64,8 @@ function FiscalYearForm({ handleOpen }) {
   }, [id]);
 
   useEffect(() => {
-    const { year, startDate, endDate, status } = fiscalYear;
+    const { year, startDate, endDate, status, ad_startDate, ad_endDate } =
+      fiscalYear;
 
     // setData(fiscalYear);
     if (id && fiscalYear) {
@@ -80,7 +74,9 @@ function FiscalYearForm({ handleOpen }) {
         year: year ? year : "",
         startDate: startDate ? startDate : "",
         endDate: endDate ? endDate : "",
-        status: status === 1 ? true : false,
+        ad_startDate: ad_startDate ? ad_startDate : "",
+        ad_endDate: ad_endDate ? ad_endDate : "",
+        status: status,
       });
     }
   }, [fiscalYear, id]);
@@ -92,7 +88,18 @@ function FiscalYearForm({ handleOpen }) {
   const handleSave = (e) => {
     e.preventDefault();
 
-    console.log(data);
+    if (id) {
+      handleUpdate(data, id);
+    } else {
+      handleSubmit(data);
+    }
+    Empty();
+  };
+
+  const handleCancel = () => {
+    Empty();
+    handleOpen();
+    navigate(`/dashboard/config/fiscal-year`);
   };
 
   return (
@@ -100,16 +107,7 @@ function FiscalYearForm({ handleOpen }) {
       {/* <div className="mb-3">
         <small className="font-bold ">please fill out the form.</small>
       </div> */}
-      <form
-        onSubmit={(e) => {
-          if (id) {
-            handleUpdate(e, data, id);
-          } else {
-            handleSubmit(e, data);
-          }
-          Empty();
-        }}
-      >
+      <form onSubmit={handleSave}>
         <div className="mb-2">
           <label className="myLabel" htmlFor="year">
             आर्थिक वर्ष
@@ -234,17 +232,14 @@ function FiscalYearForm({ handleOpen }) {
             onChange={handleChange}
             className="mySelect"
           >
-            <option value={false}>निष्क्रिय </option>
-            <option value={true}>सक्रिय </option>
+            <option value={0}>निष्क्रिय </option>
+            <option value={1}>सक्रिय </option>
           </select>
         </div>
 
         <div className="mt-5 flex gap-3 justify-between  overflow-auto">
           <button
-            onClick={() => {
-              Empty();
-              handleOpen();
-            }}
+            onClick={handleCancel}
             className="myButtonOutline text-red-600  "
           >
             रद्द गर्नुहोस्
