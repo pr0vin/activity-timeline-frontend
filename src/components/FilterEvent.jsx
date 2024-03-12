@@ -4,12 +4,14 @@ import { useEvent } from "../providers/EventProvider";
 import { IoCalendar } from "react-icons/io5";
 import { BiCalendarCheck } from "react-icons/bi";
 import moment from "moment";
+import { useNavigate } from "react-router-dom";
 
 function FilterEvent({ handleSearh, handleSearchData }) {
   const getDate = ({ adDate, bsDate }) => {
     handleSearchData(adDate);
   };
 
+  const navigate = useNavigate();
   return (
     <>
       <Calendar
@@ -27,7 +29,13 @@ function FilterEvent({ handleSearh, handleSearchData }) {
                 className="py-2 border-b border-gray-100 font-bold text-gray-700 cursor-pointer"
                 key={i}
               >
-                <span>{event.title}</span>
+                <span
+                  onClick={() => {
+                    navigate(`/dashboard/events/${event.id}/view`);
+                  }}
+                >
+                  {event.title}
+                </span>
 
                 <div className="flex items-center gap-2 text-xs">
                   <span>
