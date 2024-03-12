@@ -226,7 +226,7 @@ function EventsLists() {
   };
 
   useMemo(() => {
-    const filtered = companies.filter((company) =>
+    const filtered = companies?.filter((company) =>
       company.name.toLowerCase().includes(searchData.toString())
     );
 

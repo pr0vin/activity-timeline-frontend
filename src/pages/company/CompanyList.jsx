@@ -21,6 +21,8 @@ function CompanyList() {
   const { fiscalYears, fiscalYearLoading } = useFiscalYear();
   const { handleCopyEvent, handleSelfCopyEvent } = useEvent();
   const { companies, handleDelete, renewCompnay } = useCompany();
+
+  const [index, setIndex] = useState(-1);
   const [selectAll, setSelectAll] = useState(false);
   const [isTransfer, setIsTransfer] = useState(false);
   const [arrCompanies, setArrCompanies] = useState([]);
@@ -160,7 +162,7 @@ function CompanyList() {
     );
 
     setFilteredData(paginatedEvents);
-  }, [currentPage, perPage, , searchTerm]);
+  }, [currentPage, perPage, , searchTerm, companies]);
 
   let paginateData = companies;
   const props = {
@@ -351,7 +353,13 @@ function CompanyList() {
                       },
                       i
                     ) => (
-                      <tr key={i} className="border-b border-gray-100">
+                      <tr
+                        key={i}
+                        onClick={() => setIndex(id)}
+                        className={`border-b border-gray-100 hover:bg-gray-50 cursor-pointer ${
+                          index === id && "bg-gray-100"
+                        }`}
+                      >
                         <td className="whitespace-nowrap px-6 py-4 font-medium">
                           {isTransfer ? (
                             <label>

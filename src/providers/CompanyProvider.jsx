@@ -1,7 +1,7 @@
 import axios from "axios";
 import React, { createContext, useContext, useEffect, useReducer } from "react";
 import { useNavigate } from "react-router-dom";
-import { notifySuccess } from "../helpers/ToastMessage";
+import { notifyError, notifySuccess } from "../helpers/ToastMessage";
 import { useAuth } from "./AuthProvider";
 
 const CompanyContext = createContext();
@@ -50,21 +50,23 @@ function CompanyProvider({ children }) {
 
   const renewCompnay = async (comp) => {
     const res = await axios.post(`/api/companies/${comp}/renew`);
-
-    console.log(res.data);
     getCompanies();
     notifySuccess(res.data.message);
     // navigate(`/dashboard/config/companies`);
   };
 
   const getCompanies = async () => {
-    const res = await axios.get(`/api/companies`);
+    try {
+      const res = await axios.get(`/api/companies`);
 
-    dispatch({ type: "ALL", payload: res.data });
+      dispatch({ type: "ALL", payload: res.data.data });
+    } catch (error) {
+      notifyError(error.response.data.message);
+    }
   };
   const getCompany = async (id) => {
     const res = await axios.get(`/api/companies/${id}`);
-    dispatch({ type: "SINGLE", payload: res.data });
+    dispatch({ type: "SINGLE", payload: res.data.data });
   };
 
   useEffect(() => {
