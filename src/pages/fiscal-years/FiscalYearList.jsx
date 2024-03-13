@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { useFiscalYear } from "../../providers/FiscalYearProvider";
 import { BiEdit, BiPlus, BiTrash } from "react-icons/bi";
+import { IoMoveSharp } from "react-icons/io5";
+
 import { useNavigate } from "react-router-dom";
 import {
   convertEnglishToNepaliUnicode,
   convertToNepaliUnicode,
 } from "../../helpers/UnicodeToEnglish";
-import { IoMoveSharp } from "react-icons/io5";
 function FiscalYearList({ handleOpen, open }) {
   const navigate = useNavigate();
   const { fiscalYears, handleDelete, handleSaveOrder } = useFiscalYear();
@@ -51,7 +52,9 @@ function FiscalYearList({ handleOpen, open }) {
     // Reset makeChange state to false after dragging ends
     // setMakeChange(false);
   };
-
+  const onDragEnd = (result, provided) => {
+    // Handle drag and drop logic here
+  };
   return (
     <div>
       <div className=" flex p-3  items-center justify-between gap-5 ">
@@ -102,6 +105,7 @@ function FiscalYearList({ handleOpen, open }) {
           </button>
         </div>
       )}
+
       <div className="flex flex-col overflow-x-scroll">
         <div className="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -132,7 +136,7 @@ function FiscalYearList({ handleOpen, open }) {
                       const sn = convertToNepaliUnicode(i + 1);
                       return (
                         <tr
-                          key={i}
+                          key={id}
                           draggable
                           onDragStart={(e) => handleDragStart(e, i)}
                           onDragOver={(e) => handleDragOver(e, i)}
