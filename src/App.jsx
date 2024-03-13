@@ -1,5 +1,5 @@
 import "./App.css";
-import { Route, Routes, ScrollRestoration } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Home from "./pages/Home";
 import Index from "./pages/Index";
 import AuthIndex from "./pages/auth/AuthIndex";
@@ -26,7 +26,6 @@ import CompanyProfile from "./pages/company/CompanyProfile";
 import ChangeUserPasssword from "./pages/settings/ChangeUserPasssword";
 import UserIndex from "./pages/users/UserIndex";
 import UsersList from "./pages/users/UsersList";
-import FiscalYearList from "./helpers/DragandDrop";
 
 function App() {
   return (
@@ -103,7 +102,7 @@ function App() {
 
             <Route
               path="/dashboard/config/fiscal-year"
-              Component={FiscalYearList}
+              Component={FiscalYearIndex}
             />
             <Route
               path="/dashboard/config/fiscal-year/:id"
