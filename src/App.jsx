@@ -26,6 +26,7 @@ import CompanyProfile from "./pages/company/CompanyProfile";
 import ChangeUserPasssword from "./pages/settings/ChangeUserPasssword";
 import UserIndex from "./pages/users/UserIndex";
 import UsersList from "./pages/users/UsersList";
+import OtherTaskDocumentIndex from "./pages/other-documents/OtherTaskDocumentIndex";
 
 function App() {
   return (
@@ -65,6 +66,11 @@ function App() {
                 Component={TaskForm}
               />
             </Route>
+
+            <Route
+              path="/dashboard/other-documents"
+              Component={OtherTaskDocumentIndex}
+            />
 
             <Route path="/dashboard/settings" Component={SettingIndex}>
               <Route index Component={CompanyProfile} />

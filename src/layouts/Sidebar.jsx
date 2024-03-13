@@ -8,7 +8,7 @@ import { LiaUserLockSolid } from "react-icons/lia";
 import {
   IoSettingsOutline,
   IoLogOutOutline,
-  IoLockOpenOutline,
+  IoDocumentTextOutline,
   IoPeopleOutline,
 } from "react-icons/io5";
 
@@ -138,17 +138,17 @@ const Sidebar = () => {
                 कार्ययोजनाहरू
               </NavLink>
             </li>
-            {/* <li>
+            <li>
               <NavLink
                 className={({ isActive }) =>
                   isActive ? "active link " : "link"
                 }
-                to={"/dashboard/users"}
+                to={"/dashboard/other-documents"}
               >
-                <IoPeopleOutline size={23} className="min-w-max" />
-                Users
+                <IoDocumentTextOutline size={23} className="min-w-max" />
+                अन्य कागजातहरू
               </NavLink>
-            </li> */}
+            </li>
             <li>
               <NavLink
                 className={({ isActive }) =>
