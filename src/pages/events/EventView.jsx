@@ -78,19 +78,19 @@ function EventView() {
   };
 
   return (
-    <div className="">
+    <div className=" bg-white">
       {" "}
-      <div className="p-5 md:w-10/12  mx-auto bg-white">
+      <div className="p-5 md:w-10/12  mx-auto  ">
+        <div>
+          <h1 className="text-3xl font-bold my-2 text-gray-700">
+            {event.title}
+          </h1>
+        </div>
         <div className=" md:flex justify-between items-center">
-          <div>
-            <h1 className="text-2xl font-bold">{event.title}</h1>
-
-            <p className="text-sm flex my-2 items-center">
-              <BiCalendarEvent size={18} className="text-primary" />
-              <span> {eventDate}</span>
-            </p>
-          </div>
-
+          <p className="text-sm flex my-2 items-center">
+            <BiCalendarEvent size={18} className="text-primary" />
+            <span> {eventDate}</span>
+          </p>
           <div className="flex items-center gap-2">
             <button
               onClick={() => navigate(`/dashboard/events/add/${eventId}`)}
@@ -114,7 +114,7 @@ function EventView() {
         </div>
 
         <div>
-          <div className="min-h-[10rem] bg-white my-3 ">
+          <div className="min-h-[15vh] bg-white my-3 ">
             <p className="p-3 text-gray-600">{event.content}</p>
           </div>
 
@@ -125,17 +125,22 @@ function EventView() {
         </div>
 
         <div className="  overflow-hidden mt-10 ">
-          <div className="flex gap-5 mb-5">
-            <div className="font-bold text-xl px-3   text-gray-700">
-              कार्यहरू
+          <div className="flex items-center gap-5 mb-5">
+            <div>
+              <div className="font-bold text-xl px-3   text-gray-700">
+                कार्यहरू
+              </div>
+              {/* <small>तपाईंले गर्नुपर्ने कामहरू यहाँ सूचीबद्ध छन् |</small> */}
             </div>
-            {!open && (
-              <button className="myButtonOutline    " onClick={handleOpen}>
-                <div className="flex items-center gap-2">
-                  <PiPlus size={16} /> <span>नयाँ </span>
-                </div>
-              </button>
-            )}
+            <div>
+              {!open && (
+                <button className="myButtonOutline    " onClick={handleOpen}>
+                  <div className="flex items-center gap-2">
+                    <PiPlus size={16} /> <span>नयाँ </span>
+                  </div>
+                </button>
+              )}
+            </div>
           </div>
 
           <div>

@@ -18,28 +18,26 @@ function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
           <div className="inline-block min-w-full py-2 sm:px-6 lg:px-8">
             <div className="overflow-x-auto">
               <table className="min-w-full text-center text-sm font-light ">
-                {/* <thead className="font-medium border-b ">
+                <thead className="font-medium border-b border-gray-100 ">
                   <tr>
-                    <th scope="col" className="px-6 py-4">
+                    <th scope="col" className=" py-4">
                       #
                     </th>
 
-                    <th scope="col" className="px-6 py-4">
+                    <th scope="col" className=" py-4">
                       शीर्षक
                     </th>
                     <th></th>
-                    <th scope="col" className="px-6 py-4"></th>
+                    <th scope="col" className=" py-4"></th>
                   </tr>
-                </thead> */}
+                </thead>
                 <tbody>
                   {tasks?.map(({ id, name, documents }, i) => (
                     <tr key={i} className="border-b border-gray-100">
                       <td className="whitespace-nowrap px-6 py-4 font-medium">
-                        {convertToNepaliUnicode(i + 1)}
+                        {convertToNepaliUnicode(i + 1)}.
                       </td>
-                      <td className="whitespace-nowrap text-start px-6 py-4">
-                        {name}
-                      </td>
+                      <td className=" text-start px-6 py-4">{name}</td>
 
                       <td className="whitespace-nowrap px-6 py-4">
                         {documents ? (
@@ -52,8 +50,10 @@ function TasksList({ tasks, setImgFiles, file, index, upload, eventId }) {
                               className="flex items-center gap-3 hover:text-blue-600 hover:underline"
                               // download="FileName.pdf"
                             >
-                              <BsEye size={23} className="text-gray-600" />
-                              <span className="italic ">view</span>
+                              {/* <BsEye size={23} className="text-gray-600" /> */}
+                              <span className="italic text-blue-500 ">
+                                view
+                              </span>
                             </a>
                           </span>
                         ) : (
