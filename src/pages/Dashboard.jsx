@@ -14,8 +14,6 @@ function Dashboard() {
   const filtered = useMemo(() => {
     return companies.filter((company) => company.remaining_days <= 30);
   }, [companies]);
-
-  console.log(filtered);
   return (
     <>
       <div>

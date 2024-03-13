@@ -15,6 +15,7 @@ import {
 } from "../../helpers/UnicodeToEnglish";
 import { GiAlarmClock } from "react-icons/gi";
 import moment from "moment";
+import LoadingPage from "../../helpers/LoadingPage";
 
 function EventForm() {
   const navigate = useNavigate();
@@ -46,6 +47,8 @@ function EventForm() {
       title: "",
       content: "",
       date: "",
+      ad_date: "",
+
       time: "10:00",
       assignTo: "",
       status: "",
@@ -106,8 +109,16 @@ function EventForm() {
 
   useMemo(() => {
     if (id && event) {
-      const { title, content, assignTo, fiscal_year_id, time, date, status } =
-        event;
+      const {
+        title,
+        content,
+        assignTo,
+        fiscal_year_id,
+        time,
+        date,
+        ad_date,
+        status,
+      } = event;
 
       const categoriesIds = event.categories?.map((category) =>
         category.id.toString()
@@ -122,12 +133,13 @@ function EventForm() {
         time: time ? time : "",
         fiscal_year_id: fiscal_year_id ? fiscal_year_id : "",
         categories: categoriesIds,
+        ad_date: ad_date ? ad_date : "",
       });
     }
   }, [id, event]);
 
   useMemo(() => {
-    if (activeYear) {
+    if (activeYear && !id) {
       setData({
         ...data,
         fiscal_year_id: activeYear.id,
@@ -164,7 +176,7 @@ function EventForm() {
   };
 
   if (categoriesLoading) {
-    return "Loading...";
+    return <LoadingPage />;
   }
 
   return (

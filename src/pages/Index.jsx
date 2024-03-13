@@ -63,19 +63,20 @@ function Index() {
       const dateA = new NepaliDate(a.date);
       const dateB = new NepaliDate(b.date);
 
-      // Adjusting the dates to the fiscal year start month
-      const adjustedMonthA =
-        (dateA.getMonth() - fiscalYearStartMonth + 12) % 12;
-      const adjustedMonthB =
-        (dateB.getMonth() - fiscalYearStartMonth + 12) % 12;
+      // // Adjusting the dates to the fiscal year start month
+      // const adjustedMonthA =
+      //   (dateA.getMonth() - fiscalYearStartMonth + 12) % 12;
+      // const adjustedMonthB =
+      //   (dateB.getMonth() - fiscalYearStartMonth + 12) % 12;
 
-      // Compare the adjusted months
-      if (adjustedMonthA !== adjustedMonthB) {
-        return adjustedMonthA - adjustedMonthB;
-      }
+      // // Compare the adjusted months
+      // if (adjustedMonthA !== adjustedMonthB) {
+      //   return adjustedMonthA - adjustedMonthB;
+      // }
       return dateA - dateB;
     });
   }, [filteredData]);
+
   const todosByFiscalYear = useMemo(() => {
     const todosByFiscalYear = {};
 

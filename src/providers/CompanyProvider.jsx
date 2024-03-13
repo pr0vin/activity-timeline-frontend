@@ -12,7 +12,7 @@ const init = {
 };
 function CompanyProvider({ children }) {
   const navigate = useNavigate();
-  const { getUser, token } = useAuth();
+  const { getUser, isSuperAdmin } = useAuth();
   const [state, dispatch] = useReducer(reducer, init);
 
   const handleSubmit = async (data) => {
@@ -22,7 +22,7 @@ function CompanyProvider({ children }) {
       notifySuccess(res.data.message);
       navigate(`/dashboard/config/companies`);
     } catch (error) {
-      console.log(error);
+      notifyError(error);
     }
   };
   const handleUpdate = async (data, id) => {
@@ -33,7 +33,7 @@ function CompanyProvider({ children }) {
       notifySuccess(res.data.message);
       navigate(`/home`);
     } catch (error) {
-      console.log(error);
+      notifyError(error);
     }
   };
   const handleDelete = async (e, id) => {
@@ -44,7 +44,7 @@ function CompanyProvider({ children }) {
       notifySuccess(res.data.message);
       navigate(`/dashboard/config/companies`);
     } catch (error) {
-      console.log(error);
+      notifyError(error);
     }
   };
 
@@ -52,7 +52,7 @@ function CompanyProvider({ children }) {
     const res = await axios.post(`/api/companies/${comp}/renew`);
     getCompanies();
     notifySuccess(res.data.message);
-    // navigate(`/dashboard/config/companies`);
+    navigate(`/dashboard/config/companies`);
   };
 
   const getCompanies = async () => {
@@ -71,7 +71,7 @@ function CompanyProvider({ children }) {
 
   useEffect(() => {
     getCompanies();
-  }, [token]);
+  }, [isSuperAdmin]);
 
   return (
     <CompanyContext.Provider

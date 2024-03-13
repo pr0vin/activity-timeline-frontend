@@ -8,7 +8,7 @@ import React, {
   useState,
 } from "react";
 import { useNavigate } from "react-router-dom";
-import { notifySuccess } from "../helpers/ToastMessage";
+import { notifyError, notifySuccess } from "../helpers/ToastMessage";
 import { useAuth } from "./AuthProvider";
 import { useFiscalYear } from "./FiscalYearProvider";
 
@@ -26,10 +26,6 @@ function EventProvider({ children }) {
   const { token } = useAuth();
   const navigate = useNavigate();
   const [state, dispatch] = useReducer(reducer, init);
-  const { activeYear } = useFiscalYear();
-  // const [loading, setLoading] = useState(false);
-  const [currentPage, setCurrentPage] = useState(1);
-  // const [hasMore, setHasMore] = useState(false);
 
   const nextPage = () => {
     dispatch({ type: "INCREMENT_PAGE" });
@@ -44,7 +40,7 @@ function EventProvider({ children }) {
       notifySuccess(res.data.message);
       navigate(`/dashboard/events/${res.data.event.id}/view`);
     } catch (error) {
-      console.log(error);
+      notifyError(error);
     }
   };
   const handleUpdate = async (e, data, id) => {
@@ -56,7 +52,7 @@ function EventProvider({ children }) {
       notifySuccess(res.data.message);
       navigate(`/dashboard/events`);
     } catch (error) {
-      console.log(error);
+      notifyError(error);
     }
   };
   const handleDelete = async (e, id) => {
@@ -67,7 +63,7 @@ function EventProvider({ children }) {
       notifySuccess(res.data.message);
       navigate(`/dashboard/events`);
     } catch (error) {
-      console.log(error);
+      notifyError(error);
     }
   };
 
@@ -79,40 +75,13 @@ function EventProvider({ children }) {
 
       dispatch({ type: "ALL", payload: response.data.data });
     } catch (error) {
-      console.log(error);
+      notifyError(error);
     }
   };
 
-  // const getEvents = async (activeYear, currentPage) => {
-  //   try {
-  //     dispatch({ type: "SET_LOADING", payload: true });
-  //     const response = await axios.get(
-  //       `/api/events?fiscal_year_id=${activeYear.id}&page=${currentPage}`
-  //     );
-
-  //     // Update state based on the fetched data
-  //     if (currentPage === 1) {
-  //       // If it's the first page, replace existing events with new ones
-  //       dispatch({ type: "SET_EVENTS", payload: response.data.data });
-  //     } else {
-  //       // If it's not the first page, append new events to existing ones
-  //       dispatch({ type: "APPEND_EVENTS", payload: response.data.data });
-  //     }
-
-  //     // Check if there are more pages to load
-  //     const totalPages = response.data.meta.last_page;
-  //     const hasMore = currentPage < totalPages;
-  //     dispatch({ type: "SET_HAS_MORE", payload: hasMore });
-  //   } catch (error) {
-  //     console.error("Error fetching events:", error);
-  //   } finally {
-  //     dispatch({ type: "SET_LOADING", payload: false });
-  //   }
-  // };
   const getEvent = async (id) => {
     const res = await axios.get(`/api/events/${id}`);
     dispatch({ type: "SINGLE", payload: res.data.data });
-    console.log(state.loading);
   };
 
   const handleCopyEvent = async (data) => {
@@ -134,11 +103,9 @@ function EventProvider({ children }) {
     getEvents();
   };
 
-  useMemo(() => {
-    if (activeYear && state.currentPage) {
-      getEvents(activeYear, state.currentPage);
-    }
-  }, [activeYear, state.currentPage]);
+  useEffect(() => {
+    getEvents();
+  }, []);
 
   return (
     <EventContext.Provider
@@ -166,53 +133,12 @@ const useEvent = () => {
 
 export { EventProvider, useEvent };
 
-// const reducer = (state, action) => {
-//   switch (action.type) {
-//     case "SET_EVENTS":
-//       return {
-//         ...state,
-//         events: action.payload,
-//         loading: false,
-//       };
-//     case "APPEND_EVENTS":
-//       return {
-//         ...state,
-//         events: [...state.events, ...action.payload],
-//         loading: false,
-//       };
-//     case "SET_LOADING":
-//       return {
-//         ...state,
-//         loading: action.payload,
-//       };
-
-//     case "SET_HAS_MORE":
-//       return {
-//         ...state,
-//         hasMore: action.payload,
-//       };
-//     case "INCREMENT_PAGE":
-//       return {
-//         ...state,
-//         currentPage: state.currentPage + 1,
-//       };
-//     case "SINGLE":
-//       return {
-//         ...state,
-//         eventLoading: false,
-//         event: action.payload,
-//       };
-//     default:
-//       return state;
-//   }
-// };
-
 const reducer = (state, action) => {
   switch (action.type) {
     case "ALL":
       return {
         ...state,
-        events: [...state.events, ...action.payload],
+        events: action.payload,
       };
 
     case "SINGLE":

@@ -13,6 +13,7 @@ import { useCompany } from "../../providers/CompanyProvider";
 import Modal from "../../helpers/Modal";
 import SearchBar from "../../helpers/SearchBar";
 import { notifyError } from "../../helpers/ToastMessage";
+import ScrollToTop from "../../helpers/ScrollToTop";
 function EventsLists() {
   const navigate = useNavigate();
   const {
@@ -32,7 +33,7 @@ function EventsLists() {
   const [selectedCategory, setSelectedCategory] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
   const [selectedYear, setSelectedYear] = useState("");
-  const [filteredEvents, setFilteredEvents] = useState([]);
+  // const [filteredEvents, setFilteredEvents] = useState([]);
   const [filteredCompany, setFilteredcompany] = useState([]);
   const [searchTerm, setSearchterm] = useState("");
   const [searchData, setSearchData] = useState("");
@@ -50,7 +51,7 @@ function EventsLists() {
   const [selectAllEvents, setSelectAllEvents] = useState(false);
   const [arrEvents, setArrEvents] = useState([]);
 
-  useMemo(() => {
+  const filteredEvents = useMemo(() => {
     const filtered = events.filter(
       (event) =>
         (!selectedYear || event.fiscal_year_id == selectedYear) &&
@@ -66,7 +67,9 @@ function EventsLists() {
       (currentPage - 1) * perPage,
       currentPage * perPage
     );
-    setFilteredEvents(paginatedEvents);
+
+    return paginatedEvents;
+    // setFilteredEvents(paginatedEvents);
   }, [
     events,
     searchTerm,
@@ -214,10 +217,11 @@ function EventsLists() {
     if (data.target_events.length === 0) {
       notifyError("please select events");
     } else {
+      console.log(data);
       handleDublicateSelectedEvent(data);
-      toggleSelect();
-      setEmpty();
-      setSelectAllEvents(false);
+      // toggleSelect();
+      // setEmpty();
+      // setSelectAllEvents(false);
     }
   };
 
@@ -286,32 +290,11 @@ function EventsLists() {
             </button>
           </div>
         </div>
-        {/* <div class="relative w-1/4">
-          <input
-            type="text"
-            placeholder="Search"
-            class="w-full py-2 pr-10 pl-4 rounded-lg border-2 border-gray-300 focus:outline-none focus:border-blue-500"
-          />
-          <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
-            <svg
-              class="h-5 w-5 text-gray-400"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
-            </svg>
-          </div>
-        </div> */}
 
         <div className="">
           <EventsFilter {...props} />
         </div>
+
         <div className="  p-2  bg-white rounded-lg drop-shadow-xl   ">
           <div className="flex flex-col overflow-auto bg-white min-h-[60vh] ">
             <div className="sm:-mx-6 lg:-mx-8">

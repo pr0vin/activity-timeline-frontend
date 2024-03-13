@@ -9,9 +9,10 @@ function SettingIndex() {
   if (userLoading) {
     return <LoadingPage />;
   }
+
   return (
     <>
-      <div className=" min-h-screen px-5">
+      <div className=" min-h-screen px-5 ">
         <div className="  font-bold  text-lg gap-5 cursor-pointer ">
           <div className="heading mb-5">
             <h2 className="">Settings</h2>
